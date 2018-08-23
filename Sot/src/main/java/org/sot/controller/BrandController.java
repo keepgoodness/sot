@@ -8,6 +8,7 @@ import org.sot.models.Entity.Brand;
 import org.sot.models.requests.BrandCreateRequestModel;
 import org.sot.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,13 @@ public class BrandController {
 		this.brandService = brandService;
 	}
 
+	@GetMapping("/allBrands")
+	public String allBrands(Model model) {
+		model.addAttribute("title", "Всички марки");
+		model.addAttribute("allBrands", this.brandService.findAllBrands());
+		return "components/allBrands";
+	}
+
 	@GetMapping("/brand-register")
 	public String register(Model model) {
 		model.addAttribute("title", "Марка");
@@ -45,13 +53,20 @@ public class BrandController {
 		if (!requestModel.getName().isEmpty()) {
 			this.brandService.register(requestModel.getName().toLowerCase());
 		}
-		return register(model);
+		return allBrands(model);
+	}
+
+	@GetMapping("/brand-delete")
+	public String delete(Model model) {
+		model.addAttribute("title", "Изтриване марка");
+		model.addAttribute("brands", this.brandService.findAllBrands());
+		return "components/brand-delete";
 	}
 
 	@PostMapping("/brand-delete")
 	@ResponseBody
 	public String delete(@RequestParam("id") String id, Model model) {
 		boolean isDeleted = this.brandService.delete(Long.parseLong(id));
-		return null;
+		return allBrands(model);
 	}
 }

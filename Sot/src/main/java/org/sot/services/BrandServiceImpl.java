@@ -56,6 +56,7 @@ public class BrandServiceImpl implements BrandService {
 
 	@Override
 	public boolean delete(Long id) {
+		System.out.println(id);
 		this.brandRepository.deleteById(id);
 		Optional<Brand> b = this.brandRepository.findById(id);
 		if (b.isPresent()) {

@@ -1,398 +1,355 @@
 <!DOCTYPE html >
-<head xmlns:th="http://www.thymeleaf.org" lang="en">
-    <title th:text="${title}"></title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-    <link rel="stylesheet" media="all" href="/styles/bootstrap.css">
-    <style type="text/css">
-        body { background-color: #ffffff; background-image: url('images/bg-pattern.png'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
-        #map { height: 500px;}
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<title th:text="${title}"></title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+		<link rel="stylesheet" media="all" href="/styles/bootstrap.css">
+		<style type="text/css">
+			body { background-color: #ffffff; background-image: url('images/bg-pattern.png'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
+			#map { height: 500px;}
+		</style>
+	</head>
 
-<body>
-    <div class="container">
-        <!--*** Header ***-->
-        <div class="row mb-3">
-            <div class="col-lg-5 col-md-7 col-sm-6">
-                <h1>Сот</h1>
-                <p class="lead">Блааааааблаааааа</p>
-            </div>
-            <div class="col-lg-7 col-md-5 col-sm-6">
-                <div class="sponsor">
-                    <img src="/images/security.png" alt="" border="0" height="100" width="600" style="max-width: 600px;">
-                </div>
-            </div>
-        </div>
+	<body>
+		<div class="container">
+			<!--*** Header ***-->
+			<div th:replace="~{fragments/header}"></div>
 
-        <!--*** Menu ***-->
-        <div class="mb-3">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="/">Карта</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+			<!--*** Map ***-->
+			<div id="map" class="mb-3"></div>
 
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Въвеждане<span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Редактиране</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                <a class="dropdown-item" href="/brand-register">Въвеждане марка</a>
-                                <a class="dropdown-item" href="/component-update">Редактиране</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </nav>
-        </div>
+			<!--*** Fomr ***-->
+			<form>
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">Обект</legend>
+							<div class="col-sm-8">
+								<label class="col-form-label" for="inputDefault">Име</label>
+								<input type="text" class="form-control" placeholder="Име на обекта" id="objName">
+							</div>
+							<div class="col-sm-4 mb-3">
+								<label class="col-form-label" for="inputDefault">ID</label>
+								<input type="text" class="form-control" placeholder="ID на обекта" id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">Контролер</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка контр..." id="objName">
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел контр..." id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">RIP Датчик</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка датчик</label>
+								<input type="text" class="form-control" placeholder="Марка датчик" id="objName">
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел датчик" id="objName">
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <!--*** Map ***-->
-        <div id="map" class="mb-3"></div>
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<div class="card border-secondary">
+							<legend class="card-header">Клавиатура</legend>
+							<div class="form-group col-sm-8">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка клав..." id="objName">
+							</div>
+							<div class="form-group col-sm-4">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел клав..." id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-secondary">
+							<legend class="card-header">Предавател</legend>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка преда..." id="objName">
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел преда..." id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-secondary">
+							<legend class="card-header">Батерии</legend>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка батерии" id="objName">
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел батерии" id="objName">
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <!--*** Fomr ***-->
-        <form>
-            <div class="row">
-                <div class="col-lg-4 form-group">
-                    <div class="card border-primary">
-                        <legend class="card-header">Обект</legend>
-                        <div class="col-sm-8">
-                            <label class="col-form-label" for="inputDefault">Име</label>
-                            <input type="text" class="form-control" placeholder="Име на обекта" id="objName">
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <label class="col-form-label" for="inputDefault">ID</label>
-                            <input type="text" class="form-control" placeholder="ID на обекта" id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border-primary">
-                        <legend class="card-header">Контролер</legend>
-                        <div class="col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка контр..." id="objName">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел контр..." id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border-primary">
-                        <legend class="card-header">RIP Датчик</legend>
-                        <div class="col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Марка датчик</label>
-                            <input type="text" class="form-control" placeholder="Марка датчик" id="objName">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел датчик" id="objName">
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<div class="card border">
+							<legend class="card-header">Зони</legend>
+							<div class="col-sm-8">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка зона" id="objName">
+							</div>
+							<div class="form-group col-sm-4">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел зона" id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border">
+							<legend class="card-header">Групи</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<input type="text" class="form-control" placeholder="Марка група" id="objName">
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел група" id="objName">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border">
+							<legend class="card-header">Потербителски кодове</legend>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Брой</label>
+								<input type="text" class="form-control" id="objName">
+							</div>
+						</div>
+					</div>
+				</div>
 
-            <div class="row">
-                <div class="col-lg-4 form-group">
-                    <div class="card border-secondary">
-                        <legend class="card-header">Клавиатура</legend>
-                        <div class="form-group col-sm-8">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка клав..." id="objName">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел клав..." id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border-secondary">
-                        <legend class="card-header">Предавател</legend>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка преда..." id="objName">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел преда..." id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border-secondary">
-                        <legend class="card-header">Батерии</legend>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка батерии" id="objName">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел батерии" id="objName">
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<div class="card border-secondary">
+							<legend class="card-header">Отговорно лице</legend>
+							<div class="card-body">
+								<div class=" col-sm-12">
+									<label class="col-form-label" for="inputDefault">Име</label>
+									<input type="text" class="form-control" placeholder="Име Презиме Фамилия" id="objName">
+								</div>
+								<div class=" col-sm-8">
+									<label class="col-form-label" for="inputDefault">Тел:</label>
+									<input type="text" class="form-control" placeholder="тел:" id="objName">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-secondary">
+							<legend class="card-header">Обект</legend>
+							<div class="col-sm-8">
+								<label class="col-form-label" for="inputDefault">Име</label>
+								<input type="text" class="form-control" placeholder="Име на обекта" id="objName">
+							</div>
+							<div class="col-sm-4 mb-3">
+								<label class="col-form-label" for="inputDefault">ID</label>
+								<input type="text" class="form-control" placeholder="ID на обекта" id="objName">
+							</div>
+						</div>
+					</div>
 
-            <div class="row">
-                <div class="col-lg-4 form-group">
-                    <div class="card border">
-                        <legend class="card-header">Зони</legend>
-                        <div class="col-sm-8">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка зона" id="objName">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел зона" id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border">
-                        <legend class="card-header">Групи</legend>
-                        <div class="col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Марка</label>
-                            <input type="text" class="form-control" placeholder="Марка група" id="objName">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Модел</label>
-                            <input type="text" class="form-control" placeholder="Модел група" id="objName">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border">
-                        <legend class="card-header">Потербителски кодове</legend>
-                        <div class="form-group col-sm-5">
-                            <label class="col-form-label" for="inputDefault">Брой</label>
-                            <input type="text" class="form-control" id="objName">
-                        </div>
-                    </div>
-                </div>
-            </div>
+				</div>
+			</form>
+		</div>
 
-            <div class="row">
-                <div class="col-lg-4 form-group">
-                    <div class="card border-secondary">
-                        <legend class="card-header">Отговорно лице</legend>
-                        <div class="card-body">
-                            <div class=" col-sm-12">
-                                <label class="col-form-label" for="inputDefault">Име</label>
-                                <input type="text" class="form-control" placeholder="Име Презиме Фамилия" id="objName">
-                            </div>
-                            <div class=" col-sm-8">
-                                <label class="col-form-label" for="inputDefault">Тел:</label>
-                                <input type="text" class="form-control" placeholder="тел:" id="objName">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 form-group">
-                    <div class="card border-secondary">
-                        <legend class="card-header">Обект</legend>
-                        <div class="col-sm-8">
-                            <label class="col-form-label" for="inputDefault">Име</label>
-                            <input type="text" class="form-control" placeholder="Име на обекта" id="objName">
-                        </div>
-                        <div class="col-sm-4 mb-3">
-                            <label class="col-form-label" for="inputDefault">ID</label>
-                            <input type="text" class="form-control" placeholder="ID на обекта" id="objName">
-                        </div>
-                    </div>
-                </div>
+		<script>
 
-            </div>
-        </form>
-    </div>
+			var map;
+			var marker;
+			var infowindow;
+			var messagewindow;
+			var form = document.getElementById('form');
 
-    <script>
+			var customLabel = {
+				restaurant: {
+					label: 'R'
+				},
+				bar: {
+					label: 'B'
+				}
+			};
 
-        var map;
-        var marker;
-        var infowindow;
-        var messagewindow;
-        var form = document.getElementById('form');
+			//        function downloadUrl(url, method, callback) {
+			//            var request = window.ActiveXObject ?
+			//                    new ActiveXObject('Microsoft.XMLHTTP') :
+			//                    new XMLHttpRequest;
+			//
+			//            request.onreadystatechange = function () {
+			//                if (request.readyState === 4) {
+			//                    request.onreadystatechange = doNothing;
+			//                    callback(request, request.status);
+			//                }
+			//            };
+			//
+			//            request.open(method, url, true);
+			//            request.send(null);
+			//        }
 
-        var customLabel = {
-            restaurant: {
-                label: 'R'
-            },
-            bar: {
-                label: 'B'
-            }
-        };
-
-//        function downloadUrl(url, method, callback) {
-//            var request = window.ActiveXObject ?
-//                    new ActiveXObject('Microsoft.XMLHTTP') :
-//                    new XMLHttpRequest;
-//
-//            request.onreadystatechange = function () {
-//                if (request.readyState === 4) {
-//                    request.onreadystatechange = doNothing;
-//                    callback(request, request.status);
-//                }
-//            };
-//
-//            request.open(method, url, true);
-//            request.send(null);
-//        }
-
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: new google.maps.LatLng(41.562945, 23.2725755),
-                zoom: 14
-            });
+			function initMap() {
+				var map = new google.maps.Map(document.getElementById('map'), {
+					center: new google.maps.LatLng(41.562945, 23.2725755),
+					zoom: 14
+				});
 
 
-//			form.style.display = "none";
+				//			form.style.display = "none";
 
-//			document.getElementById("message").style.display = "none";
-            infowindow = new google.maps.InfoWindow({
-                content: form
-            });
+				//			document.getElementById("message").style.display = "none";
+				infowindow = new google.maps.InfoWindow({
+					content: form
+				});
 
-            messagewindow = new google.maps.InfoWindow({
-                content: document.getElementById('message')
-            });
+				messagewindow = new google.maps.InfoWindow({
+					content: document.getElementById('message')
+				});
 
-//                google.maps.event.addListener(map, 'click', function (event) {
-//                    marker = new google.maps.Marker({
-//                        position: event.latLng,
-//                        map: map
-//                    });
-//    
-//    
-//                    google.maps.event.addListener(marker, 'click', function () {
-//                        infowindow.open(map, marker);
-//                    });
-//                });
+				//                google.maps.event.addListener(map, 'click', function (event) {
+				//                    marker = new google.maps.Marker({
+				//                        position: event.latLng,
+				//                        map: map
+				//                    });
+				//    
+				//    
+				//                    google.maps.event.addListener(marker, 'click', function () {
+				//                        infowindow.open(map, marker);
+				//                    });
+				//                });
 
-            // XML
-//            downloadUrl('http://localhost:8092/markers.xml', "GET", function (data) {
-//                var xml = data.responseXML;
-//                var markers = xml.documentElement.getElementsByTagName('marker');
-//                Array.prototype.forEach.call(markers, function (markerElem) {
-//                    var id = markerElem.getAttribute('id');
-//                    var name = markerElem.getAttribute('name');
-//                    var address = markerElem.getAttribute('address');
-//                    var type = markerElem.getAttribute('type');
-//                    var point = new google.maps.LatLng(
-//                            parseFloat(markerElem.getAttribute('lat')),
-//                            parseFloat(markerElem.getAttribute('lng')));
-//
-//                    var infoDiv = document.createElement('div');
-//                    var strong = document.createElement('strong');
-//                    strong.textContent = name
-//                    infoDiv.appendChild(strong);
-//                    infoDiv.appendChild(document.createElement('br'));
-//
-//                    var text = document.createElement('text');
-//                    text.textContent = address
-//                    infoDiv.appendChild(text);
-//                    var icon = customLabel[type] || {};
-//                    var marker = new google.maps.Marker({
-//                        map: map,
-//                        position: point,
-//                        label: icon.label,
-//                        icon: "https://png.icons8.com/office/25/000000/camping-tent.png"
-//                    });
-//
-//                    var infoWindow = new google.maps.InfoWindow;
-//                    marker.addListener('click', function () {
-//                        infoWindow.setContent(infoDiv);
-//                        infoWindow.open(map, marker);
-//                    });
-//                    marker.addListener('rightclick', function () {
-//                        var div = infoTable(id, name, address, point);
-//                        infoWindow.setContent(div);
-//                        infoWindow.open(map, marker);
-//                    });
-//                });
-//            });
-        }
+				// XML
+				//            downloadUrl('http://localhost:8092/markers.xml', "GET", function (data) {
+				//                var xml = data.responseXML;
+				//                var markers = xml.documentElement.getElementsByTagName('marker');
+				//                Array.prototype.forEach.call(markers, function (markerElem) {
+				//                    var id = markerElem.getAttribute('id');
+				//                    var name = markerElem.getAttribute('name');
+				//                    var address = markerElem.getAttribute('address');
+				//                    var type = markerElem.getAttribute('type');
+				//                    var point = new google.maps.LatLng(
+				//                            parseFloat(markerElem.getAttribute('lat')),
+				//                            parseFloat(markerElem.getAttribute('lng')));
+				//
+				//                    var infoDiv = document.createElement('div');
+				//                    var strong = document.createElement('strong');
+				//                    strong.textContent = name
+				//                    infoDiv.appendChild(strong);
+				//                    infoDiv.appendChild(document.createElement('br'));
+				//
+				//                    var text = document.createElement('text');
+				//                    text.textContent = address
+				//                    infoDiv.appendChild(text);
+				//                    var icon = customLabel[type] || {};
+				//                    var marker = new google.maps.Marker({
+				//                        map: map,
+				//                        position: point,
+				//                        label: icon.label,
+				//                        icon: "https://png.icons8.com/office/25/000000/camping-tent.png"
+				//                    });
+				//
+				//                    var infoWindow = new google.maps.InfoWindow;
+				//                    marker.addListener('click', function () {
+				//                        infoWindow.setContent(infoDiv);
+				//                        infoWindow.open(map, marker);
+				//                    });
+				//                    marker.addListener('rightclick', function () {
+				//                        var div = infoTable(id, name, address, point);
+				//                        infoWindow.setContent(div);
+				//                        infoWindow.open(map, marker);
+				//                    });
+				//                });
+				//            });
+			}
 
-//        function infoTable(id, name, address, point) {
-//            var div = document.createElement("div");
-//            div.setAttribute("id", "form");
-//            var table = document.createElement("table");
-//            var row1 = table.insertRow(-1);
-//            var row2 = table.insertRow(-1);
-//            var row3 = table.insertRow(-1);
-//            var row4 = table.insertRow(-1);
-//
-//            //име
-//            var nameLabel = row1.insertCell(-1);
-//            nameLabel.innerHTML = "Име: ";
-//            var td2 = row1.insertCell(-1);
-//            var inputName = document.createElement("input");
-//            inputName.setAttribute("type", "text");
-//            inputName.setAttribute("id", "name");
-//            inputName.value = name;
-//            td2.appendChild(inputName);
-//
-//            //адрес
-//            var addressLabel = row2.insertCell(-1);
-//            addressLabel.innerHTML = "Адрес: ";
-//            var alTd2 = row2.insertCell(-1);
-//            var inputAddress = document.createElement("input");
-//            inputAddress.setAttribute("type", "text");
-//            inputAddress.setAttribute("id", "address");
-//            inputAddress.value = address;
-//            alTd2.appendChild(inputAddress);
-//
-//            //тип
-//            var typeLabel = row3.insertCell(-1);
-//            typeLabel.iinerHTML = "Тип: ";
-//            var tTd2 = row3.insertCell(-1);
-//            var select = document.createElement("select");
-//            select.setAttribute("id", "type");
-//
-//            div.appendChild(table);
-//            return div;
-//        }
+			//        function infoTable(id, name, address, point) {
+			//            var div = document.createElement("div");
+			//            div.setAttribute("id", "form");
+			//            var table = document.createElement("table");
+			//            var row1 = table.insertRow(-1);
+			//            var row2 = table.insertRow(-1);
+			//            var row3 = table.insertRow(-1);
+			//            var row4 = table.insertRow(-1);
+			//
+			//            //име
+			//            var nameLabel = row1.insertCell(-1);
+			//            nameLabel.innerHTML = "Име: ";
+			//            var td2 = row1.insertCell(-1);
+			//            var inputName = document.createElement("input");
+			//            inputName.setAttribute("type", "text");
+			//            inputName.setAttribute("id", "name");
+			//            inputName.value = name;
+			//            td2.appendChild(inputName);
+			//
+			//            //адрес
+			//            var addressLabel = row2.insertCell(-1);
+			//            addressLabel.innerHTML = "Адрес: ";
+			//            var alTd2 = row2.insertCell(-1);
+			//            var inputAddress = document.createElement("input");
+			//            inputAddress.setAttribute("type", "text");
+			//            inputAddress.setAttribute("id", "address");
+			//            inputAddress.value = address;
+			//            alTd2.appendChild(inputAddress);
+			//
+			//            //тип
+			//            var typeLabel = row3.insertCell(-1);
+			//            typeLabel.iinerHTML = "Тип: ";
+			//            var tTd2 = row3.insertCell(-1);
+			//            var select = document.createElement("select");
+			//            select.setAttribute("id", "type");
+			//
+			//            div.appendChild(table);
+			//            return div;
+			//        }
 
-//        function saveData() {
-//            var name = escape(document.getElementById('name').value);
-//            var address = escape(document.getElementById('address').value);
-//            var type = document.getElementById('type').value;
-//            var latlng = marker.getPosition();
-//            var url = 'savemarker?name=' + name + '&address=' + address +
-//                    '&type=' + type + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
-//
-//            downloadUrl(url, "POST", function (data, responseCode) {
-//                if (responseCode === 200) {
-//                    infowindow.close();
-//                    document.location.reload();
-//                    messagewindow.open(map, marker);
-//                }
-//            });
-//        }
+			//        function saveData() {
+			//            var name = escape(document.getElementById('name').value);
+			//            var address = escape(document.getElementById('address').value);
+			//            var type = document.getElementById('type').value;
+			//            var latlng = marker.getPosition();
+			//            var url = 'savemarker?name=' + name + '&address=' + address +
+			//                    '&type=' + type + '&lat=' + latlng.lat() + '&lng=' + latlng.lng();
+			//
+			//            downloadUrl(url, "POST", function (data, responseCode) {
+			//                if (responseCode === 200) {
+			//                    infowindow.close();
+			//                    document.location.reload();
+			//                    messagewindow.open(map, marker);
+			//                }
+			//            });
+			//        }
 
-//            function doNothing() {}
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap">
-    </script>
-    <script src="/js/jquery.min.js"></script>
-    <!--<script src="/js/popper.min.js"></script>-->
-    <script src="/js/bootstrap.min.js"></script>
-    <!--<script src="/js/custom.js"></script>-->
-</body>
+			//            function doNothing() {}
+		</script>
+		<script async defer
+				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap">
+		</script>
+		<script src="/js/jquery.min.js"></script>
+		<!--<script src="/js/popper.min.js"></script>-->
+		<script src="/js/bootstrap.min.js"></script>
+		<!--<script src="/js/custom.js"></script>-->
+	</body>
 </html>

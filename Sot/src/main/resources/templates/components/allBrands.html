@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" media="all" href="/styles/bootstrap.css">
+        <style type="text/css">
+            body { background-color: #ffffff; background-image: url('images/bg-pattern.png'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
+            #map { height: 500px;}
+        </style>
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function deleteBrand(element) {
+				var id = element.getAttribute("data");
+				$.ajax({
+					method: "POST",
+					url: "/brand-delete",
+					data: {id: id}
+				}).done(function (res) {
+					location.reload();
+				}).error(function (res) {
+					alert("Грешка при изтриването!");
+				});
+			}
+		</script>
+    </head>
+	<body>
+		<div class="container">
+			<div th:replace="~{fragments/header}"></div>
+			<div class="row">
+				<div class="col-lg-4">
+					<a class="btn btn-success" href="/brand-register" role="button">Добави марка</a>
+                    <legend>Текущи Марки</legend>
+					<!--style="height: 150px; overflow: auto;"-->
+                    <div style="height: 500px; overflow: auto;">
+						<ul class="list-group">
+							<li th:each="brand : ${allBrands}"
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span th:text="${brand.name}"></span>
+								<button type="" class="btn-lg" style="color: red;" th:data="${brand.id}" onclick="deleteBrand(this);">&times;</button>
+							</li>
+						</ul>
+					</div>
+                </div>
+			</div>
+		</div>
+	</body>
+</html>

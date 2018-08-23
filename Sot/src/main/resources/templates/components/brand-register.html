@@ -10,56 +10,10 @@
             #map { height: 500px;}
         </style>
 		<script src="/js/jquery.min.js"></script>
-		<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
     </head>
     <body>
         <div class="container">
-            <!--*** Header ***-->
-            <div class="row mb-3">
-                <div class="col-lg-5 col-md-7 col-sm-6">
-                    <h1>Сот</h1>
-                    <p class="lead">Блааааааблаааааа</p>
-                </div>
-                <div class="col-lg-7 col-md-5 col-sm-6">
-                    <div class="sponsor">
-                        <img src="/images/security.png" alt="" border="0" height="100" width="600" style="max-width: 600px;">
-                    </div>
-                </div>
-            </div>
-
-            <!--*** Menu ***-->
-            <div class="mb-3">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <a class="navbar-brand" href="/">Карта</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarColor01">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Въвеждане<span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Редактиране</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
-                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                                    <a class="dropdown-item" href="/brand-register">Въвеждане марка</a>
-                                    <a class="dropdown-item" href="/component-update">Редактиране</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                            </li>
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </nav>
-            </div>
+			<div th:replace="~{fragments/header}"></div>
 
             <div class="row">
                 <div class="col-lg-4">
@@ -78,36 +32,8 @@
                         </fieldset>
                     </form>
                 </div>
-                <div class="col-lg-4">
-                    <legend>Текущи Марки</legend>
-					<!--style="height: 150px; overflow: auto;"-->
-                    <div style="height: 500px; overflow: auto;">
-						<ul class="list-group">
-							<li th:each="brand : ${brands}"
-								class="list-group-item d-flex justify-content-between align-items-center">
-								<span th:text="${brand.name}"></span>
-								<button type="button" class="btn-lg" style="color: red;" th:data="${brand.id}" onclick="deleteBrand(this);">&times;</button>
-							</li>
-						</ul>
-					</div>
-                </div>
             </div>
         </div>
 		<script src="/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			function deleteBrand(element) {
-				var id = element.getAttribute("data");
-				$.ajax({
-					method: "POST",
-					url: "/brand-delete",
-					data: {id: id}
-				}).done(function (res) {
-					location.reload();
-				});
-//										.error(function (res) {
-				//alert("Грешка при изтриването!");
-				//});;
-			}
-		</script>
     </body>
 </html>
