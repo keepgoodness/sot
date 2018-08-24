@@ -4,36 +4,39 @@
         <title th:text="${title}"></title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" media="all" href="/styles/bootstrap.css">
-        <style type="text/css">
-            body { background-color: #ffffff; background-image: url('images/bg-pattern.png'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
-            #map { height: 500px;}
-        </style>
-		<script src="/js/jquery.min.js"></script>
+        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     </head>
     <body>
         <div class="container">
 			<div th:replace="~{fragments/header}"></div>
-
             <div class="row">
                 <div class="col-lg-4">
-                    <form th:object="${brandCreateRequestModel}" method="post" action="/brand-register">
+                    <form th:object="${brandCreateRequestModel}" method="post" th:action="@{/brand-create}">
                         <fieldset>
                             <legend>Създай нова марка</legend>
                             <div class="form-group">
                                 <label for="brand">Име</label>
                                 <input th:field="*{name}" type="text" maxlength="25" minlength="3" id="brand" class="form-control" />
                             </div>
-							<!--                                                        <input
-																						type="hidden"
-																						th:name="${_csrf.parameterName}"
-																						th:value="${_csrf.token}" />-->
                             <button type="submit" class="btn btn-primary">Запази</button>
                         </fieldset>
                     </form>
                 </div>
+				<div class="col-lg-4">
+                    <legend>Текущи Марки</legend>
+                    <div style="height: 500px; overflow: auto;">
+						<ul class="list-group">
+							<li th:each="brand : ${brands}"
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span th:text="${brand.name}"></span>
+							</li>
+						</ul>
+					</div>
+                </div>
             </div>
         </div>
-		<script src="/js/bootstrap.min.js"></script>
     </body>
 </html>

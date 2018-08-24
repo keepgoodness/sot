@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-lg-7 col-md-5 col-sm-6">
 			<div class="sponsor">
-				<img src="/images/security.png" alt="" border="0" height="100" width="600" style="max-width: 600px;">
+				<img th:src="@{/images/security.png}" alt="" border="0" height="100" width="600" style="max-width: 600px;">
 			</div>
 		</div>
 	</div>
@@ -15,7 +15,7 @@
 	<!--*** Menu ***-->
 	<div class="mb-3">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-			<a class="navbar-brand" href="/">Карта</a>
+			<a class="navbar-brand" th:href="@{/}">Карта</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -31,7 +31,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
 						<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-							<a class="dropdown-item" href="/allBrands">Марки</a>
+							<a class="dropdown-item" th:href="@{/allBrands}">Марки</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Separated link</a>
 						</div>

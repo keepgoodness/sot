@@ -5,11 +5,10 @@
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-		<link rel="stylesheet" media="all" href="/styles/bootstrap.css">
-		<style type="text/css">
-			body { background-color: #ffffff; background-image: url('images/bg-pattern.png'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
-			#map { height: 500px;}
-		</style>
+		<link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	</head>
 
 	<body>
@@ -63,8 +62,7 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="row">
+<!--				<div class="row">
 					<div class="col-lg-4 form-group">
 						<div class="card border-secondary">
 							<legend class="card-header">Клавиатура</legend>
@@ -105,7 +103,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="row">
 					<div class="col-lg-4 form-group">
 						<div class="card border">
@@ -143,7 +140,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="row">
 					<div class="col-lg-4 form-group">
 						<div class="card border-secondary">
@@ -174,10 +170,9 @@
 						</div>
 					</div>
 
-				</div>
+				</div>-->
 			</form>
 		</div>
-
 		<script>
 
 			var map;
@@ -344,12 +339,6 @@
 
 			//            function doNothing() {}
 		</script>
-		<script async defer
-				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap">
-		</script>
-		<script src="/js/jquery.min.js"></script>
-		<!--<script src="/js/popper.min.js"></script>-->
-		<script src="/js/bootstrap.min.js"></script>
-		<!--<script src="/js/custom.js"></script>-->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
 	</body>
 </html>

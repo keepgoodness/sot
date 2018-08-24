@@ -1,31 +1,30 @@
-///*
-// * To change this license header, choose License Headers in Project Properties.
-// * To change this template file, choose Tools | Templates
-// * and open the template in the editor.
-// */
-//package org.sot.config;
-//
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//
-///**
-// *
-//// * @author Jordan
-//// */
-//@EnableWebSecurity
-//@Configuration
-////@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-//public class WebConfig extends WebSecurityConfigurerAdapter {
-//
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.headers().cacheControl().disable();
-//				.and().authorizeRequests()
-//				.antMatchers("/**").permitAll();
-//				.anyRequest().authenticated();
-//	}
+package org.sot.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer {
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler(
+				"/fonts/**",
+				"/images/**",
+				"/js/**",
+				"/styles/**"
+		).addResourceLocations(
+				"classpath:/META-INF/resources/webjars/",
+				"classpath:/static/fonts/",
+				"classpath:/static/images/",
+				"classpath:/static/js/",
+				"classpath:/static/styles/"
+		);
+	}
+
+}
 //
 //}
