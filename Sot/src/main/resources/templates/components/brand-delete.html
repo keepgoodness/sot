@@ -13,7 +13,7 @@
 				var id = element.getAttribute("data");
 				$.ajax({
 					method: "POST",
-					url: "/sot/brand-delete",
+					url: "/brand-delete",
 					data: {id: id}
 				}).done(function (res) {
 					location.reload();
