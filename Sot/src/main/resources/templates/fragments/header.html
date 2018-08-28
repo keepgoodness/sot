@@ -22,22 +22,28 @@
 
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Въвеждане<span class="sr-only">(current)</span></a>
-					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Редактиране</a>
+						<a class="nav-link" href="#">Въвеждане</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
 						<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
 							<a class="dropdown-item" th:href="@{/allBrands}">Марки</a>
+							<a class="dropdown-item" th:href="@{/allPlaces}">Населени места</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Separated link</a>
 						</div>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0">
+				<form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-outline-secondary">
+							<input type="radio" name="options" id="option2" autocomplete="off" checked=""> Име
+						</label>
+						<label class="btn btn-outline-secondary">
+							<input type="radio" name="options" id="option3" autocomplete="off"> ID
+						</label>
+					</div>
 					<input class="form-control mr-sm-2" type="text" placeholder="Search">
 					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 				</form>

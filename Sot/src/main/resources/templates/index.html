@@ -21,13 +21,8 @@
 
 			<div class="row mb-3">
 				<div class="col-lg-4">
-					<a class="btn btn-success" href="/point-create" role="button">Създай нов обект</a>
-					<a class="" th:href="@{/point-edit}">
-						<img th:src="@{/images/edit_32.png}">
-					</a>
-				</div>
-				<div class="col-lg-4">
-
+					<a class="btn btn-success btn-lg" href="/point-create" role="button">Създай нов обект</a>
+					<a class="btn btn-outline-primary" th:href="@{/point-edit}"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>
 				</div>
 			</div>
 			<!--*** Fomr ***-->
@@ -50,6 +45,20 @@
 					</div>
 					<div class="col-lg-4 form-group">
 						<div class="card border-primary">
+							<legend class="card-header">Адрес</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Населено място</label>
+								<!--<input type="text" class="form-control" placeholder="Марка контр..." id="objName">-->
+								<strong class="form-text" th:text="*{controlBoardBrand}"></strong>
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Улица</label>
+								<strong class="form-text" th:text="*{controlBoardModel}"></strong>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
 							<legend class="card-header">Контролна платка</legend>
 							<div class="col-sm-5">
 								<label class="col-form-label" for="inputDefault">Марка</label>
@@ -59,19 +68,6 @@
 							<div class="form-group col-sm-5">
 								<label class="col-form-label" for="inputDefault">Модел</label>
 								<strong class="form-text" th:text="*{controlBoardModel}"></strong>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">RIP Датчик</legend>
-							<div class="col-sm-5">
-								<label class="col-form-label" for="inputDefault">Марка датчик</label>
-								<input type="text" class="form-control" placeholder="Марка датчик" id="objName">
-							</div>
-							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="inputDefault">Модел</label>
-								<input type="text" class="form-control" placeholder="Модел датчик" id="objName">
 							</div>
 						</div>
 					</div>
@@ -171,15 +167,15 @@
 										</div>
 									</div>
 									<div class="col-lg-4 form-group">
-										<div class="card border-secondary">
-											<legend class="card-header">Обект</legend>
-											<div class="col-sm-8">
-												<label class="col-form-label" for="inputDefault">Име</label>
-												<input type="text" class="form-control" placeholder="Име на обекта" id="objName">
+										<div class="card border-primary">
+											<legend class="card-header">RIP Датчик</legend>
+											<div class="col-sm-5">
+												<label class="col-form-label" for="inputDefault">Марка датчик</label>
+												<input type="text" class="form-control" placeholder="Марка датчик" id="objName">
 											</div>
-											<div class="col-sm-4 mb-3">
-												<label class="col-form-label" for="inputDefault">ID</label>
-												<input type="text" class="form-control" placeholder="ID на обекта" id="objName">
+											<div class="form-group col-sm-5">
+												<label class="col-form-label" for="inputDefault">Модел</label>
+												<input type="text" class="form-control" placeholder="Модел датчик" id="objName">
 											</div>
 										</div>
 									</div>
@@ -193,14 +189,15 @@
 
 				var map = new google.maps.Map(divMap, {
 					center: {lat: 41.562945, lng: 23.2725755},
+					center: new google.maps.LatLng(41.562945, 23.2725755),
 					zoom: 16,
 					styles: [
-						{"featureType": "all",
-							"elementType": "labels",
-							"stylers": [
-								{"visibility": "off"}
-							]
-						},
+//						{"featureType": "all",
+//							"elementType": "labels",
+//							"stylers": [
+//								{"visibility": "off"}
+//							]
+//						},
 
 //						{"featureType": "administrative", 
 //							"elementType": "all", 
@@ -225,8 +222,7 @@
 
 //						{"featureType": "road", "elementType": "all", "stylers": [{"visibility": "on"}, {"color": "#ffffff"}]},
 
-						{"featureType": "road", "elementType": "labels", "stylers": [{"visibility": "on"}]
-						},
+//						{"featureType": "road", "elementType": "labels", "stylers": [{"visibility": "on"}]},
 
 //						{"featureType": "road.highway", "elementType": "all", "stylers": [{"visibility": "on"}, {"color": "#fee379"}]},
 
@@ -240,26 +236,26 @@
 
 //						{"featureType": "road.arterial", "elementType": "all", "stylers": [{"visibility": "simplified"}, {"color": "#ffffff"}]},
 
-						{"featureType": "road.arterial", "elementType": "labels", "stylers": [{"visibility": "off"}]},
+//						{"featureType": "road.arterial", "elementType": "labels", "stylers": [{"visibility": "off"}]},
 //						{"featureType": "road.arterial", "elementType": "labels.icon", "stylers": [{"visibility": "off"}]},
 
 //						{"featureType": "water", "elementType": "all", "stylers": [{"visibility": "on"}, {"color": "#7fc8ed"}]
 //						}
 					]
 				});
-//				var marker = new google.maps.Marker({
-//					position: new google.maps.LatLng(41.562945, 23.2725755),
-//					map: map,
-//					title: 'Yordan!'
-//				});
-
-				var mapLabel = new MapLabel({
-					text: 'Test',
+				var marker = new google.maps.Marker({
 					position: new google.maps.LatLng(41.562945, 23.2725755),
 					map: map,
-					fontSize: 35,
-					align: 'right'
+					title: 'Yordan!'
 				});
+
+//				var mapLabel = new google.maps.MapLabel({
+//					text: 'Test',
+//					position: new google.maps.LatLng(41.562945, 23.2725755),
+//					map: map,
+//					fontSize: 35,
+//					align: 'right'
+//				});
 			}
 
 		</script>

@@ -1,18 +1,17 @@
 package org.sot.services;
 
 import java.util.List;
-import org.sot.models.Entity.Brand;
+import org.sot.models.Entity.Place;
 
 /**
  *
  * @author Jordan
  */
-public interface BrandService {
-
+public interface PlaceService {
+	
 	public boolean register(String name);
 
-	public List<Brand> findAllBrands();
+	public List<Place> findAllPlaces();
 
 	public boolean delete(Long id);
-
 }
