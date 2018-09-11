@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<title th:text="${title}"></title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+		<link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<!--*** Header ***-->
+			<div th:replace="~{fragments/header}"></div>
+
+			<!--*** Map ***-->
+			<div id="map" class="mb-3"></div>
+
+			<form th:object="${pointRequestModel}">
+				<div class="row">
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">Обект</legend>
+							<div class="col-sm-8">
+								<label class="col-form-label" for="inputDefault">Име</label>
+								<input type="text" class="form-control" placeholder="Име на обекта..." id="objName">
+							</div>
+							<div class="col-sm-4 mb-3">
+								<label class="col-form-label" for="inputDefault">ID</label>
+								<input type="text" class="form-control" placeholder="ID на обекта..." id="objId">
+								<strong class="form-text" th:text="*{pointIdentifier}"></strong>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">Адрес</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Населено място</label>
+								<select th:field="*{places}" class="custom-select">
+									<!--<option selected="" value="">Изберете...</option>-->
+									<option th:each="place : *{places}" 
+											th:value="${place.id}"
+											th:text="${place.name}"
+											></option>
+								</select>
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Улица</label>
+								<input type="text" class="form-control" placeholder="Улица..." id="street">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 form-group">
+						<div class="card border-primary">
+							<legend class="card-header">Контролна платка</legend>
+							<div class="col-sm-5">
+								<label class="col-form-label" for="inputDefault">Марка</label>
+								<select th:field="*{brands}" class="custom-select">
+									<!--<option selected="" value="">Изберете марка ...</option>-->
+									<option th:each="brand : *{brands}" 
+											th:value="${brand.id}"
+											th:text="${brand.name}"
+											></option>
+								</select>
+							</div>
+							<div class="form-group col-sm-5">
+								<label class="col-form-label" for="inputDefault">Модел</label>
+								<input type="text" class="form-control" placeholder="Модел..." id="objId">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>>
+		</div>
+		<script>
+			var marker;
+			var map
+			function initMap() {
+
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: 41.562945, lng: 23.2725755},
+					center: new google.maps.LatLng(41.562945, 23.2725755),
+					zoom: 15,
+					styles: [
+						{"featureType": "all",
+							"elementType": "labels",
+							"stylers": [
+								{"visibility": "off"}
+							]
+						},
+						{"featureType": "administrative",
+							"elementType": "all",
+							"stylers": [
+								{"visibility": "simplified"},
+								{"color": "#5b6571"},
+								{"lightness": "35"}]
+						},
+						{"featureType": "road",
+							"elementType": "labels",
+							"stylers": [{"visibility": "on"}]},
+					]
+				});
+				google.maps.event.addListener(map, 'click', function (event) {
+					
+					marker = new google.maps.Marker({
+						position: event.latLng,
+						map: map
+					});
+				});
+//				var mapLabel = new google.maps.MapLabel({
+//					text: 'Test',
+//					position: new google.maps.LatLng(41.562945, 23.2725755),
+//					map: map,
+//					fontSize: 35,
+//					align: 'right'
+//				});
+			}
+
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
+	</body>
+</html>
