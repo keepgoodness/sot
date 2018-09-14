@@ -18,19 +18,18 @@
 			<!--*** Map ***-->
 			<div id="map" class="mb-3"></div>
 
-			<form th:object="${pointRequestModel}">
+			<form th:object="${pointRequestModel}" th:action="@{/point-create}" method="post">
 				<div class="row">
 					<div class="col-lg-4 form-group">
 						<div class="card border-primary">
 							<legend class="card-header">Обект</legend>
 							<div class="col-sm-8">
-								<label class="col-form-label" for="inputDefault">Име</label>
-								<input type="text" class="form-control" placeholder="Име на обекта..." id="objName">
+								<label class="col-form-label" for="pointName">Име</label>
+								<input th:field="*{pointName}" type="text" class="form-control" placeholder="Име на обекта..." id="pointName">
 							</div>
 							<div class="col-sm-4 mb-3">
-								<label class="col-form-label" for="inputDefault">ID</label>
-								<input type="text" class="form-control" placeholder="ID на обекта..." id="objId">
-								<strong class="form-text" th:text="*{pointIdentifier}"></strong>
+								<label class="col-form-label" for="pointID">ID</label>
+								<input th:field="*{pointIdentifier}" type="text" class="form-control" placeholder="ID на обекта..." id="pointID">
 							</div>
 						</div>
 					</div>
@@ -39,17 +38,16 @@
 							<legend class="card-header">Адрес</legend>
 							<div class="col-sm-5">
 								<label class="col-form-label" for="inputDefault">Населено място</label>
-								<select th:field="*{places}" class="custom-select">
-									<!--<option selected="" value="">Изберете...</option>-->
-									<option th:each="place : *{places}" 
-											th:value="${place.id}"
-											th:text="${place.name}"
-											></option>
+								<select th:field="*{address.sity}" class="custom-select">
+									<option th:each="p : *{places}" 
+											th:value="${p.id}"
+											th:text="${p.name}">
+									</option>
 								</select>
 							</div>
 							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="inputDefault">Улица</label>
-								<input type="text" class="form-control" placeholder="Улица..." id="street">
+								<label class="col-form-label" for="street">Улица</label>
+								<input th:field="*{address.street}" type="text" class="form-control" placeholder="Улица..." id="street">
 							</div>
 						</div>
 					</div>
@@ -58,22 +56,26 @@
 							<legend class="card-header">Контролна платка</legend>
 							<div class="col-sm-5">
 								<label class="col-form-label" for="inputDefault">Марка</label>
-								<select th:field="*{brands}" class="custom-select">
-									<!--<option selected="" value="">Изберете марка ...</option>-->
+								<select th:field="*{controlBoardBrand}" class="custom-select">
 									<option th:each="brand : *{brands}" 
 											th:value="${brand.id}"
-											th:text="${brand.name}"
-											></option>
+											th:text="${brand.name}">
+									</option>
 								</select>
 							</div>
 							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="inputDefault">Модел</label>
-								<input type="text" class="form-control" placeholder="Модел..." id="objId">
+								<label class="col-form-label" for="cBModel">Модел</label>
+								<input th:field="*{controlBoardModel}" type="text" class="form-control" placeholder="Модел..." id="cBModel">
 							</div>
 						</div>
 					</div>
 				</div>
-			</form>>
+				<div class="row">
+					<div class="col-lg-12 form-group">
+						<button type="submit" class="btn btn-primary btn-lg">Запази</button>
+					</div>
+				</div>
+			</form>
 		</div>
 		<script>
 			var marker;
@@ -104,7 +106,7 @@
 					]
 				});
 				google.maps.event.addListener(map, 'click', function (event) {
-					
+
 					marker = new google.maps.Marker({
 						position: event.latLng,
 						map: map

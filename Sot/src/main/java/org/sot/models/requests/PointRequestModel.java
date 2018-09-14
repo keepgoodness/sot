@@ -16,9 +16,8 @@ public class PointRequestModel {
 	private Address address;
 	private List<Place> places;
 	private List<Brand> brands;
+	private String controlBoardBrand;
 	private String controlBoardModel;
-	private String sensorBrand;
-	private String sensorModel;
 
 	public String getPointName() {
 		return pointName;
@@ -60,6 +59,14 @@ public class PointRequestModel {
 		this.brands = brands;
 	}
 
+	public String getControlBoardBrand() {
+		return controlBoardBrand;
+	}
+
+	public void setControlBoardBrand(String controlBoardBrand) {
+		this.controlBoardBrand = controlBoardBrand;
+	}
+
 	public String getControlBoardModel() {
 		return controlBoardModel;
 	}
@@ -67,22 +74,4 @@ public class PointRequestModel {
 	public void setControlBoardModel(String controlBoardModel) {
 		this.controlBoardModel = controlBoardModel;
 	}
-
-	public String getSensorBrand() {
-		return sensorBrand;
-	}
-
-	public void setSensorBrand(String sensorBrand) {
-		this.sensorBrand = sensorBrand;
-	}
-
-	public String getSensorModel() {
-		return sensorModel;
-	}
-
-	public void setSensorModel(String sensorModel) {
-		this.sensorModel = sensorModel;
-	}
-
-	
 }

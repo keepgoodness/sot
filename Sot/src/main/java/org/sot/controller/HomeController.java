@@ -17,15 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeController {
 
-	private final BrandService brandService;
-	private final PlaceService placeService;
-
-	@Autowired
-	public HomeController(BrandService brandService, PlaceService placeService) {
-		this.brandService = brandService;
-		this.placeService = placeService;
-	}
-
 	@GetMapping("/")
 	public String home(Model model) {
 		PointRequestModel pointModel = new PointRequestModel();
@@ -34,13 +25,4 @@ public class HomeController {
 		return "index";
 	}
 
-	@GetMapping("point-create")
-	public String pointCreate(Model model) {
-		PointRequestModel pointModel = new PointRequestModel();
-		pointModel.setPlaces(placeService.findAllPlaces());
-		pointModel.setBrands(brandService.findAllBrands());
-		model.addAttribute("title", "Създаване на обект");
-		model.addAttribute("pointRequestModel", pointModel);
-		return "points/pointCreate";
-	}
 }
