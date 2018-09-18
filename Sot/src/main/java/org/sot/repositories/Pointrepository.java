@@ -5,7 +5,7 @@
  */
 package org.sot.repositories;
 
-import org.sot.models.Entity.ControlBoard;
+import org.sot.models.Entity.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author Jordan
  */
 @Repository
-public interface ControlBoardRepository extends JpaRepository<ControlBoard, Long> {
-    
-    public ControlBoard save(ControlBoard controlBoard);
+public interface Pointrepository extends JpaRepository<Point, Long>{
 
+	public Point save(Point point);
 }

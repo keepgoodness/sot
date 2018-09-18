@@ -1,6 +1,7 @@
 package org.sot.models.requests;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.sot.models.Entity.Address;
 import org.sot.models.Entity.Brand;
 import org.sot.models.Entity.Place;
@@ -13,12 +14,23 @@ public class PointRequestModel {
 	
 	private String pointName;
 	private String pointIdentifier;
+	@Valid
 	private Address address;
+	private Place place;
 	private List<Place> places;
 	private List<Brand> brands;
 	private String controlBoardBrand;
 	private String controlBoardModel;
 
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
+	
 	public String getPointName() {
 		return pointName;
 	}

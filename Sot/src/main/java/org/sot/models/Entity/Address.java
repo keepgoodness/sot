@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -12,62 +14,78 @@ import javax.persistence.Id;
 @Entity(name = "address")
 public class Address {
 
-    private String sity;
-    private String street;
-    private String number;
-    private String entrance;
-    private String floor;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    public Long getId() {
-        return id;
-    }
+	@Length(max = 60, message = "Улицата не трябва да надвишава 60 символа")
+	private String street;
+	@Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
+	private String number;
+	@Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
+	private String entrance;
+	@Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
+	private String floor;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@OneToOne(mappedBy = "address")
+	private Point point;
 
-    public String getSity() {
-        return sity;
-    }
+	public Point getPoint() {
+		return point;
+	}
 
-    public void setSity(String sity) {
-        this.sity = sity;
-    }
+	public void setPoint(Point point) {
+		this.point = point;
+	}
 
-    public String getStreet() {
-        return street;
-    }
+	public Address(Address address) {
+		this.street = address.getStreet();
+		this.number = address.getNumber();
+		this.entrance = address.getEntrance();
+		this.floor = address.getFloor();
+	}
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	public Address() {
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getEntrance() {
-        return entrance;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public void setEntrance(String entrance) {
-        this.entrance = entrance;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public String getFloor() {
-        return floor;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setFloor(String floor) {
-        this.floor = floor;
-    }
-    
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getEntrance() {
+		return entrance;
+	}
+
+	public void setEntrance(String entrance) {
+		this.entrance = entrance;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
 }

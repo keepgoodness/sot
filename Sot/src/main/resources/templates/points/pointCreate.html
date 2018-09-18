@@ -38,16 +38,36 @@
 							<legend class="card-header">Адрес</legend>
 							<div class="col-sm-5">
 								<label class="col-form-label" for="inputDefault">Населено място</label>
-								<select th:field="*{address.sity}" class="custom-select">
+								<select th:field="*{place}" class="custom-select">
 									<option th:each="p : *{places}" 
 											th:value="${p.id}"
 											th:text="${p.name}">
 									</option>
 								</select>
 							</div>
-							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="street">Улица</label>
-								<input th:field="*{address.street}" type="text" class="form-control" placeholder="Улица..." id="street">
+							<div class="form-group col-sm-12 input-group-append">
+								<div class="col-7">
+									<label class="col-form-label" for="street">Улица</label>
+									<input th:field="*{address.street}" type="text" class="form-control" placeholder="..." id="street">
+								</div>
+								<div>
+									<label class="col-form-label" for="num">№</label>
+									<input th:field="*{address.number}" type="text" class="form-control" placeholder="..." id="num">
+								</div>
+								<div>
+									<label class="col-form-label" for="entrance">Вх.</label>
+									<input th:field="*{address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
+								</div>
+								<div>
+									<label class="col-form-label" for="floor">Ет.</label>
+									<input th:field="*{address.floor}" type="text" class="form-control" placeholder="..." id="floor">
+								</div>
+							</div>
+							<div class="form-group col-sm-12">
+								<div th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}" style="color:red;">Street Error</div>
+								<div th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}" style="color:red;">Number Error</div>
+								<div th:if="${#fields.hasErrors('address.entrance')}" th:errors="*{address.entrance}" style="color:red;">Entrance Error</div>
+								<div th:if="${#fields.hasErrors('address.floor')}" th:errors="*{address.floor}" style="color:red;">Floor Error</div>
 							</div>
 						</div>
 					</div>
@@ -65,7 +85,7 @@
 							</div>
 							<div class="form-group col-sm-5">
 								<label class="col-form-label" for="cBModel">Модел</label>
-								<input th:field="*{controlBoardModel}" type="text" class="form-control" placeholder="Модел..." id="cBModel">
+								<input th:field="*{controlBoardModel}" type="text" class="form-control" placeholder="..." id="cBModel">
 							</div>
 						</div>
 					</div>

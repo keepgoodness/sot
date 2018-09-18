@@ -32,9 +32,17 @@ public class ControlBoard implements Serializable {
     @JoinColumn(name = "brand_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Brand brand;
-    
-    @Size(max = 60)
+	
+	@Size(max = 60)
     private String model;
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
 
     public Long getId() {
         return id;

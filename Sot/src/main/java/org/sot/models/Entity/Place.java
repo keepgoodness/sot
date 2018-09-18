@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -27,6 +28,17 @@ public class Place implements Serializable{
 	@Column(length = 30, unique = true)
 	private String name;
 
+	@OneToOne(mappedBy = "place")
+	private Point point;
+
+	public Point getPoint() {
+		return point;
+	}
+
+	public void setPoint(Point point) {
+		this.point = point;
+	}
+	
 	public Long getId() {
 		return id;
 	}

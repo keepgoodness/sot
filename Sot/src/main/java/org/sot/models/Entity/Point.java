@@ -5,8 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -26,8 +31,17 @@ public class Point {
     private String name;
 
     @OneToOne
-    @MapsId
+	@JoinColumn(name = "address_id")
     private Address address;
+	
+	@OneToOne
+	@JoinColumn(name = "place_id")
+	private Place place;
+	
+//	@OneToOne
+//	@MapsId
+//	private ControlBoard controlBoard;
+    
 
     public Long getId() {
         return id;
@@ -60,4 +74,20 @@ public class Point {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+//
+//	public ControlBoard getControlBoard() {
+//		return controlBoard;
+//	}
+
+//	public void setControlBoard(ControlBoard controlBoard) {
+//		this.controlBoard = controlBoard;
+//	}
 }
