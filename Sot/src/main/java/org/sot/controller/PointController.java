@@ -43,10 +43,12 @@ public class PointController {
 			PointRequestModel prm = (PointRequestModel) model.asMap().get("pointRequestModel");
 			prm.setPlaces(places);
 			prm.setBrands(brands);
+			model.addAttribute("display", "display:block");
 		} else {
 			PointRequestModel pointModel = new PointRequestModel();
 			pointModel.setPlaces(places);
 			pointModel.setBrands(brands);
+			model.addAttribute("display", "display:none");
 			model.addAttribute("pointRequestModel", pointModel);
 		}
 		return "points/pointCreate";

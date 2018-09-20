@@ -4,7 +4,9 @@ import java.util.List;
 import javax.validation.Valid;
 import org.sot.models.Entity.Address;
 import org.sot.models.Entity.Brand;
+import org.sot.models.Entity.ControlBoard;
 import org.sot.models.Entity.Place;
+import org.sot.models.Entity.Point;
 
 /**
  *
@@ -12,15 +14,26 @@ import org.sot.models.Entity.Place;
  */
 public class PointRequestModel {
 	
-	private String pointName;
-	private String pointIdentifier;
+	@Valid
+	private Point point;
 	@Valid
 	private Address address;
+	@Valid
 	private Place place;
 	private List<Place> places;
 	private List<Brand> brands;
-	private String controlBoardBrand;
-	private String controlBoardModel;
+	@Valid
+	private ControlBoard controlBoard;
+	private String latitude;
+	private String longitude;
+
+	public Point getPoint() {
+		return point;
+	}
+
+	public void setPoint(Point point) {
+		this.point = point;
+	}
 
 	public Place getPlace() {
 		return place;
@@ -28,23 +41,6 @@ public class PointRequestModel {
 
 	public void setPlace(Place place) {
 		this.place = place;
-	}
-
-	
-	public String getPointName() {
-		return pointName;
-	}
-
-	public void setPointName(String pointName) {
-		this.pointName = pointName;
-	}
-
-	public String getPointIdentifier() {
-		return pointIdentifier;
-	}
-
-	public void setPointIdentifier(String pointIdentifier) {
-		this.pointIdentifier = pointIdentifier;
 	}
 
 	public Address getAddress() {
@@ -71,19 +67,27 @@ public class PointRequestModel {
 		this.brands = brands;
 	}
 
-	public String getControlBoardBrand() {
-		return controlBoardBrand;
+	public ControlBoard getControlBoard() {
+		return controlBoard;
 	}
 
-	public void setControlBoardBrand(String controlBoardBrand) {
-		this.controlBoardBrand = controlBoardBrand;
+	public void setControlBoard(ControlBoard controlBoard) {
+		this.controlBoard = controlBoard;
 	}
 
-	public String getControlBoardModel() {
-		return controlBoardModel;
+	public String getLatitude() {
+		return latitude;
 	}
 
-	public void setControlBoardModel(String controlBoardModel) {
-		this.controlBoardModel = controlBoardModel;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 }

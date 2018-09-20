@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sot.services;
 
 import org.sot.models.Entity.Address;
+import org.sot.models.Entity.ControlBoard;
 import org.sot.models.Entity.Point;
 import org.sot.models.requests.PointRequestModel;
 import org.sot.repositories.AddressRepository;
+import org.sot.repositories.ControlBoardRepository;
 import org.sot.repositories.Pointrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,23 +20,30 @@ public class PointService {
 
 	private final AddressRepository addressRepository;
 	private final Pointrepository pointrepository;
+	private final ControlBoardRepository controlBoardRepository;
 
-	public PointService(AddressRepository addressRepository, Pointrepository pointrepository) {
+	@Autowired
+	public PointService(AddressRepository addressRepository, Pointrepository pointrepository, ControlBoardRepository controlBoardRepository) {
 		this.addressRepository = addressRepository;
 		this.pointrepository = pointrepository;
+		this.controlBoardRepository = controlBoardRepository;
 	}
 
-	@Transactional
+	@Transactional()
 	public boolean register(PointRequestModel prm) {
 		Address address = prm.getAddress();
+		ControlBoard controlBoard = prm.getControlBoard();
 		Point point = new Point();
-		point.setName(prm.getPointName());
-		point.setIdentifier(prm.getPointIdentifier());
+		point.setName(prm.getPoint().getName());
+		point.setIdentifier(prm.getPoint().getIdentifier());
 		point.setPlace(prm.getPlace());
 		point.setAddress(address);
+		point.setControlBoard(controlBoard);
+		point.setLat(Double.parseDouble(prm.getLatitude()));
+		point.setLng(Double.parseDouble(prm.getLongitude()));
 		addressRepository.save(address).getId();
-		Long id = pointrepository.save(point).getId();
-		if (id == null) {
+		controlBoardRepository.save(controlBoard);
+		if (null == pointrepository.save(point).getId()) {
 			return false;
 		}
 		return true;

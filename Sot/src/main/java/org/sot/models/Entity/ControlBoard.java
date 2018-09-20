@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -33,7 +34,8 @@ public class ControlBoard implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Brand brand;
 	
-	@Size(max = 60)
+	@Column(length = 60)
+	@Size(max = 60, message = "Модела на контролната платка е между 1 и 60 символа!")
     private String model;
 
 	public Brand getBrand() {

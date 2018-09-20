@@ -27,51 +27,51 @@
 			</div>
 			<!--*** Fomr ***-->
 			<form>
-				<div class="row" th:object="${pointRequestModel}">
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Обект</legend>
-							<div class="col-sm-8">
-								<label class="col-form-label" for="inputDefault">Име</label>
-								<!--<input type="text" class="form-control" placeholder="Име на обекта" id="objName">-->
-								<strong class="form-text" th:text="*{pointName}"></strong>
-							</div>
-							<div class="col-sm-4 mb-3">
-								<label class="col-form-label" for="inputDefault">ID</label>
-								<!--<input type="text" class="form-control" placeholder="ID на обекта" id="objName">-->
-								<strong class="form-text" th:text="*{pointIdentifier}"></strong>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Адрес</legend>
-							<div class="col-sm-5">
-								<label class="col-form-label" for="inputDefault">Населено място</label>
-								<!--<input type="text" class="form-control" placeholder="Марка контр..." id="objName">-->
-								<!--<strong class="form-text" th:text="*{controlBoardBrand}"></strong>-->
-							</div>
-							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="inputDefault">Улица</label>
-								<strong class="form-text" th:text="*{controlBoardModel}"></strong>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Контролна платка</legend>
-							<div class="col-sm-5">
-								<label class="col-form-label" for="inputDefault">Марка</label>
-								<!--<input type="text" class="form-control" placeholder="Марка контр..." id="objName">-->
-								<!--<strong class="form-text" th:text="*{controlBoardBrand}"></strong>-->
-							</div>
-							<div class="form-group col-sm-5">
-								<label class="col-form-label" for="inputDefault">Модел</label>
-								<!--<strong class="form-text" th:text="*{controlBoardModel}"></strong>-->
-							</div>
-						</div>
-					</div>
-				</div>
+				<!--				<div class="row" th:object="${pointRequestModel}">
+									<div class="col-lg-4 form-group">
+										<div class="card border-primary">
+											<legend class="card-header">Обект</legend>
+											<div class="col-sm-8">
+												<label class="col-form-label" for="inputDefault">Име</label>
+												<input type="text" class="form-control" placeholder="Име на обекта" id="objName">
+												<strong class="form-text" th:text="*{point.name}"></strong>
+											</div>
+											<div class="col-sm-4 mb-3">
+												<label class="col-form-label" for="inputDefault">ID</label>
+												<input type="text" class="form-control" placeholder="ID на обекта" id="objName">
+												<strong class="form-text" th:text="*{point.identifier}"></strong>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 form-group">
+										<div class="card border-primary">
+											<legend class="card-header">Адрес</legend>
+											<div class="col-sm-5">
+												<label class="col-form-label" for="inputDefault">Населено място</label>
+												<input type="text" class="form-control" placeholder="Марка контр..." id="objName">
+												<strong class="form-text" th:text="*{controlBoardBrand}"></strong>
+											</div>
+											<div class="form-group col-sm-5">
+												<label class="col-form-label" for="inputDefault">Улица</label>
+												<strong class="form-text" th:text="*{controlBoardModel}"></strong>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 form-group">
+										<div class="card border-primary">
+											<legend class="card-header">Контролна платка</legend>
+											<div class="col-sm-5">
+												<label class="col-form-label" for="inputDefault">Марка</label>
+												<input type="text" class="form-control" placeholder="Марка контр..." id="objName">
+												<strong class="form-text" th:text="*{controlBoardBrand}"></strong>
+											</div>
+											<div class="form-group col-sm-5">
+												<label class="col-form-label" for="inputDefault">Модел</label>
+												<strong class="form-text" th:text="*{controlBoardModel}"></strong>
+											</div>
+										</div>
+									</div>
+								</div>-->
 				<!--				<div class="row">
 									<div class="col-lg-4 form-group">
 										<div class="card border-secondary">
@@ -183,6 +183,7 @@
 								</div>-->
 			</form>
 		</div>
+		
 		<script>
 			function initMap() {
 				var divMap = document.getElementById('map');

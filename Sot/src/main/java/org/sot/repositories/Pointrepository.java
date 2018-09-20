@@ -5,6 +5,8 @@
  */
 package org.sot.repositories;
 
+import java.util.List;
+import org.sot.models.Entity.Place;
 import org.sot.models.Entity.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,5 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Pointrepository extends JpaRepository<Point, Long>{
 
+	public List<Point> findAll();
 	public Point save(Point point);
 }
