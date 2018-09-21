@@ -1,6 +1,10 @@
 package org.sot.models.Entity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +19,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "brands")
-public class Brand implements Serializable {
+public class Brand {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -42,22 +45,14 @@ public class Brand implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Brand)) {
-            return false;
-        }
-        Brand other = (Brand) object;
-        return this.id.equals(other.id) && this.name.equals(other.name);
-    }
-
-
+	@Override
+	public String toString() {
+		try {
+			return "\"brand\":" + new ObjectMapper().writeValueAsString(this);
+		} catch (JsonProcessingException ex) {
+			Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return "";
+//		return "\"brand\":{" + "\"name\":\"" + name + "\"}";
+	}
 }

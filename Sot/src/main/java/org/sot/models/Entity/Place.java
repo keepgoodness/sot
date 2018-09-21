@@ -1,12 +1,14 @@
 package org.sot.models.Entity;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -16,9 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "places")
-public class Place implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class Place {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,12 +45,13 @@ public class Place implements Serializable{
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Place)) {
-			return false;
+	public String toString() {
+		try {
+			return "\"place\":" + new ObjectMapper().writeValueAsString(this);
+		} catch (JsonProcessingException ex) {
+			Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		Place other = (Place) object;
-		return this.id.equals(other.id) && this.name.equals(other.name);
+		return "";
+//		return "\"place\":{" + "\"name\":\"" + name + "\"}";
 	}
 }

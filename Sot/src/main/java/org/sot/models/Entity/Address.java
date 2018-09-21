@@ -1,10 +1,14 @@
 package org.sot.models.Entity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -26,17 +30,6 @@ public class Address {
 	private String entrance;
 	@Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
 	private String floor;
-
-	@OneToOne(mappedBy = "address")
-	private Point point;
-
-	public Point getPoint() {
-		return point;
-	}
-
-	public void setPoint(Point point) {
-		this.point = point;
-	}
 
 	public Address(Address address) {
 		this.street = address.getStreet();
@@ -88,4 +81,14 @@ public class Address {
 		this.floor = floor;
 	}
 
+	@Override
+	public String toString() {
+		try {
+			return "\"address\":" + new ObjectMapper().writeValueAsString(this);
+		} catch (JsonProcessingException ex) {
+			Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return "";
+		//		return "\"address\":{" + "\"street\":\"" + street + "\", \"number\":\"" + number + "\", \"entrance\":\"" + entrance + "\", \"floor\":\"" + floor + "\"}";
+	}
 }

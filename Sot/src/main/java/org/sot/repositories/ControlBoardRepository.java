@@ -15,7 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ControlBoardRepository extends JpaRepository<ControlBoard, Long> {
-    
-    public ControlBoard save(ControlBoard controlBoard);
+
+	public ControlBoard save(ControlBoard controlBoard);
+
+	public void deleteById(Long id);
 
 }

@@ -15,7 +15,6 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 public class Street {
 
-	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

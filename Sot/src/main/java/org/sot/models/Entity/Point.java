@@ -1,6 +1,5 @@
 package org.sot.models.Entity;
 
-import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,9 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import javax.validation.Valid;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -40,8 +37,9 @@ public class Point {
 	@Column
 	private Double lng;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "address_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -119,4 +117,8 @@ public class Point {
 		this.controlBoard = controlBoard;
 	}
 
+	@Override
+	public String toString() {
+		return "{\"point\":{" + "\"id\":" + id + ", \"identifier\":\"" + identifier + "\", \"name\":\"" + name + "\", \"lat\":\"" + lat + "\", \"lng\":\"" + lng + "\", " + address.toString() + ", " + place.toString() + ", " + controlBoard.toString() + "}}";
+	}
 }

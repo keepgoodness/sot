@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -21,9 +20,7 @@ import org.hibernate.validator.constraints.Length;
  */
 @Entity
 @Table(name = "controlboards")
-public class ControlBoard implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ControlBoard {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,4 +58,9 @@ public class ControlBoard implements Serializable {
     public void setModel(String model) {
         this.model = model;
     }
+
+	@Override
+	public String toString() {
+		return "\"controlBoard\":{" + "\"id\":" + id + "," +  brand + ", \"model\":\"" + model + "\"}";
+	}
 }

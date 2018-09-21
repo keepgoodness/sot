@@ -19,5 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface Pointrepository extends JpaRepository<Point, Long>{
 
 	public List<Point> findAll();
+	public Point findPointById(Long id);
 	public Point save(Point point);
+	public void deleteById(Long id);
 }

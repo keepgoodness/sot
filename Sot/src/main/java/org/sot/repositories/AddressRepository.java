@@ -14,7 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author Jordan
  */
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long>{
-	
+public interface AddressRepository extends JpaRepository<Address, Long> {
+
 	public Address save(Address address);
+
+	public void deleteById(Long id);
+	
+	
 }
