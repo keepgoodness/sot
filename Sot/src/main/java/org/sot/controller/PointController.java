@@ -4,7 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.sot.models.Entity.Brand;
 import org.sot.models.Entity.Place;
-import org.sot.models.requests.PointRequestModel;
+import org.sot.models.requests.PointBindingModel;
 import org.sot.services.BrandService;
 import org.sot.services.PlaceService;
 import org.sot.services.PointService;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -34,34 +35,19 @@ public class PointController {
 	}
 
 	@GetMapping("point-create")
-	public String pointCreate(Model model) {
+	public String pointCreate(@ModelAttribute PointBindingModel pointBindingModel, Model model) {
 		model.addAttribute("title", "Създаване на обект");
-		List<Place> places = placeService.findAllPlaces();
-		List<Brand> brands = brandService.findAllBrands();
-
-		if (model.containsAttribute("pointRequestModel")) {
-			PointRequestModel prm = (PointRequestModel) model.asMap().get("pointRequestModel");
-			prm.setPlaces(places);
-			prm.setBrands(brands);
-			model.addAttribute("display", "display:block");
-		} else {
-			PointRequestModel pointModel = new PointRequestModel();
-			pointModel.setPlaces(places);
-			pointModel.setBrands(brands);
-			model.addAttribute("display", "display:none");
-			model.addAttribute("pointRequestModel", pointModel);
-		}
+		pointBindingModel.setPlaces(placeService.findAllPlaces());
+		pointBindingModel.setBrands(brandService.findAllBrands());
 		return "points/pointCreate";
 	}
 
 	@PostMapping("point-create")
-	public String pointCreate(Model model, @Valid PointRequestModel prm, BindingResult bindingResult) {
-		if (!bindingResult.hasErrors()) {
-			if (this.pointService.register(prm)) {
-				return "redirect:/";
-			}
+	public String pointCreate(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "points/pointCreate";
 		}
-		model.addAttribute("pointRequestModel", prm);
-		return pointCreate(model);
+		this.pointService.register(prm);
+		return "redirect:/";
 	}
 }

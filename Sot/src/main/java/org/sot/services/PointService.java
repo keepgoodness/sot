@@ -3,7 +3,7 @@ package org.sot.services;
 import org.sot.models.Entity.Address;
 import org.sot.models.Entity.ControlBoard;
 import org.sot.models.Entity.Point;
-import org.sot.models.requests.PointRequestModel;
+import org.sot.models.requests.PointBindingModel;
 import org.sot.repositories.AddressRepository;
 import org.sot.repositories.ControlBoardRepository;
 import org.sot.repositories.Pointrepository;
@@ -30,17 +30,17 @@ public class PointService {
 	}
 
 	@Transactional()
-	public boolean register(PointRequestModel prm) {
-		Address address = prm.getAddress();
-		ControlBoard controlBoard = prm.getControlBoard();
+	public boolean register(PointBindingModel bindingModel) {
+		Address address = bindingModel.getAddress();
+		ControlBoard controlBoard = bindingModel.getControlBoard();
 		Point point = new Point();
-		point.setName(prm.getPoint().getName());
-		point.setIdentifier(prm.getPoint().getIdentifier());
-		point.setPlace(prm.getPlace());
+		point.setName(bindingModel.getPoint().getName());
+		point.setIdentifier(bindingModel.getPoint().getIdentifier());
+		point.setPlace(bindingModel.getPlace());
 		point.setAddress(address);
 		point.setControlBoard(controlBoard);
-		point.setLat(Double.parseDouble(prm.getLatitude()));
-		point.setLng(Double.parseDouble(prm.getLongitude()));
+		point.setLat(Double.parseDouble(bindingModel.getLatitude()));
+		point.setLng(Double.parseDouble(bindingModel.getLongitude()));
 		addressRepository.save(address).getId();
 		controlBoardRepository.save(controlBoard);
 		if (null == pointrepository.save(point).getId()) {

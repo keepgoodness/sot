@@ -3,7 +3,7 @@ package org.sot.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.sot.models.Entity.Point;
-import org.sot.models.requests.PointRequestModel;
+import org.sot.models.requests.PointBindingModel;
 import org.sot.repositories.Pointrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home(Model model) {
-		PointRequestModel pointModel = new PointRequestModel();
+		PointBindingModel pointModel = new PointBindingModel();
 		model.addAttribute("title", "Карти");
 		
 		ArrayList<String> listOfString = new ArrayList<>();
@@ -37,7 +37,7 @@ public class HomeController {
 			System.out.println(allPoints.get(i).toString());
 		}
 		model.addAttribute("allPoints", listOfString);
-		model.addAttribute("pointRequestModel", pointModel);
+		model.addAttribute("pointBindingModel", pointModel);
 		return "index";
 	}
 

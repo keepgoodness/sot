@@ -15,11 +15,20 @@
 			<!--*** Header ***-->
 			<div th:replace="~{fragments/header}"></div>
 
+
+
 			<!--*** Map ***-->
 			<div id="map" class="mb-3"></div>
 
-			<div id="form" th:style="${display}">
-				<form th:object="${pointRequestModel}" th:action="@{/point-create}" method="post">
+			<form th:object="${pointBindingModel}" th:action="@{/point-create}" method="post">
+				<div class="row">
+					<div class="col-lg-4 form-group input-group-append">
+						<input id="latInfoInput" class="form-control">
+						<input id="lngInfoInput" class="form-control">
+						<div class="btn btn-primary" onclick="initMap();">&#9755;</div>
+					</div>
+				</div>
+				<div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
 					<div class="row">
 						<div class="col-lg-4 form-group">
 							<div class="card border-primary">
@@ -105,18 +114,29 @@
 					</div>
 					<input type="hidden" id="lat" th:field="*{latitude}">
 					<input type="hidden" id="lng" th:field="*{longitude}">
-				</form>
-			</div>
+				</div>
+			</form>
+
 		</div>
 		<script>
 			var marker;
 			var map;
-			var latInput = document.getElementById("lat");
-			var lngInput = document.getElementById("lng");
+			var latHidden = document.getElementById("lat");
+			var lngHidden = document.getElementById("lng");
+			var latInfo = document.getElementById("latInfoInput");
+			var lngInfo = document.getElementById("lngInfoInput");
 			function initMap() {
+				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
+//				var reg = new RegExp("^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$");
+				if (reg.exec("45")) {
+					alert("съвпада");
+				} else {
+					alert("НЕ съвпада");
+				}
+				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+
 				map = new google.maps.Map(document.getElementById('map'), {
-					center: {lat: 41.562945, lng: 23.2725755},
-					center: new google.maps.LatLng(41.562945, 23.2725755),
+					center: new google.maps.LatLng(latS, lngS),
 					zoom: 15,
 					styles: [
 						{"featureType": "all",
@@ -141,7 +161,8 @@
 					if (typeof marker !== "undefined") {
 						marker.setMap(null);
 						marker = null;
-						fillHidden(event);
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
 					}
 					marker = new google.maps.Marker({
 						map: map,
@@ -151,20 +172,26 @@
 
 					google.maps.event.addListener(marker, "click", function (event) {
 						document.getElementById("form").style.display = "block";
-						fillHidden(event);
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
 					});
 
-					google.maps.event.addListener(marker, "dragend", function (event) {
-						fillHidden(event);
+					google.maps.event.addListener(marker, "drag", function (event) {
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
 					});
 				});
 			}
 
-			function fillHidden(event) {
-				latInput.value = event.latLng.lat();
-				lngInput.value = event.latLng.lng();
+			function fillLatLngHidden(latLng) {
+				latHidden.value = latLng.lat();
+				lngHidden.value = latLng.lng();
 			}
 
+			function fillLatLngInfo(latLng) {
+				latInfo.value = latLng.lat();
+				lngInfo.value = latLng.lng();
+			}
 		</script>
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
 	</body>

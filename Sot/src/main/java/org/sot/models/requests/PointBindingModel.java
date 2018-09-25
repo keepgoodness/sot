@@ -2,6 +2,7 @@ package org.sot.models.requests;
 
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import org.sot.models.Entity.Address;
 import org.sot.models.Entity.Brand;
 import org.sot.models.Entity.ControlBoard;
@@ -12,7 +13,7 @@ import org.sot.models.Entity.Point;
  *
  * @author Jordan
  */
-public class PointRequestModel {
+public class PointBindingModel {
 	
 	@Valid
 	private Point point;
