@@ -1,7 +1,7 @@
 package org.sot.services;
 
 import java.util.List;
-import org.sot.models.Entity.Place;
+import org.sot.models.entities.Place;
 
 /**
  *

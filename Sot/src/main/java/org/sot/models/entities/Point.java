@@ -1,4 +1,4 @@
-package org.sot.models.Entity;
+package org.sot.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

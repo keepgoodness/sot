@@ -1,4 +1,4 @@
-package org.sot.models.requests;
+package org.sot.models.bindings;
 
 import javax.validation.constraints.Size;
 

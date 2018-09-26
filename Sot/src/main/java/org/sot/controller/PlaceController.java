@@ -1,7 +1,7 @@
 package org.sot.controller;
 
 import javax.validation.Valid;
-import org.sot.models.requests.PlaceCreateBindingModel;
+import org.sot.models.bindings.PlaceCreateBindingModel;
 import org.sot.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class PlaceController {
 	}
 
 	@GetMapping("/places")
-	public String allBrands(Model model) {
+	public String allPlaces(Model model) {
 		model.addAttribute("title", "Населени места");
 		model.addAttribute("places", this.placeService.findAllPlaces());
 		return "components/places";

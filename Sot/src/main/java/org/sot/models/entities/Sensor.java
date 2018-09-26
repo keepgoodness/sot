@@ -1,4 +1,4 @@
-package org.sot.models.Entity;
+package org.sot.models.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -10,8 +10,8 @@ import javax.persistence.Id;
  *
  * @author Jordan
  */
-@Entity(name = "transmitters")
-public class Transmitter implements Serializable {
+@Entity(name = "sensors")
+public class Sensor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,16 +53,17 @@ public class Transmitter implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Transmitter)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Sensor)) {
             return false;
         }
-        Transmitter other = (Transmitter) object;
-        return this.id.equals(other.id)  && this.brand.equals(other.brand) && this.model.equals(other.model);
+        Sensor other = (Sensor) object;
+        return this.id.equals(other.id) && this.brand.equals(other.brand) && this.model.equals(other.model);
     }
 
     @Override
     public String toString() {
-        return "org.securitysot.models.Entity.Transmitter[ id=" + id + " ]";
+        return "org.securitysot.models.Entity.Sensor[ id=" + id + " ]";
     }
 
 }

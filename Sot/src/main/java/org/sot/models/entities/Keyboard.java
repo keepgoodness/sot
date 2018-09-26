@@ -1,4 +1,4 @@
-package org.sot.models.Entity;
+package org.sot.models.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

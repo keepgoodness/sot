@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sot.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.sot.models.Entity.Brand;
+import org.sot.models.bindings.BrandBindingModel;
+import org.sot.models.entities.Brand;
 import org.sot.repositories.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +13,6 @@ import org.springframework.stereotype.Service;
  * @author Jordan
  */
 @Service
-@Primary
 public class BrandServiceImpl implements BrandService {
 
 	private final BrandRepository brandRepository;
@@ -29,14 +23,14 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
-	public boolean register(String name) {
-
-		Brand fb = this.brandRepository.findFirstByName(name);
+	public boolean register(BrandBindingModel bindingModel) {
+		String nameNormalize = normalize(bindingModel.getName());
+		Brand fb = this.brandRepository.findFirstByName(nameNormalize);
 		if (fb != null) {
 			return false;
 		}
 		Brand brand = new Brand();
-		brand.setName(name);
+		brand.setName(nameNormalize);
 		Brand b = this.brandRepository.save(brand);
 		if (b == null) {
 			return false;
@@ -54,8 +48,13 @@ public class BrandServiceImpl implements BrandService {
 		return x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase();
 	}
 
+	public String normalize(String x) {
+		return x.toLowerCase();
+	}
+
 	@Override
-	public boolean delete(Long id) {
+	public boolean delete(String idString) {
+		Long id = Long.parseLong(idString);
 		this.brandRepository.deleteById(id);
 		Optional<Brand> b = this.brandRepository.findById(id);
 		if (b.isPresent()) {

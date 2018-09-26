@@ -1,7 +1,7 @@
 package org.sot.repositories;
 
 import java.util.List;
-import org.sot.models.Entity.Brand;
+import org.sot.models.entities.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

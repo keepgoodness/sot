@@ -2,7 +2,7 @@ package org.sot.services;
 
 import java.util.List;
 import java.util.Optional;
-import org.sot.models.Entity.Place;
+import org.sot.models.entities.Place;
 import org.sot.repositories.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

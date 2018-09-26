@@ -1,9 +1,9 @@
 package org.sot.services;
 
-import org.sot.models.Entity.Address;
-import org.sot.models.Entity.ControlBoard;
-import org.sot.models.Entity.Point;
-import org.sot.models.requests.PointBindingModel;
+import org.sot.models.entities.Address;
+import org.sot.models.entities.ControlBoard;
+import org.sot.models.entities.Point;
+import org.sot.models.bindings.PointBindingModel;
 import org.sot.repositories.AddressRepository;
 import org.sot.repositories.ControlBoardRepository;
 import org.sot.repositories.Pointrepository;

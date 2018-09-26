@@ -1,4 +1,4 @@
-package org.sot.models.Entity;
+package org.sot.models.entities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

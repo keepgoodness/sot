@@ -6,8 +6,8 @@
 package org.sot.repositories;
 
 import java.util.List;
-import org.sot.models.Entity.Place;
-import org.sot.models.Entity.Point;
+import org.sot.models.entities.Place;
+import org.sot.models.entities.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

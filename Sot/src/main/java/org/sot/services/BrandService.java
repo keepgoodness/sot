@@ -1,7 +1,8 @@
 package org.sot.services;
 
 import java.util.List;
-import org.sot.models.Entity.Brand;
+import org.sot.models.bindings.BrandBindingModel;
+import org.sot.models.entities.Brand;
 
 /**
  *
@@ -9,10 +10,10 @@ import org.sot.models.Entity.Brand;
  */
 public interface BrandService {
 
-	public boolean register(String name);
+	public boolean register(BrandBindingModel bindingModel);
 
 	public List<Brand> findAllBrands();
 
-	public boolean delete(Long id);
+	public boolean delete(String id);
 
 }

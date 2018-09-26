@@ -1,10 +1,7 @@
 package org.sot.controller;
 
-import java.util.List;
 import javax.validation.Valid;
-import org.sot.models.Entity.Brand;
-import org.sot.models.Entity.Place;
-import org.sot.models.requests.PointBindingModel;
+import org.sot.models.bindings.PointBindingModel;
 import org.sot.services.BrandService;
 import org.sot.services.PlaceService;
 import org.sot.services.PointService;

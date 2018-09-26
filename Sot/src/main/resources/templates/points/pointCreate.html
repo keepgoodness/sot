@@ -14,9 +14,6 @@
 		<div class="container">
 			<!--*** Header ***-->
 			<div th:replace="~{fragments/header}"></div>
-
-
-
 			<!--*** Map ***-->
 			<div id="map" class="mb-3"></div>
 
@@ -127,12 +124,6 @@
 			var lngInfo = document.getElementById("lngInfoInput");
 			function initMap() {
 				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
-//				var reg = new RegExp("^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$");
-				if (reg.exec("45")) {
-					alert("съвпада");
-				} else {
-					alert("НЕ съвпада");
-				}
 				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
 
 				map = new google.maps.Map(document.getElementById('map'), {

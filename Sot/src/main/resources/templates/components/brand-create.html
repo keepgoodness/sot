@@ -14,13 +14,14 @@
 			<div th:replace="~{fragments/header}"></div>
             <div class="row">
                 <div class="col-lg-4">
-                    <form th:object="${brandCreateRequestModel}" method="post" th:action="@{/brand-create}">
+                    <form th:object="${brandBindingModel}" method="post" th:action="@{/brand-create}">
                         <fieldset>
                             <legend>Създай нова марка</legend>
                             <div class="form-group">
                                 <label for="brand">Име</label>
-                                <input th:field="*{name}" type="text" maxlength="25" minlength="3" id="brand" class="form-control" />
+                                <input th:field="*{name}" type="text" maxlength="26" minlength="1" id="brand" class="form-control" />
                             </div>
+							<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Brand Name Error</div>
                             <button type="submit" class="btn btn-primary">Запази</button>
                         </fieldset>
                     </form>

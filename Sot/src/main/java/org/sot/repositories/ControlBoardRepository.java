@@ -5,7 +5,7 @@
  */
 package org.sot.repositories;
 
-import org.sot.models.Entity.ControlBoard;
+import org.sot.models.entities.ControlBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,13 @@
-package org.sot.models.requests;
+package org.sot.models.bindings;
 
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
-import org.sot.models.Entity.Address;
-import org.sot.models.Entity.Brand;
-import org.sot.models.Entity.ControlBoard;
-import org.sot.models.Entity.Place;
-import org.sot.models.Entity.Point;
+import org.sot.models.entities.Address;
+import org.sot.models.entities.Brand;
+import org.sot.models.entities.ControlBoard;
+import org.sot.models.entities.Place;
+import org.sot.models.entities.Point;
 
 /**
  *
