@@ -2,8 +2,8 @@ package org.sot.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.sot.models.Entity.Point;
-import org.sot.models.requests.PointBindingModel;
+import org.sot.models.entities.Point;
+import org.sot.models.bindings.PointBindingModel;
 import org.sot.repositories.Pointrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
