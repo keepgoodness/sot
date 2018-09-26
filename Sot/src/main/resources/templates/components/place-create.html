@@ -14,14 +14,15 @@
 			<div th:replace="~{fragments/header}"></div>
             <div class="row">
                 <div class="col-lg-4">
-                    <form th:object="${placeCreateRequestModel}" method="post" th:action="@{/place-create}">
+                    <form th:object="${placeCreateBindingModel}" method="post" th:action="@{/place-create}">
                         <fieldset>
                             <legend>Добави населено място</legend>
                             <div class="form-group">
                                 <label for="place">Име</label>
-                                <input th:field="*{name}" type="text" maxlength="30" minlength="3" id="place" class="form-control" />
+                                <input th:field="*{name}" type="text" maxlength="30" minlength="1" id="place" class="form-control" />
                             </div>
                             <button type="submit" class="btn btn-primary">Запази</button>
+							<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Name Error</div>
                         </fieldset>
                     </form>
                 </div>

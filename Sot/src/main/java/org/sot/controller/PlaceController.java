@@ -1,11 +1,14 @@
 package org.sot.controller;
 
-import org.sot.models.requests.PlaceCreateRequestModel;
+import javax.validation.Valid;
+import org.sot.models.requests.PlaceCreateBindingModel;
 import org.sot.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,33 +27,29 @@ public class PlaceController {
 		this.placeService = placeService;
 	}
 
-	@GetMapping("/allPlaces")
+	@GetMapping("/places")
 	public String allBrands(Model model) {
 		model.addAttribute("title", "Населени места");
-		model.addAttribute("allPlaces", this.placeService.findAllPlaces());
-		return "components/allPlaces";
+		model.addAttribute("places", this.placeService.findAllPlaces());
+		return "components/places";
 	}
 
 	@GetMapping("/place-create")
-	public String register(Model model) {
+	public String register(Model model, @ModelAttribute PlaceCreateBindingModel placeCreateBindingModel) {
 		model.addAttribute("title", "Населено място");
-		PlaceCreateRequestModel createRequestModel = new PlaceCreateRequestModel();
-		model.addAttribute("placeCreateRequestModel", createRequestModel);
 		model.addAttribute("places", this.placeService.findAllPlaces());
 		return "components/place-create";
 	}
 
 	@PostMapping("/place-create")
-	public String register(Model model, PlaceCreateRequestModel requestModel) {
-		if (!requestModel.getName().isEmpty()) {
-			System.out.println(requestModel.getName().toLowerCase());
-			if (this.placeService.register(requestModel.getName().toLowerCase())) {
-				return "redirect:/allPlaces";
-			}
+	public String register(Model model, @Valid @ModelAttribute PlaceCreateBindingModel placeCreateBindingModel, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return register(model, placeCreateBindingModel);
 		}
-		return register(model);
+		this.placeService.register(placeCreateBindingModel.getName().toLowerCase());
+		return "redirect:/places";
 	}
-	
+
 	@GetMapping("/place-delete")
 	public String delete(Model model) {
 		model.addAttribute("title", "Изтриване населено място");
@@ -62,6 +61,6 @@ public class PlaceController {
 	@ResponseBody
 	public String delete(@RequestParam("id") String id, Model model) {
 		this.placeService.delete(Long.parseLong(id));
-		return "redirect:/allPlaces";
+		return "redirect:/places";
 	}
 }
