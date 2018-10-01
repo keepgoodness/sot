@@ -1,5 +1,10 @@
 package org.sot.services;
 
+import java.util.List;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import org.sot.models.entities.Address;
 import org.sot.models.entities.ControlBoard;
 import org.sot.models.entities.Point;
@@ -47,6 +52,22 @@ public class PointService {
 			return false;
 		}
 		return true;
+	}
+
+	public JsonObject getPointsAsJsonArray() {
+		List<Object[]> arrayObj = this.pointrepository.findAllWithIdLatLng();
+		JsonArrayBuilder array = Json.createArrayBuilder();
+		for (int i = 0; i < arrayObj.size(); i++) {
+			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+			objBuilder.add("id", arrayObj.get(i)[0].toString());
+			objBuilder.add("lat", arrayObj.get(i)[1].toString());
+			objBuilder.add("lng", arrayObj.get(i)[2].toString());
+			objBuilder.add("name", arrayObj.get(i)[3].toString());
+			array.add(objBuilder);
+		}
+		JsonObject json = Json.createObjectBuilder()
+				.add("point", array).build();
+		return json;
 	}
 
 }

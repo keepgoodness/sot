@@ -30,17 +30,20 @@
 						</div>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
+				<!--th:action="@{/search}"-->
+				<!--https://www.devbridge.com/sourcery/components/jquery-autocomplete/-->
+				<!--https://www.mkyong.com/spring-mvc/spring-mvc-jquery-autocomplete-example/ autocomplete with ajax-->
+				<form class="form-inline my-2 my-lg-0">
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-outline-secondary">
-							<input type="radio" name="options" id="option2" autocomplete="off" checked=""> Име
+							<input type="radio" name="search" checked="" value="0"> Име
 						</label>
 						<label class="btn btn-outline-secondary">
-							<input type="radio" name="options" id="option3" autocomplete="off"> ID
+							<input type="radio" name="search" value="1"> ID
 						</label>
 					</div>
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+					<input class="form-control mr-sm-2" type="text" id="input-search">
+					<button class="btn btn-secondary my-2 my-sm-0" id="button-search" type="button">Search</button>
 				</form>
 			</div>
 		</nav>

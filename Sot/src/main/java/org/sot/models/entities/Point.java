@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -16,7 +17,8 @@ import org.hibernate.validator.constraints.Length;
  *
  * @author Jordan
  */
-@Entity(name = "points")
+@Entity
+@Table( name = "points" )
 public class Point {
 
     @Id
