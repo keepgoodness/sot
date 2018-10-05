@@ -11,7 +11,7 @@ public class SotApplication { //extends SpringBootServletInitialize
 	public static void main(String[] args) {
 		SpringApplication.run(SotApplication.class, args);
 	}
-
+//  Когато се качва на сървър
 //	@Override
 //	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 //		return builder.sources(SotApplication.class);

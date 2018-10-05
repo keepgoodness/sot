@@ -9,9 +9,10 @@
 		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
 		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	</head>
+		<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+		<script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
 
+	</head>
 	<body>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
@@ -136,7 +137,7 @@
 					markers.push(marker);
 
 					google.maps.event.addListener(marker, "click", function () {
-						ajaxGetPoint(element.id);
+						ajaxGetPoint(element.id, element.name);
 						toggleBounce(marker);
 					});
 
@@ -158,7 +159,7 @@
 				}
 			}
 
-			function ajaxGetPoint(id) {
+			function ajaxGetPoint(id, name) {
 				$.ajax({
 					method: "GET",
 					url: "/point",
@@ -186,35 +187,34 @@
 			}
 		</script>
 		<script>
-			$(function () {
-				var availableTags = [
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"
-				];
-				$("#input-search").autocomplete({
-					source: availableTags,
-					select: function( event, ui ) {
-						alert(ui.item.value);}
+			$(document).ready(function () {
+
+//old way
+				$('#input-search').autocomplete({
+					serviceUrl: '/search',
+					paramName: "name",
+					delimiter: ",",
+					onSelect: function (suggestion) {
+						if (suggestion.value.length > 1) {
+							$('#input-search').attr("data", suggestion.data);
+						} else {
+							$('#input-search').attr("data", "");
+						}
+
+						return false;
+					},
+					transformResult: function (response) {
+						return {
+							//must convert json to javascript object before process
+							suggestions: $.map($.parseJSON(response), function (item) {
+								return {
+									value: item.name,
+									data: item.id
+								};
+							}),
+
+						};
+					}
 				});
 			});
 		</script>

@@ -48,4 +48,11 @@ public class HomeController {
 	public String getPoint(@RequestParam("id") String id, Model model) {
 		return pointrepository.findPointById(Long.parseLong(id)).toString();
 	}
+
+	@ResponseBody
+	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public String getPointsByName(@RequestParam String name, Model model) {
+		System.out.println("name");
+		return pointService.getPointsAutocomplete(name).toString();
+	}
 }

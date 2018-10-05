@@ -1,10 +1,12 @@
 package org.sot.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import org.sot.models.entities.Address;
 import org.sot.models.entities.ControlBoard;
 import org.sot.models.entities.Point;
@@ -68,6 +70,21 @@ public class PointService {
 		JsonObject json = Json.createObjectBuilder()
 				.add("point", array).build();
 		return json;
+	}
+
+	public List<JsonObject> getPointsAutocomplete(String name) {
+		List<Object[]> points = pointrepository.findByName(name);
+//		JsonArrayBuilder array = Json.createArrayBuilder();
+		List<JsonObject> array = new ArrayList<>();
+		points.stream().forEach(p -> {
+			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+			objBuilder.add("id", p[0].toString());
+			objBuilder.add("name", p[1].toString());
+			array.add(objBuilder.build());
+		});
+//		JsonObject json = Json.createObjectBuilder()
+//				.add("point", array).build();
+		return array;
 	}
 
 }

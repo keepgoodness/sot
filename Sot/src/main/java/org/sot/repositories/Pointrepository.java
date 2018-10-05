@@ -26,4 +26,7 @@ public interface Pointrepository extends JpaRepository<Point, Long>{
 	public Point findPointById(Long id);
 	public Point save(Point point);
 	public void deleteById(Long id);
+	
+	@Query(value = "select p.id, p.name from Point p where p.name like %?1%")
+	public List<Object[]> findByName(String name);
 }
