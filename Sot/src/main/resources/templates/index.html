@@ -1,223 +1,247 @@
 <!DOCTYPE html >
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-	<head>
-		<title th:text="${title}"></title>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-		<link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
-		<script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
+    <head>
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+        <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+        <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+        <script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
 
-	</head>
-	<body>
-		<script th:inline="javascript">
-			/*<![CDATA[*/
-			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "nqma");
-			/*]]>*/
+    </head>
+    <body>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "nqma");
+            /*]]>*/
 
-		</script>
-		<div class="container">
-			<!--*** Header ***-->
-			<div th:replace="~{fragments/header}"></div>
+        </script>
+        <div class="container">
+            <!--*** Header ***-->
+            <div th:replace="~{fragments/header}"></div>
 
-			<!--*** Map ***-->
-			<div id="map" class="mb-3"></div>
+            <!--*** Map ***-->
+            <div id="map" class="mb-3"></div>
 
-			<!--*** Buttons ***-->
-			<div class="row mb-3">
-				<div class="col-lg-4 mb-3">
-					<a class="btn btn-success btn-lg" href="/point-create" role="button">Създай нов обект</a>
-				</div>
-				<div id="updDellButt" class="col-lg-4" style="display: none;">
-					<a id="edit" class="btn btn-outline-primary"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>
-					<a id="delete" class="btn btn-outline-danger"><img th:src="@{/images/trash_20px.png}"><strong>Изтриване обект</strong></a>
-				</div>
-				<div id="excPdfButt" class="col-lg-4" style="display: none;">
-					<a id="downlExcel" class="btn btn-outline-success"><img th:src="@{/images/excel_20px.png}"><strong> Свали като EXCEL</strong></a>
-					<a id="downlPdf" class="btn btn-outline-secondary"><img th:src="@{/images/pdf_20px.png}"><strong>Свали като PDF</strong></a>
-				</div>
-			</div>
+            <!--*** Buttons ***-->
+            <div class="row mb-3">
+                <div class="col-lg-4 mb-3">
+                    <a class="btn btn-success btn-lg" href="/point-create" role="button">Създай нов обект</a>
+                </div>
+                <div id="updDellButt" class="col-lg-4" style="display: none;">
+                    <a id="edit" class="btn btn-outline-primary"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>
+                    <a id="delete" class="btn btn-outline-danger"><img th:src="@{/images/trash_20px.png}"><strong>Изтриване обект</strong></a>
+                </div>
+                <div id="excPdfButt" class="col-lg-4" style="display: none;">
+                    <a id="downlExcel" class="btn btn-outline-success"><img th:src="@{/images/excel_20px.png}"><strong> Свали като EXCEL</strong></a>
+                    <a id="downlPdf" class="btn btn-outline-secondary"><img th:src="@{/images/pdf_20px.png}"><strong>Свали като PDF</strong></a>
+                </div>
+            </div>
 
-			<!--*** Fomr ***-->
-			<form>
-				<div id="form" class="row" style="display: none;">
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Обект</legend>
-							<div class="card-body">
-								<h4 class="card-title">Име</h4>
-								<p id="objName" class="card-text"></p>
-								<h4 class="card-title">ID</h4>
-								<p id="identifier" class="card-text"></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Адрес</legend>
-							<div class="card-body">
-								<h4 class="card-title">Населено място</h4>
-								<p id="place" class="card-text"></p>
-								<div class=" input-group-append">
-									<div class="col-7">
-										<h4 class="card-title">Улица</h4>
-										<p id="street" class="card-text"></p>
-									</div>
-									<div class="offset-1">
-										<h5 class="card-title">№</h5>
-										<p id="number" class="card-text"></p>
-									</div>
-									<div class="offset-1">
-										<h5 class="card-title">Вх.</h5>
-										<p id="entrance" class="card-text"></p>
-									</div>
-									<div class="offset-1">
-										<h5 class="card-title">Ет.</h5>
-										<p id="floor" class="card-text"></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card border-primary">
-							<legend class="card-header">Контролна платка</legend>
-							<div class="card-body">
-								<h4 class="card-title">Марка</h4>
-								<p id="controlBoardName" class="card-text"></p>
-								<h4 class="card-title">Модел</h4>
-								<p id="controlBoardModel" class="card-text"></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-		<script>
-			var map;
-			var markers = [];
-			var sandanski = {lat: 41.562945, lng: 23.2725755};
-			function initMap() {
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: sandanski,
-					zoom: 14,
-					styles: [
-						{"featureType": "all",
-							"elementType": "labels",
-							"stylers": [
-								{"visibility": "off"}
-							]
-						},
-						{"featureType": "administrative",
-							"elementType": "all",
-							"stylers": [
-								{"visibility": "simplified"},
-								{"color": "#5b6571"},
-								{"lightness": "35"}]
-						},
-						{"featureType": "road",
-							"elementType": "labels",
-							"stylers": [{"visibility": "on"}]},
-					]
-				});
+            <!--*** Fomr ***-->
+            <form>
+                <div id="form" class="row" style="display: none;">
+                    <div class="col-lg-4 form-group">
+                        <div class="card border-primary">
+                            <legend class="card-header">Обект</legend>
+                            <div class="card-body">
+                                <h4 class="card-title">Име</h4>
+                                <p id="objName" class="card-text"></p>
+                                <h4 class="card-title">ID</h4>
+                                <p id="identifier" class="card-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-group">
+                        <div class="card border-primary">
+                            <legend class="card-header">Адрес</legend>
+                            <div class="card-body">
+                                <h4 class="card-title">Населено място</h4>
+                                <p id="place" class="card-text"></p>
+                                <div class=" input-group-append">
+                                    <div class="col-7">
+                                        <h4 class="card-title">Улица</h4>
+                                        <p id="street" class="card-text"></p>
+                                    </div>
+                                    <div class="offset-1">
+                                        <h5 class="card-title">№</h5>
+                                        <p id="number" class="card-text"></p>
+                                    </div>
+                                    <div class="offset-1">
+                                        <h5 class="card-title">Вх.</h5>
+                                        <p id="entrance" class="card-text"></p>
+                                    </div>
+                                    <div class="offset-1">
+                                        <h5 class="card-title">Ет.</h5>
+                                        <p id="floor" class="card-text"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-group">
+                        <div class="card border-primary">
+                            <legend class="card-header">Контролна платка</legend>
+                            <div class="card-body">
+                                <h4 class="card-title">Марка</h4>
+                                <p id="controlBoardName" class="card-text"></p>
+                                <h4 class="card-title">Модел</h4>
+                                <p id="controlBoardModel" class="card-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            var map;
+            var markers = [];
+            var autocompletePointId;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 41.562945, lng: 23.2725755}, // sandanski
+                    zoom: 14,
+                    styles: [
+                        {"featureType": "all",
+                            "elementType": "labels",
+                            "stylers": [
+                                {"visibility": "off"}
+                            ]
+                        },
+                        {"featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {"visibility": "simplified"},
+                                {"color": "#5b6571"},
+                                {"lightness": "35"}]
+                        },
+                        {"featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "on"}]},
+                    ]
+                });
 
-				allPointsString.point.forEach(function (element) {
-					var marker = new google.maps.Marker({
-						position: new google.maps.LatLng(
-								element.lat,
-								element.lng),
-						map: map,
-						title: element.name,
-						animation: google.maps.Animation.DROP
-					});
-					markers.push(marker);
+                allPointsString.point.forEach(function (element) {
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(
+                                element.lat,
+                                element.lng),
+                        map: map,
+                        title: element.name,
+                        animation: google.maps.Animation.DROP,
+                        id: element.id
+                    });
+                    markers.push(marker);
 
-					google.maps.event.addListener(marker, "click", function () {
-						ajaxGetPoint(element.id, element.name);
-						toggleBounce(marker);
-					});
+                    google.maps.event.addListener(marker, "click", function () {
+                        toggleBounce(marker);
+                        ajaxGetPoint(element.id, "/point");
+                    });
 
-				});
+                });
 
-			}
+            }
 
-			function toggleBounce(marker) {
-				for (var i = 0; i < markers.length; i++) {
-					if (marker !== markers[i]) {
-						markers[i].setAnimation(null);
-					} else {
-						if (markers[i].getAnimation() !== null) {
-							markers[i].setAnimation(null);
-						} else {
-							markers[i].setAnimation(google.maps.Animation.BOUNCE);
-						}
-					}
-				}
-			}
+            function toggleBounce(marker) {
+                for (var i = 0; i < markers.length; i++) {
+                    if (marker !== markers[i]) {
+                        markers[i].setAnimation(null);
+                    } else {
+                        if (markers[i].getAnimation() !== null) {
+                            markers[i].setAnimation(null);
+                        } else {
+                            markers[i].setAnimation(google.maps.Animation.BOUNCE);
+                        }
+                    }
+                }
+            }
 
-			function ajaxGetPoint(id, name) {
-				$.ajax({
-					method: "GET",
-					url: "/point",
-					data: {id: id},
-					success: function (result) {
-						document.getElementById("form").style.display = "flex";
-						document.getElementById("updDellButt").style.display = "inline";
-						document.getElementById("excPdfButt").style.display = "inline";
-						$("#objName").html(result.point.name);
-						$("#identifier").html(result.point.identifier);
-						$("#place").html(result.point.address.place);
-						$("#street").html(result.point.address.street);
-						$("#number").html(result.point.address.number);
-						$("#entrance").html(result.point.address.entrance);
-						$("#floor").html(result.point.address.floor);
-						$("#controlBoardName").html(result.point.controlBoard.brand.name);
-						$("#controlBoardModel").html(result.point.controlBoard.model);
+            function ajaxGetPoint(id, url) {
+//                map.setZoom(18);
+//                map.panTo(new google.maps.LatLng(el.lat, el.lng));
+//                map.setCenter(new google.maps.LatLng(el.lat, el.lng));
+                $.ajax({
+                    method: "GET",
+                    url: url,
+                    data: {id: id},
+                    success: function (result) {
+                        document.getElementById("form").style.display = "flex";
+                        document.getElementById("updDellButt").style.display = "inline";
+                        document.getElementById("excPdfButt").style.display = "inline";
+                        $("#objName").html(result.point.name);
+                        $("#identifier").html(result.point.identifier);
+                        $("#place").html(result.point.address.place);
+                        $("#street").html(result.point.address.street);
+                        $("#number").html(result.point.address.number);
+                        $("#entrance").html(result.point.address.entrance);
+                        $("#floor").html(result.point.address.floor);
+                        $("#controlBoardName").html(result.point.controlBoard.brand.name);
+                        $("#controlBoardModel").html(result.point.controlBoard.model);
 
-						$("#edit").attr("href", '/point-edit/' + id);
-						$("#delete").attr("href", '/point-delete/' + id);
-						$("#downlExcel").attr("href", '/point-excel/' + id);
-						$("#downlPdf").attr("href", '/point-pdf' + id);
-					}
-				}).done(function () {});
-			}
-		</script>
-		<script>
-			$(document).ready(function () {
+                        $("#edit").attr("href", '/point-edit/' + id);
+                        $("#delete").attr("href", '/point-delete/' + id);
+                        $("#downlExcel").attr("href", '/point-excel/' + id);
+                        $("#downlPdf").attr("href", '/point-pdf' + id);
 
-//old way
-				$('#input-search').autocomplete({
-					serviceUrl: '/search',
-					paramName: "name",
-					delimiter: ",",
-					onSelect: function (suggestion) {
-						if (suggestion.value.length > 1) {
-							$('#input-search').attr("data", suggestion.data);
-						} else {
-							$('#input-search').attr("data", "");
-						}
+                    },
+                    error: function () {
+                       
 
-						return false;
-					},
-					transformResult: function (response) {
-						return {
-							//must convert json to javascript object before process
-							suggestions: $.map($.parseJSON(response), function (item) {
-								return {
-									value: item.name,
-									data: item.id
-								};
-							}),
+                    }
+                });
+            }
 
-						};
-					}
-				});
-			});
-		</script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
-	</body>
+            //STRAT Autocomplete for search input
+            $(document).ready(function () {
+                $('#input-search').autocomplete({
+                    minChars: 2,
+                    serviceUrl: '/search-autocomplete',
+                    paramName: "name",
+                    delimiter: ",",
+                    onSelect: function (selected) {
+                        $('#input-search').attr("data", selected.data);
+//                        alert(suggestion.data);
+                        autocompletePointId = selected.data;
+                        return false;
+                    },
+                    transformResult: function (response) {
+                        return {
+                            suggestions: $.map($.parseJSON(response), function (item) {
+
+                                return {
+                                    value: item.name,
+                                    data: item.id
+                                };
+                            }),
+
+                        };
+                    }
+                }).keypress(function (e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+                    if (code === 13) { //Enter keycode
+                        ajaxGetPoint(autocompletePointId, "/point");
+                        return false;
+
+                    }
+                });
+            });
+            //END Autocomplete for search input
+
+            $('#button-search').click(function () {
+                  ajaxGetPoint(autocompletePointId, "/point");
+                markers.forEach(function (marker) {
+                        if (marker.get("id")==13) {
+                            toggleBounce(marker);
+                            return;
+                        }
+                });
+
+            });
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
+    </body>
 </html>

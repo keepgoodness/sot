@@ -5,11 +5,13 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.http.HttpServletRequest;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Point;
 import org.sot.repositories.Pointrepository;
 import org.sot.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,9 +52,15 @@ public class HomeController {
 	}
 
 	@ResponseBody
-	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public String getPointsByName(@RequestParam String name, Model model) {
-		System.out.println("name");
+	@GetMapping(value = "/search-autocomplete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public String getPointsByName(@RequestParam String name) {
 		return pointService.getPointsAutocomplete(name).toString();
 	}
+        
+        @ResponseBody
+	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public void search(@RequestParam String id) {
+		
+	}
+        
 }
