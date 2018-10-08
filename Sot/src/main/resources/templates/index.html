@@ -219,6 +219,7 @@
 					var code = (e.keyCode ? e.keyCode : e.which);
 					if (code === 13) { //Enter keycode
 						if ($('#input-search').val().length > 2) {
+							alert($("input[type='radio'][name='search-radio']:checked").val());
 							ajaxGetPoint("/point", autocompletePointId);
 							toggleBounce(mapMarkers.get(autocompletePointId));
 							$('#input-search').val("");
@@ -231,6 +232,7 @@
 
 			$('#button-search').click(function () {
 				if ($('#input-search').val().length > 2) {
+					alert($("input[type='radio'][name='search-radio']:checked").val());
 					ajaxGetPoint("/point", autocompletePointId);
 					toggleBounce(mapMarkers.get(autocompletePointId));
 					$('#input-search').val("");
