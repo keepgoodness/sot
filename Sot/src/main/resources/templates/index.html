@@ -15,9 +15,9 @@
     </head>
     <body>
         <script th:inline="javascript">
-            /*<![CDATA[*/
-            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "nqma");
-            /*]]>*/
+			/*<![CDATA[*/
+			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+			/*]]>*/
 
         </script>
         <div class="container">
@@ -98,149 +98,146 @@
             </form>
         </div>
         <script>
-            var map;
-            var markers = [];
-            var autocompletePointId;
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 41.562945, lng: 23.2725755}, // sandanski
-                    zoom: 14,
-                    styles: [
-                        {"featureType": "all",
-                            "elementType": "labels",
-                            "stylers": [
-                                {"visibility": "off"}
-                            ]
-                        },
-                        {"featureType": "administrative",
-                            "elementType": "all",
-                            "stylers": [
-                                {"visibility": "simplified"},
-                                {"color": "#5b6571"},
-                                {"lightness": "35"}]
-                        },
-                        {"featureType": "road",
-                            "elementType": "labels",
-                            "stylers": [{"visibility": "on"}]},
-                    ]
-                });
+			var map;
+			var markers = [];
+			var mapMarkers = new Map();
+			var autocompletePointId;
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: 41.562945, lng: 23.2725755}, // sandanski
+					zoom: 14,
+					styles: [
+						{"featureType": "all",
+							"elementType": "labels",
+							"stylers": [
+								{"visibility": "off"}
+							]
+						},
+						{"featureType": "administrative",
+							"elementType": "all",
+							"stylers": [
+								{"visibility": "simplified"},
+								{"color": "#5b6571"},
+								{"lightness": "35"}]
+						},
+						{"featureType": "road",
+							"elementType": "labels",
+							"stylers": [{"visibility": "on"}]},
+					]
+				});
 
-                allPointsString.point.forEach(function (element) {
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(
-                                element.lat,
-                                element.lng),
-                        map: map,
-                        title: element.name,
-                        animation: google.maps.Animation.DROP,
-                        id: element.id
-                    });
-                    markers.push(marker);
+				allPointsString.point.forEach(function (element) {
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(element.lat, element.lng),
+						map: map,
+						title: element.name,
+						animation: google.maps.Animation.DROP,
+						id: element.id
+					});
+					markers.push(marker);
+					mapMarkers.set(element.id, marker);
 
-                    google.maps.event.addListener(marker, "click", function () {
-                        toggleBounce(marker);
-                        ajaxGetPoint(element.id, "/point");
-                    });
+					google.maps.event.addListener(marker, "click", function () {
+						toggleBounce(marker);
+						ajaxGetPoint("/point", element.id);
+						$('#input-search').val("");
+					});
 
-                });
+				});
 
-            }
+			}
 
-            function toggleBounce(marker) {
-                for (var i = 0; i < markers.length; i++) {
-                    if (marker !== markers[i]) {
-                        markers[i].setAnimation(null);
-                    } else {
-                        if (markers[i].getAnimation() !== null) {
-                            markers[i].setAnimation(null);
-                        } else {
-                            markers[i].setAnimation(google.maps.Animation.BOUNCE);
-                        }
-                    }
-                }
-            }
+			function toggleBounce(marker) {
+				markers.forEach(function (element) {
+					if (marker === element) {
+						if (element.getAnimation() === null) {
+							element.setAnimation(google.maps.Animation.BOUNCE);
+							return;
+						}
+					}
+					element.setAnimation(null);
+				});
+			}
 
-            function ajaxGetPoint(id, url) {
+			function ajaxGetPoint(url, paramId) {
 //                map.setZoom(18);
 //                map.panTo(new google.maps.LatLng(el.lat, el.lng));
 //                map.setCenter(new google.maps.LatLng(el.lat, el.lng));
-                $.ajax({
-                    method: "GET",
-                    url: url,
-                    data: {id: id},
-                    success: function (result) {
-                        document.getElementById("form").style.display = "flex";
-                        document.getElementById("updDellButt").style.display = "inline";
-                        document.getElementById("excPdfButt").style.display = "inline";
-                        $("#objName").html(result.point.name);
-                        $("#identifier").html(result.point.identifier);
-                        $("#place").html(result.point.address.place);
-                        $("#street").html(result.point.address.street);
-                        $("#number").html(result.point.address.number);
-                        $("#entrance").html(result.point.address.entrance);
-                        $("#floor").html(result.point.address.floor);
-                        $("#controlBoardName").html(result.point.controlBoard.brand.name);
-                        $("#controlBoardModel").html(result.point.controlBoard.model);
+				$.ajax({
+					method: "GET",
+					url: url,
+					data: {id: paramId},
+					success: function (result) {
+						document.getElementById("form").style.display = "flex";
+						document.getElementById("updDellButt").style.display = "inline";
+						document.getElementById("excPdfButt").style.display = "inline";
+						$("#objName").html(result.point.name);
+						$("#identifier").html(result.point.identifier);
+						$("#place").html(result.point.address.place);
+						$("#street").html(result.point.address.street);
+						$("#number").html(result.point.address.number);
+						$("#entrance").html(result.point.address.entrance);
+						$("#floor").html(result.point.address.floor);
+						$("#controlBoardName").html(result.point.controlBoard.brand.name);
+						$("#controlBoardModel").html(result.point.controlBoard.model);
 
-                        $("#edit").attr("href", '/point-edit/' + id);
-                        $("#delete").attr("href", '/point-delete/' + id);
-                        $("#downlExcel").attr("href", '/point-excel/' + id);
-                        $("#downlPdf").attr("href", '/point-pdf' + id);
+						$("#edit").attr("href", '/point-edit/' + paramId);
+						$("#delete").attr("href", '/point-delete/' + paramId);
+						$("#downlExcel").attr("href", '/point-excel/' + paramId);
+						$("#downlPdf").attr("href", '/point-pdf' + paramId);
+					},
+					error: function () {
+					}
+				});
+			}
 
-                    },
-                    error: function () {
-                       
+			//STRAT Autocomplete for search input
+			$(document).ready(function () {
+				$('#input-search').autocomplete({
+					minChars: 2,
+					serviceUrl: '/search-autocomplete',
+					paramName: "name",
+					delimiter: ",",
+					onSelect: function (selected) {
+						$('#input-search').attr("data", selected.data);
+						autocompletePointId = selected.data;
+						return false;
+					},
+					transformResult: function (response) {
+						return {
+							suggestions: $.map($.parseJSON(response), function (item) {
 
-                    }
-                });
-            }
+								return {
+									value: item.name,
+									data: item.id
+								};
+							}),
 
-            //STRAT Autocomplete for search input
-            $(document).ready(function () {
-                $('#input-search').autocomplete({
-                    minChars: 2,
-                    serviceUrl: '/search-autocomplete',
-                    paramName: "name",
-                    delimiter: ",",
-                    onSelect: function (selected) {
-                        $('#input-search').attr("data", selected.data);
-//                        alert(suggestion.data);
-                        autocompletePointId = selected.data;
-                        return false;
-                    },
-                    transformResult: function (response) {
-                        return {
-                            suggestions: $.map($.parseJSON(response), function (item) {
+						};
+					}
+				}).keypress(function (e) {
+					var code = (e.keyCode ? e.keyCode : e.which);
+					if (code === 13) { //Enter keycode
+						if ($('#input-search').val().length > 2) {
+							ajaxGetPoint("/point", autocompletePointId);
+							toggleBounce(mapMarkers.get(autocompletePointId));
+							$('#input-search').val("");
+						}
+						return false;
+					}
+				});
+			});
+			//END Autocomplete for search input
 
-                                return {
-                                    value: item.name,
-                                    data: item.id
-                                };
-                            }),
+			$('#button-search').click(function () {
+				if ($('#input-search').val().length > 2) {
+					ajaxGetPoint("/point", autocompletePointId);
+					toggleBounce(mapMarkers.get(autocompletePointId));
+					$('#input-search').val("");
+				}
+			});
 
-                        };
-                    }
-                }).keypress(function (e) {
-                    var code = (e.keyCode ? e.keyCode : e.which);
-                    if (code === 13) { //Enter keycode
-                        ajaxGetPoint(autocompletePointId, "/point");
-                        return false;
 
-                    }
-                });
-            });
-            //END Autocomplete for search input
-
-            $('#button-search').click(function () {
-                  ajaxGetPoint(autocompletePointId, "/point");
-                markers.forEach(function (marker) {
-                        if (marker.get("id")==13) {
-                            toggleBounce(marker);
-                            return;
-                        }
-                });
-
-            });
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
     </body>
