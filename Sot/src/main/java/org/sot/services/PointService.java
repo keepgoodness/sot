@@ -83,7 +83,6 @@ public class PointService {
 				points = pointrepository.findByIdentifier(dataSearch);
 				break;
 		}
-//		JsonArrayBuilder array = Json.createArrayBuilder();
 		List<JsonObject> array = new ArrayList<>();
 		points.stream().forEach(p -> {
 			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
@@ -91,9 +90,11 @@ public class PointService {
 			objBuilder.add("name", p[1].toString());
 			array.add(objBuilder.build());
 		});
-//		JsonObject json = Json.createObjectBuilder()
-//				.add("point", array).build();
 		return array;
+	}
+
+	public void deletePoint(Long id) {
+		pointrepository.deleteById(id);
 	}
 
 }

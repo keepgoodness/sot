@@ -30,11 +30,11 @@
             <!--*** Buttons ***-->
             <div class="row mb-3">
                 <div class="col-lg-4 mb-3">
-                    <a class="btn btn-success btn-lg" href="/point-create" role="button">Създай нов обект</a>
+                    <a class="btn btn-success btn-lg" th:href="@{/point-create}" role="button">Създай нов обект</a>
                 </div>
                 <div id="updDellButt" class="col-lg-4" style="display: none;">
                     <a id="edit" class="btn btn-outline-primary"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>
-                    <a id="delete" class="btn btn-outline-danger"><img th:src="@{/images/trash_20px.png}"><strong>Изтриване обект</strong></a>
+                    <a id="delete" class="btn btn-outline-danger" th:href="@{/point-delete}"><img th:src="@{/images/trash_20px.png}"><strong>Изтриване обект</strong></a>
                 </div>
                 <div id="excPdfButt" class="col-lg-4" style="display: none;">
                     <a id="downlExcel" class="btn btn-outline-success"><img th:src="@{/images/excel_20px.png}"><strong> Свали като EXCEL</strong></a>
@@ -97,11 +97,12 @@
                 </div>
             </form>
         </div>
-        <script>
+        <script th:inline="javascript">
 			var map;
-			var markers = [];
-			var mapMarkers = new Map();
+			var markersOnMap = new Map();
 			var autocompletePointId;
+			var actionAjax = /*[[@{/point}]]*/ '/point';
+			var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
 			function initMap() {
 				map = new google.maps.Map(document.getElementById('map'), {
 					center: {lat: 41.562945, lng: 23.2725755}, // sandanski
@@ -134,12 +135,11 @@
 						animation: google.maps.Animation.DROP,
 						id: element.id
 					});
-					markers.push(marker);
-					mapMarkers.set(element.id, marker);
+					markersOnMap.set(element.id, marker);
 
 					google.maps.event.addListener(marker, "click", function () {
 						toggleBounce(marker);
-						ajaxGetPoint("/point", element.id);
+						ajaxGetPoint(actionAjax, element.id);
 						$('#input-search').val("");
 					});
 
@@ -148,7 +148,7 @@
 			}
 
 			function toggleBounce(marker) {
-				markers.forEach(function (element) {
+				markersOnMap.forEach(function (element) {
 					if (marker === element) {
 						if (element.getAnimation() === null) {
 							element.setAnimation(google.maps.Animation.BOUNCE);
@@ -180,9 +180,9 @@
 						$("#floor").html(result.point.address.floor);
 						$("#controlBoardName").html(result.point.controlBoard.brand.name);
 						$("#controlBoardModel").html(result.point.controlBoard.model);
-
 						$("#edit").attr("href", '/point-edit/' + paramId);
-						$("#delete").attr("href", '/point-delete/' + paramId);
+						var delHref = $("#delete").attr("href").valueOf().toString();
+						$("#delete").attr("href",  delHref.substring(0,13) + "/" + paramId);
 						$("#downlExcel").attr("href", '/point-excel/' + paramId);
 						$("#downlPdf").attr("href", '/point-pdf' + paramId);
 					},
@@ -192,10 +192,11 @@
 			}
 
 			//STRAT Autocomplete for search input
+
 			$(document).ready(function () {
 				$('#input-search').autocomplete({
 					minChars: 2,
-					serviceUrl: '/search-autocomplete',
+					serviceUrl: actionAutocomplete,
 					params: {dataSearch: function () {
 							return $('#input-search').val();
 						},
@@ -225,8 +226,8 @@
 					var code = (e.keyCode ? e.keyCode : e.which);
 					if (code === 13) { //Enter keycode
 						if ($('#input-search').val().length > 2) {
-								ajaxGetPoint("/point", autocompletePointId);
-								toggleBounce(mapMarkers.get(autocompletePointId));
+							ajaxGetPoint(actionAjax, autocompletePointId);
+							toggleBounce(markersOnMap.get(autocompletePointId));
 							$('#input-search').val("");
 						}
 						return false;
@@ -237,8 +238,8 @@
 
 			$('#button-search').click(function () {
 				if ($('#input-search').val().length > 2) {
-					ajaxGetPoint("/point", autocompletePointId);
-					toggleBounce(mapMarkers.get(autocompletePointId));
+					ajaxGetPoint(actionAjax, autocompletePointId);
+					toggleBounce(markersOnMap.get(autocompletePointId));
 					$('#input-search').val("");
 				}
 			});

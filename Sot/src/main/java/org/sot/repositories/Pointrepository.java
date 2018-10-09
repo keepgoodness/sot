@@ -6,6 +6,7 @@
 package org.sot.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import org.sot.models.entities.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,7 @@ public interface Pointrepository extends JpaRepository<Point, Long>{
 	public List<Object[]> findAllWithIdLatLng();
 	
 	public Point findPointById(Long id);
+	public Optional<Point> findById(Long id);
 	public Point save(Point point);
 	public void deleteById(Long id);
 	

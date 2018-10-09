@@ -21,8 +21,10 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -42,6 +44,11 @@ public class HomeController {
 		this.searchConverter = searchConverter;
 	}
 
+	@InitBinder
+	public void initBinder(WebDataBinder dataBinder) {
+		dataBinder.registerCustomEditor(TypeSearch.class, this.searchConverter);
+	}
+
 	@GetMapping("/")
 	public String home(Model model) {
 		PointBindingModel pointModel = new PointBindingModel();
@@ -53,27 +60,20 @@ public class HomeController {
 
 	@ResponseBody
 	@GetMapping(value = "/point", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public String getPoint(@RequestParam("id") String id, Model model) {
+	public String getPointJson(@RequestParam("id") String id, Model model) {
 		return pointrepository.findPointById(Long.parseLong(id)).toString();
-	}
-
-	@InitBinder
-	public void initBinder(WebDataBinder dataBinder) {
-		dataBinder.registerCustomEditor(TypeSearch.class, this.searchConverter);
 	}
 
 	@ResponseBody
 	@GetMapping(value = "/search-autocomplete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public String getPointsByName(@RequestParam String dataSearch, @RequestParam TypeSearch typeSearch) {
-		System.out.println(dataSearch);
-		System.out.println(typeSearch);
-		return pointService.getPointsAutocomplete(dataSearch,typeSearch).toString();
+	public String getAllPointsIdNameJson(@RequestParam String dataSearch, @RequestParam TypeSearch typeSearch) {
+		return pointService.getPointsAutocomplete(dataSearch, typeSearch).toString();
 	}
 
-	@ResponseBody
-	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public void search(@RequestParam String id) {
-
+	@GetMapping(value = "/point-delete/{id}")
+	public String delete(@PathVariable String id) {
+		pointService.deletePoint(Long.parseLong(id));
+		return "redirect:/";
 	}
 
 }
