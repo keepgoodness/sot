@@ -196,7 +196,13 @@
 				$('#input-search').autocomplete({
 					minChars: 2,
 					serviceUrl: '/search-autocomplete',
-					paramName: "name",
+					params: {dataSearch: function () {
+							return $('#input-search').val();
+						},
+						typeSearch: function () {
+							return $("input[type='radio'][name='search-radio']:checked").val();
+						}},
+					noCache: true,
 					delimiter: ",",
 					onSelect: function (selected) {
 						$('#input-search').attr("data", selected.data);
@@ -219,9 +225,8 @@
 					var code = (e.keyCode ? e.keyCode : e.which);
 					if (code === 13) { //Enter keycode
 						if ($('#input-search').val().length > 2) {
-							alert($("input[type='radio'][name='search-radio']:checked").val());
-							ajaxGetPoint("/point", autocompletePointId);
-							toggleBounce(mapMarkers.get(autocompletePointId));
+								ajaxGetPoint("/point", autocompletePointId);
+								toggleBounce(mapMarkers.get(autocompletePointId));
 							$('#input-search').val("");
 						}
 						return false;
@@ -232,7 +237,6 @@
 
 			$('#button-search').click(function () {
 				if ($('#input-search').val().length > 2) {
-					alert($("input[type='radio'][name='search-radio']:checked").val());
 					ajaxGetPoint("/point", autocompletePointId);
 					toggleBounce(mapMarkers.get(autocompletePointId));
 					$('#input-search').val("");

@@ -29,4 +29,7 @@ public interface Pointrepository extends JpaRepository<Point, Long>{
 	
 	@Query(value = "select p.id, p.name from Point p where p.name like %?1%")
 	public List<Object[]> findByName(String name);
+	
+	@Query(value = "select p.id, p.name from Point p where p.identifier like %?1%")
+	public List<Object[]> findByIdentifier(String identifier);
 }

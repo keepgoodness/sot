@@ -7,6 +7,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import org.sot.enums.TypeSearch;
 import org.sot.models.entities.Address;
 import org.sot.models.entities.ControlBoard;
 import org.sot.models.entities.Point;
@@ -72,8 +73,16 @@ public class PointService {
 		return json;
 	}
 
-	public List<JsonObject> getPointsAutocomplete(String name) {
-		List<Object[]> points = pointrepository.findByName(name);
+	public List<JsonObject> getPointsAutocomplete(String dataSearch, TypeSearch typeSearch) {
+		List<Object[]> points = new ArrayList<>();
+		switch (typeSearch) {
+			case NAME:
+				points = pointrepository.findByName(dataSearch);
+				break;
+			case IDENTIFIER:
+				points = pointrepository.findByIdentifier(dataSearch);
+				break;
+		}
 //		JsonArrayBuilder array = Json.createArrayBuilder();
 		List<JsonObject> array = new ArrayList<>();
 		points.stream().forEach(p -> {
