@@ -10,6 +10,7 @@ import org.sot.converters.TypeSearchConverter;
 import org.sot.enums.TypeSearch;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Point;
+import org.sot.repositories.AddressRepository;
 import org.sot.repositories.Pointrepository;
 import org.sot.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,17 @@ public class HomeController {
 	private final PointService pointService;
 	private final Pointrepository pointrepository;
 	private final TypeSearchConverter searchConverter;
+	private final AddressRepository addressRepository;
 
 	@Autowired
-	public HomeController(PointService pointService, Pointrepository pointrepository, TypeSearchConverter searchConverter) {
+	public HomeController(PointService pointService, Pointrepository pointrepository, TypeSearchConverter searchConverter, AddressRepository addressRepository) {
 		this.pointService = pointService;
 		this.pointrepository = pointrepository;
 		this.searchConverter = searchConverter;
+		this.addressRepository = addressRepository;
 	}
+
+
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -72,7 +77,9 @@ public class HomeController {
 
 	@GetMapping(value = "/point-delete/{id}")
 	public String delete(@PathVariable String id) {
-		pointService.deletePoint(Long.parseLong(id));
+		Point point = pointrepository.getOne(Long.parseLong(id));
+		System.out.println(point.toString());
+//		pointService.deletePoint(Long.parseLong(id));
 		return "redirect:/";
 	}
 

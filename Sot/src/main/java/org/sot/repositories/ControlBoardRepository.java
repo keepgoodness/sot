@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface ControlBoardRepository extends JpaRepository<ControlBoard, Long> {
 
 	public ControlBoard save(ControlBoard controlBoard);
-
+	public ControlBoard getOne(Long id);
 	public void deleteById(Long id);
 
 }
