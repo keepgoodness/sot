@@ -103,6 +103,12 @@
 			var autocompletePointId;
 			var actionAjax = /*[[@{/point}]]*/ '/point';
 			var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
+			var iconBase = '/images/';
+			var icons = {
+				def: iconBase + "pinDefault.png",
+				cur: iconBase + "pinCurrent.png"
+			};
+
 			function initMap() {
 				map = new google.maps.Map(document.getElementById('map'), {
 					center: {lat: 41.562945, lng: 23.2725755}, // sandanski
@@ -129,40 +135,79 @@
 
 				allPointsString.point.forEach(function (element) {
 					var marker = new google.maps.Marker({
-						position: new google.maps.LatLng(element.lat, element.lng),
 						map: map,
 						title: element.name,
+						position: new google.maps.LatLng(element.lat, element.lng),
+						label: {
+							text: element.name.substr(0, 1),
+							color: 'white',
+							fontFamily: 'Verdana',
+							fontWeight: 'bold'},
+						icon: {
+							url: icons.def,
+							labelOrigin: new google.maps.Point(30, 14)
+						},
+
 						animation: google.maps.Animation.DROP,
 						id: element.id
 					});
 					markersOnMap.set(element.id, marker);
 
 					google.maps.event.addListener(marker, "click", function () {
-						toggleBounce(marker);
+						switchIcon(marker);
 						ajaxGetPoint(actionAjax, element.id);
 						$('#input-search').val("");
+					});
+
+					google.maps.event.addListener(marker, "clickable_changed", function () {
+						alert(marker.getTitle());
 					});
 
 				});
 
 			}
-
-			function toggleBounce(marker) {
+			function switchIcon(marker) {
 				markersOnMap.forEach(function (element) {
 					if (marker === element) {
-						if (element.getAnimation() === null) {
-							element.setAnimation(google.maps.Animation.BOUNCE);
-							return;
+						if (element.getIcon().url === icons.def) {
+							var icon = {
+								url: icons.cur,
+								labelOrigin: new google.maps.Point(42, 20)
+							};
+							element.setIcon(icon);
+							var label = {
+								text: element.getTitle().substr(0, 1),
+								color: "#eb3a44",
+								fontSize: "18px",
+								fontFamily: 'Verdana',
+								fontWeight: "bold"
+							};
+							element.setLabel(label);
+							element.setZIndex(1);
 						}
+					} else {
+						var icon = {
+							url: icons.def,
+							labelOrigin: new google.maps.Point(30, 14)
+						};
+						var label = {
+							text: element.getLabel().text,
+							color: 'white',
+							fontFamily: 'Verdana',
+							fontWeight: 'bold'}
+						element.setIcon(icon);
+						element.setLabel(label);
+						element.setZIndex(-1);
 					}
-					element.setAnimation(null);
 				});
 			}
-
+			function centeringMarker(id) {
+				var pos = markersOnMap.get(id).getPosition();
+				map.setZoom(16);
+				map.panTo(new google.maps.LatLng(pos.lat(), pos.lng()));
+			}
 			function ajaxGetPoint(url, paramId) {
-//                map.setZoom(18);
-//                map.panTo(new google.maps.LatLng(el.lat, el.lng));
-//                map.setCenter(new google.maps.LatLng(el.lat, el.lng));
+				centeringMarker(paramId);
 				$.ajax({
 					method: "GET",
 					url: url,
@@ -182,7 +227,7 @@
 						$("#controlBoardModel").html(result.point.controlBoard.model);
 						$("#edit").attr("href", '/point-edit/' + paramId);
 						var delHref = $("#delete").attr("href").valueOf().toString();
-						$("#delete").attr("href",  delHref.substring(0,13) + "/" + paramId);
+						$("#delete").attr("href", delHref.substring(0, 13) + "/" + paramId);
 						$("#downlExcel").attr("href", '/point-excel/' + paramId);
 						$("#downlPdf").attr("href", '/point-pdf' + paramId);
 					},
@@ -192,7 +237,6 @@
 			}
 
 			//STRAT Autocomplete for search input
-
 			$(document).ready(function () {
 				$('#input-search').autocomplete({
 					minChars: 2,
@@ -227,24 +271,22 @@
 					if (code === 13) { //Enter keycode
 						if ($('#input-search').val().length > 2) {
 							ajaxGetPoint(actionAjax, autocompletePointId);
-							toggleBounce(markersOnMap.get(autocompletePointId));
+							switchIcon(markersOnMap.get(autocompletePointId));
 							$('#input-search').val("");
 						}
 						return false;
 					}
 				});
 			});
-			//END Autocomplete for search input
 
 			$('#button-search').click(function () {
 				if ($('#input-search').val().length > 2) {
 					ajaxGetPoint(actionAjax, autocompletePointId);
-					toggleBounce(markersOnMap.get(autocompletePointId));
+					switchIcon(markersOnMap.get(autocompletePointId));
 					$('#input-search').val("");
 				}
 			});
-
-
+			//END Autocomplete for search input
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
     </body>
