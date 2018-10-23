@@ -11,6 +11,12 @@
 		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	</head>
 	<body>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+			/*]]>*/
+
+        </script>
 		<div class="container">
 			<!--*** Header ***-->
 			<div th:replace="~{fragments/header}"></div>
@@ -122,6 +128,11 @@
 			var lngHidden = document.getElementById("lng");
 			var latInfo = document.getElementById("latInfoInput");
 			var lngInfo = document.getElementById("lngInfoInput");
+			var iconBase = '/images/';
+			var icons = {
+				def: iconBase + "pinDefault.png",
+				cur: iconBase + "pinCurrent.png"
+			};
 			function initMap() {
 				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
 				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
@@ -148,6 +159,26 @@
 							"stylers": [{"visibility": "on"}]},
 					]
 				});
+				allPointsString.point.forEach(function (element) {
+					var marker = new google.maps.Marker({
+						map: map,
+						title: element.name,
+						position: new google.maps.LatLng(element.lat, element.lng),
+						label: {
+							text: element.name.substr(0, 1),
+							color: 'white',
+							fontFamily: 'Verdana',
+							fontWeight: 'bold'},
+						icon: {
+							url: icons.def,
+							labelOrigin: new google.maps.Point(30, 14)
+						},
+
+						animation: google.maps.Animation.DROP,
+						id: element.id
+					});
+				});
+				
 				google.maps.event.addListener(map, 'click', function (event) {
 					if (typeof marker !== "undefined") {
 						marker.setMap(null);

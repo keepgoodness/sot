@@ -36,6 +36,7 @@ public class PointController {
 		model.addAttribute("title", "Създаване на обект");
 		pointBindingModel.setPlaces(placeService.findAllPlaces());
 		pointBindingModel.setBrands(brandService.findAllBrands());
+		model.addAttribute("allPoints", pointService.getPointsAsJsonArray().toString());
 		return "points/pointCreate";
 	}
 
