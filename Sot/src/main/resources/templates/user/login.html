@@ -10,7 +10,7 @@
 	<body>
 		<div class="col-lg-2">
 			<div class="bs-component">
-				<form method="post">
+				<form th:method="post" th:action="@{/login}">
 					<fieldset class="form-control">
 						<legend>Влез</legend>
 						<div class="form-group">
@@ -21,9 +21,9 @@
 							<label for="password">Парола</label>
 							<input name="password" type="password"  id="password" class="form-control">
 						</div>
-						<input type="hidden"
+<!--						<input type="hidden"
 							   th:name="${_csrf.parameterName}"
-							   th:value="${_csrf.token}"/>
+							   th:value="${_csrf.token}"/>-->
 						<button type="submit" class="btn btn-primary">Влез</button>
 					</fieldset>
 				</form>

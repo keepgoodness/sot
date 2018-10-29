@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,31 +18,28 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	private final UserDetailsService userDetailsService;
-//
-//	@Autowired
-//	public SecurityConfig(UserDetailsService userDetailsService) {
-//		this.userDetailsService = userDetailsService;
-//	}
+	private final UserDetailsService userDetailsService;
+
+	@Autowired
+	public SecurityConfig(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+				.antMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**");
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/login").permitAll()
-				.antMatchers("/styles/**","/js/**","/images/**","/fonts/**").permitAll()
+				//.antMatchers("/", "/login").permitAll()
 				.anyRequest().authenticated()
-			.and()
-				.formLogin()
-				.loginPage("/login")
-				.loginProcessingUrl("/login")
-				.successForwardUrl("/login?error")
-				.failureForwardUrl("/")
+			.and().formLogin()
+				.loginPage("/login").permitAll()
 				.passwordParameter("password")
-				.usernameParameter("username");
-//				.and()
-//			.formLogin()
-//				.loginPage("/users/login").permitAll()
-//				.passwordParameter("password").usernameParameter("username")
-//				.and()
-//			.userDetailsService(userDetailsService);
+				.usernameParameter("username")
+			.and().userDetailsService(this.userDetailsService);
 	}
 }
