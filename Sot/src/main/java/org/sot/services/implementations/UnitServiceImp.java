@@ -7,11 +7,15 @@ import org.sot.models.entities.Unit;
 import org.sot.repositories.UnitRepository;
 import org.sot.services.interfaces.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Jordan
  */
+@Service
+@Transactional
 public class UnitServiceImp implements UnitService {
 
 	private final UnitRepository unitRepository;
@@ -25,6 +29,7 @@ public class UnitServiceImp implements UnitService {
 	public boolean register(UnitBinding unitBinding) {
 		String nameNormalize = normalize(unitBinding.getName());
 		Unit fb = this.unitRepository.findFirstByName(nameNormalize);
+		
 		if (fb != null) {
 			return false;
 		}
