@@ -2,6 +2,7 @@ package org.sot.controller;
 
 import javax.validation.Valid;
 import org.sot.models.bindings.PointBindingModel;
+import org.sot.repositories.StreetRepository;
 import org.sot.services.BrandService;
 import org.sot.services.PlaceService;
 import org.sot.services.PointService;
@@ -23,12 +24,14 @@ public class PointController {
 	private final BrandService brandService;
 	private final PlaceService placeService;
 	private final PointService pointService;
+	private final StreetRepository sr;
 
 	@Autowired
-	public PointController(BrandService brandService, PlaceService placeService, PointService pointService) {
+	public PointController(BrandService brandService, PlaceService placeService, PointService pointService, StreetRepository sr1) {
 		this.brandService = brandService;
 		this.placeService = placeService;
 		this.pointService = pointService;
+		this.sr = sr1;
 	}
 
 	@GetMapping("point-create")

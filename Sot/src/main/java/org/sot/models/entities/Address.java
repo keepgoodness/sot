@@ -2,13 +2,15 @@ package org.sot.models.entities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -22,23 +24,36 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Length(max = 60, message = "Улицата не трябва да надвишава 60 символа")
-	private String street;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Place place;
+
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Street street;
+
 	@Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
+	@Column(length = 3, nullable = true)
 	private String number;
+
 	@Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
+	@Column(length = 2, nullable = true)
 	private String entrance;
+
 	@Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
+	@Column(length = 3, nullable = true)
 	private String floor;
 
-	public Address(Address address) {
-		this.street = address.getStreet();
-		this.number = address.getNumber();
-		this.entrance = address.getEntrance();
-		this.floor = address.getFloor();
+	public Address() {
 	}
 
-	public Address() {
+	public Address(Long id, Place place, Street street, String number, String entrance, String floor) {
+		this.id = id;
+		this.place = place;
+		this.street = street;
+		this.number = number;
+		this.entrance = entrance;
+		this.floor = floor;
 	}
 
 	public Long getId() {
@@ -49,11 +64,19 @@ public class Address {
 		this.id = id;
 	}
 
-	public String getStreet() {
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
+	public Street getStreet() {
 		return street;
 	}
 
-	public void setStreet(String street) {
+	public void setStreet(Street street) {
 		this.street = street;
 	}
 

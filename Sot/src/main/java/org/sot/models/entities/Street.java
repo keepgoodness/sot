@@ -2,28 +2,34 @@ package org.sot.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+import org.sot.enums.LifeStatus;
 
 /**
  *
- * @author Jordan
+ * Holder for street name.
+ *
+ * @author <a>Yordan Lazarov<a>
+ *
  */
-@Entity
+@Entity(name = "streets")
 public class Street {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@NotNull
-    @Column(unique = true)
-	@Length(max = 60, message = "Улицата не трябва да надвишава 60 символа")
-    private String name;
 
+	@Column(length = 60, unique = true)
+	private String name;
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column(columnDefinition = "tinyint")
+	private LifeStatus status;
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,5 +44,13 @@ public class Street {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public LifeStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(LifeStatus status) {
+		this.status = status;
 	}
 }
