@@ -1,24 +1,21 @@
 package org.sot.models.entities;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-
 /**
  *
  * @author Jordan
  */
-@Entity(name = "persons")
-public class Person {
-
-	public Person() {
-		this.phoneNumbers = new HashSet<>();
-	}
+@Entity(name = "responsible_person")
+public class ResponsiblePerson {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +27,10 @@ public class Person {
 	private String middleName;
 	@Column(length = 60, nullable = true)
 	private String lastName;
-	
-	@OneToMany(mappedBy = "person")
-	private Set<PhoneNumber> phoneNumbers;
+
+	@OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "responsible_person_id_fk")
+    private Set<PhoneNumber> phoneNumbers;
 
 	public Long getId() {
 		return id;
@@ -73,5 +71,4 @@ public class Person {
 	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
 	}
-	
 }

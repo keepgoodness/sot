@@ -1,6 +1,8 @@
 package org.sot.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -9,9 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.sot.converters.TypeSearchConverter;
 import org.sot.enums.TypeSearch;
 import org.sot.models.bindings.PointBindingModel;
+import org.sot.models.entities.PhoneNumber;
 import org.sot.models.entities.Point;
+import org.sot.models.entities.ResponsiblePerson;
 import org.sot.repositories.AddressRepository;
+import org.sot.repositories.PhoneNumberRepository;
 import org.sot.repositories.Pointrepository;
+import org.sot.repositories.ResponsiblePersonRepository;
 import org.sot.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -38,20 +44,22 @@ public class HomeController {
 	private final Pointrepository pointrepository;
 	private final TypeSearchConverter searchConverter;
 	private final AddressRepository addressRepository;
+	private final ResponsiblePersonRepository personRepository;
 
 	@Autowired
-	public HomeController(PointService pointService, Pointrepository pointrepository, TypeSearchConverter searchConverter, AddressRepository addressRepository) {
-		this.pointService = pointService;
-		this.pointrepository = pointrepository;
-		this.searchConverter = searchConverter;
-		this.addressRepository = addressRepository;
-	}
-
-
+	
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		dataBinder.registerCustomEditor(TypeSearch.class, this.searchConverter);
+	}
+
+	public HomeController(PointService pointService, Pointrepository pointrepository, TypeSearchConverter searchConverter, AddressRepository addressRepository, ResponsiblePersonRepository personRepository) {
+		this.pointService = pointService;
+		this.pointrepository = pointrepository;
+		this.searchConverter = searchConverter;
+		this.addressRepository = addressRepository;
+		this.personRepository = personRepository;
 	}
 
 	@GetMapping("/")
@@ -82,5 +90,27 @@ public class HomeController {
 //		pointService.deletePoint(Long.parseLong(id));
 		return "redirect:/";
 	}
+
+//	@GetMapping(value = "/phones")
+//	@ResponseBody
+//	public String testPhones() {
+////		ResponsiblePerson person = new ResponsiblePerson();
+////		person.setFirstName("йордан");
+////		person.setLastName("lazarov");
+////		
+////		Set<PhoneNumber> numbers = new HashSet<>();
+////		
+////		numbers.add(new PhoneNumber("0898857554"));
+////		numbers.add(new PhoneNumber("0887401253"));
+////		person.setPhoneNumbers(numbers);
+//////		
+////		ResponsiblePerson saved = personRepository.save(person);
+////		return System.getProperty("java.version");
+////		ResponsiblePerson person = personRepository.findOneById(53l);
+////		person.getPhoneNumbers().add(new PhoneNumber("0897334455"));
+////		ResponsiblePerson saved = personRepository.save(person);
+////		return saved.getPhoneNumbers().toString();
+//		return numberRepository.findById(61l).get().getNumber();
+//	}
 
 }

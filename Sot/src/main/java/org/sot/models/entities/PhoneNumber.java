@@ -7,12 +7,14 @@ package org.sot.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -26,13 +28,24 @@ public class PhoneNumber {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = 14, unique = true, nullable = true)
+	@Column(length = 14, unique = true, nullable = false)
 	private String number;
-	
-	@ManyToOne
-	@JoinColumn(name = "person_id", nullable = false)
-	private Person person;
 
+	@ManyToOne
+	@JoinColumn(name = "responsible_person_id_fk",referencedColumnName = "id")
+	private ResponsiblePerson responsiblePerson;
+//
+	
+	public ResponsiblePerson getResponsiblePerson() {
+		return responsiblePerson;
+	}
+
+	public PhoneNumber(String number) {
+		this.number = number;
+	}
+	public PhoneNumber() {
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -47,14 +60,6 @@ public class PhoneNumber {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 
 }

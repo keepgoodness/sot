@@ -5,15 +5,16 @@
  */
 package org.sot.repositories;
 
-import org.sot.models.entities.Person;
+import org.sot.models.entities.ResponsiblePerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author Jordan
  */
-public interface PersonRepository extends JpaRepository<Person, Long>{
+public interface ResponsiblePersonRepository extends JpaRepository<ResponsiblePerson, Long>{
 	
-	public Person save(Person person);
+	public ResponsiblePerson save(ResponsiblePerson person);
+//	public ResponsiblePerson findOneById(Long id);
 
 }

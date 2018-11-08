@@ -1,7 +1,5 @@
 package org.sot.controller;
 
-import org.sot.repositories.PersonRepository;
-import org.sot.repositories.PhoneNumberRepository;
 import org.sot.services.interfaces.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

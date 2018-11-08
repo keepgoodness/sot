@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sot.models.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,6 +21,21 @@ public class Company {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(length = 15, nullable = true)
+	private String bulstat;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn
+	private ResponsiblePerson responsiblePerson;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private ResponsiblePerson recipientPerson;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn
+	private Address address;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -28,5 +43,8 @@ public class Company {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
+	
 	
 }
