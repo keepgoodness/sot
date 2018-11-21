@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login").permitAll()
 				.passwordParameter("password")
 				.usernameParameter("username")
-			.and().userDetailsService(this.userDetailsService);
+                        .and().userDetailsService(this.userDetailsService)
+                              .rememberMe().key("uniqueAndSecret");
+			
 	}
 }

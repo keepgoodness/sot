@@ -1,6 +1,7 @@
 package org.sot.controller;
 
 import javax.validation.Valid;
+import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.repositories.StreetRepository;
 import org.sot.services.BrandService;
@@ -45,6 +46,23 @@ public class PointController {
 
 	@PostMapping("point-create")
 	public String pointCreate(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "points/pointCreate";
+		}
+		this.pointService.register(prm);
+		return "redirect:/";
+	}
+        
+        @GetMapping("point-create-new")
+	public String pointCreateNew(@ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
+		model.addAttribute("title", "Създаване на обект");
+		pointAtrBindingModel.setPlaces(placeService.findAllPlaces());
+		model.addAttribute("allPoints", pointService.getPointsAsJsonArray().toString());
+		return "points/pointCreateNew";
+	}
+        
+        @PostMapping("point-create-new")
+	public String pointCreateNew(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "points/pointCreate";
 		}
