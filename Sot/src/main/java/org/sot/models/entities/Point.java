@@ -1,5 +1,6 @@
 package org.sot.models.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,8 +31,8 @@ public class Point {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = 10, nullable = true)
-	@Length(max = 10, message = "ID на обекта не трябва да надвишава 10 символа!")
+	@Column(length = 10)
+	@Length(min = 1, max = 10, message = "ID на обекта не трябва да надвишава 10 символа!")
 	private String identifier;
 
 	@Column(length = 100)
@@ -75,6 +76,9 @@ public class Point {
 
 	@Column(columnDefinition = "boolean", length = 1, nullable = false)
 	private boolean hasVideo;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Company company;
 
 	public Long getId() {
 		return id;
@@ -156,8 +160,40 @@ public class Point {
 		this.vatCode = vatCode;
 	}
 
-	@Override
-	public String toString() {
-		return "{\"point\":{" + "\"id\":" + id + ", \"identifier\":\"" + identifier + "\", \"name\":\"" + name + "\", \"lat\":\"" + lat + "\", \"lng\":\"" + lng + "\", " + address.toString() + ", " + place.toString() + ", " + controlBoard.toString() + "}}";
+	public ServiceStatus getServiceStatus() {
+		return serviceStatus;
 	}
+
+	public void setServiceStatus(ServiceStatus serviceStatus) {
+		this.serviceStatus = serviceStatus;
+	}
+
+	public boolean isHasSse() {
+		return hasSse;
+	}
+
+	public void setHasSse(boolean hasSse) {
+		this.hasSse = hasSse;
+	}
+
+	public boolean isHasVideo() {
+		return hasVideo;
+	}
+
+	public void setHasVideo(boolean hasVideo) {
+		this.hasVideo = hasVideo;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+//	@Override
+//	public String toString() {
+//		return "{\"point\":{" + "\"id\":" + id + ", \"identifier\":\"" + identifier + "\", \"name\":\"" + name + "\", \"lat\":\"" + lat + "\", \"lng\":\"" + lng + "\", " + address.toString() + ", " + place.toString() + ", " + controlBoard.toString() + "}}";
+//	}
+
 }

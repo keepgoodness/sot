@@ -1,17 +1,10 @@
 package org.sot.controller;
 
 import org.sot.converters.TypeSearchConverter;
-import org.sot.enums.LifeStatus;
 import org.sot.enums.TypeSearch;
 import org.sot.models.bindings.PointBindingModel;
-import org.sot.models.entities.Address;
 import org.sot.models.entities.Company;
-import org.sot.models.entities.Mrp;
-import org.sot.models.entities.Place;
 import org.sot.models.entities.Point;
-import org.sot.models.entities.Resipient;
-import org.sot.models.entities.Street;
-import org.sot.repositories.CompanyRepository;
 import org.sot.repositories.Pointrepository;
 import org.sot.services.CompanyService;
 import org.sot.services.PointService;

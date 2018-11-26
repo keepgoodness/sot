@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -18,67 +19,70 @@ import javax.persistence.OneToOne;
 @Entity(name = "companies")
 public class Company {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @Column(length = 15, nullable = true)
-    private String bulstat;
+	@Length(min = 3, max = 15, message = "Булстата е задължителен.Между 3 и 15 символа")
+	@Column(length = 15, nullable = false)
+	private String bulstat;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Mrp mrp;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Mrp mrp;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Resipient resipient;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Resipient resipient;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn
-    private Address address;
-    
-    @Column(length = 15, nullable = true)
-    private String vat;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn
+	private Address address;
 
-    public Company() {
-    }
+	@Column(length = 15, nullable = true)
+	private String vat;
 
-    public Long getId() {
-        return id;
-    }
+	@Column(columnDefinition = "boolean default 0")
+	private boolean vatStatus;
+
+	public Company() {
+	}
+
+	public Long getId() {
+		return id;
+	}
 
 //    public void setId(Long id) {
 //        this.id = id;
 //    }
+	public String getBulstat() {
+		return bulstat;
+	}
 
-    public String getBulstat() {
-        return bulstat;
-    }
+	public void setBulstat(String bulstat) {
+		this.bulstat = bulstat;
+	}
 
-    public void setBulstat(String bulstat) {
-        this.bulstat = bulstat;
-    }
+	public Mrp getMrp() {
+		return mrp;
+	}
 
-    public Mrp getMrp() {
-        return mrp;
-    }
+	public void setMrp(Mrp mrp) {
+		this.mrp = mrp;
+	}
 
-    public void setMrp(Mrp mrp) {
-        this.mrp = mrp;
-    }
+	public Resipient getResipient() {
+		return resipient;
+	}
 
-    public Resipient getResipient() {
-        return resipient;
-    }
+	public void setResipient(Resipient resipient) {
+		this.resipient = resipient;
+	}
 
-    public void setResipient(Resipient resipient) {
-        this.resipient = resipient;
-    }
+	public Address getAddress() {
+		return address;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 }

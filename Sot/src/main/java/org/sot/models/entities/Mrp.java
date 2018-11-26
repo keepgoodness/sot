@@ -29,7 +29,7 @@ public class Mrp {
     private String middleName;
     
     @Column(length = 60, nullable = true)
-    private String lastName;
+	private String lastName;
 
     public Mrp() {
     }

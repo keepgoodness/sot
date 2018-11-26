@@ -51,14 +51,14 @@ public class Place {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        try {
-            return "\"place\":" + new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-//		return "\"place\":{" + "\"name\":\"" + name + "\"}";
-    }
+//    @Override
+//    public String toString() {
+//        try {
+//            return "\"place\":" + new ObjectMapper().writeValueAsString(this);
+//        } catch (JsonProcessingException ex) {
+//            Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return "";
+////		return "\"place\":{" + "\"name\":\"" + name + "\"}";
+//    }
 }
