@@ -13,8 +13,10 @@ public interface StreetRepository extends JpaRepository<Street, Long> {
 
 	public Street findOneById(Long id);
 	
+        public Street findOneByName(String name);
+        
 	public List<Street> findByName(String name);
-
+        
 	public List<Street> findAllByStatus(LifeStatus status);
 	
 	public Street save(Street street);

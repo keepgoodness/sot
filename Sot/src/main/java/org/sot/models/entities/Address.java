@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,98 +21,109 @@ import org.hibernate.validator.constraints.Length;
 @Entity(name = "address")
 public class Address {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Place place;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
+    private Place place;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Street street;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
+    private Street street;
 
-	@Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
-	@Column(length = 3, nullable = true)
-	private String number;
+    @Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
+    @Column(length = 3, nullable = true)
+    private String number;
 
-	@Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
-	@Column(length = 2, nullable = true)
-	private String entrance;
+    @Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
+    @Column(length = 2, nullable = true)
+    private String entrance;
 
-	@Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
-	@Column(length = 3, nullable = true)
-	private String floor;
+    @Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
+    @Column(length = 3, nullable = true)
+    private String floor;
 
-	public Address() {
-	}
+    @Length(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
+    @Column(length = 3, nullable = true)
+    private String apartment;
 
-	public Address(Long id, Place place, Street street, String number, String entrance, String floor) {
-		this.id = id;
-		this.place = place;
-		this.street = street;
-		this.number = number;
-		this.entrance = entrance;
-		this.floor = floor;
-	}
+    public Address() {
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Address(Street street, String number, String entrance, String floor, String apartment) {
+        this.street = street;
+        this.number = number;
+        this.entrance = entrance;
+        this.floor = floor;
+        this.apartment = apartment;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Place getPlace() {
-		return place;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPlace(Place place) {
-		this.place = place;
-	}
+    public Place getPlace() {
+        return place;
+    }
 
-	public Street getStreet() {
-		return street;
-	}
+    public void setPlace(Place place) {
+        this.place = place;
+    }
 
-	public void setStreet(Street street) {
-		this.street = street;
-	}
+    public Street getStreet() {
+        return street;
+    }
 
-	public String getNumber() {
-		return number;
-	}
+    public void setStreet(Street street) {
+        this.street = street;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public String getEntrance() {
-		return entrance;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setEntrance(String entrance) {
-		this.entrance = entrance;
-	}
+    public String getEntrance() {
+        return entrance;
+    }
 
-	public String getFloor() {
-		return floor;
-	}
+    public void setEntrance(String entrance) {
+        this.entrance = entrance;
+    }
 
-	public void setFloor(String floor) {
-		this.floor = floor;
-	}
+    public String getFloor() {
+        return floor;
+    }
 
-	@Override
-	public String toString() {
-		try {
-			return "\"address\":" + new ObjectMapper().writeValueAsString(this);
-		} catch (JsonProcessingException ex) {
-			Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return "";
-		//		return "\"address\":{" + "\"street\":\"" + street + "\", \"number\":\"" + number + "\", \"entrance\":\"" + entrance + "\", \"floor\":\"" + floor + "\"}";
-	}
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
+//    @Override
+//    public String toString() {
+//        try {
+//            return "\"address\":" + new ObjectMapper().writeValueAsString(this);
+//        } catch (JsonProcessingException ex) {
+//            Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return "";
+//        //		return "\"address\":{" + "\"street\":\"" + street + "\", \"number\":\"" + number + "\", \"entrance\":\"" + entrance + "\", \"floor\":\"" + floor + "\"}";
+//    }
 }

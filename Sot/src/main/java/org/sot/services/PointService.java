@@ -26,75 +26,80 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PointService {
 
-	private final AddressRepository addressRepository;
-	private final Pointrepository pointrepository;
-	private final ControlBoardRepository controlBoardRepository;
+    private final AddressRepository addressRepository;
+    private final Pointrepository pointrepository;
+    private final ControlBoardRepository controlBoardRepository;
 
-	@Autowired
-	public PointService(AddressRepository addressRepository, Pointrepository pointrepository, ControlBoardRepository controlBoardRepository) {
-		this.addressRepository = addressRepository;
-		this.pointrepository = pointrepository;
-		this.controlBoardRepository = controlBoardRepository;
-	}
+    @Autowired
+    public PointService(AddressRepository addressRepository, Pointrepository pointrepository, ControlBoardRepository controlBoardRepository) {
+        this.addressRepository = addressRepository;
+        this.pointrepository = pointrepository;
+        this.controlBoardRepository = controlBoardRepository;
+    }
 
-	@Transactional()
-	public boolean register(PointBindingModel bindingModel) {
-		Address address = bindingModel.getAddress();
-		ControlBoard controlBoard = bindingModel.getControlBoard();
-		Point point = new Point();
-		point.setName(bindingModel.getPoint().getName());
-		point.setIdentifier(bindingModel.getPoint().getIdentifier());
-		point.setPlace(bindingModel.getPlace());
-		point.setAddress(address);
-		point.setControlBoard(controlBoard);
-		point.setLat(Double.parseDouble(bindingModel.getLatitude()));
-		point.setLng(Double.parseDouble(bindingModel.getLongitude()));
-		addressRepository.save(address).getId();
-		controlBoardRepository.save(controlBoard);
-		if (null == pointrepository.save(point).getId()) {
-			return false;
-		}
-		return true;
-	}
+    @Transactional()
+    public boolean register(PointBindingModel bindingModel) {
+        Address address = bindingModel.getAddress();
+        ControlBoard controlBoard = bindingModel.getControlBoard();
+        Point point = new Point();
+        point.setName(bindingModel.getPoint().getName());
+        point.setIdentifier(bindingModel.getPoint().getIdentifier());
+        point.setPlace(bindingModel.getPlace());
+        point.setAddress(address);
+        point.setControlBoard(controlBoard);
+        point.setLat(Double.parseDouble(bindingModel.getLatitude()));
+        point.setLng(Double.parseDouble(bindingModel.getLongitude()));
+        addressRepository.save(address).getId();
+        controlBoardRepository.save(controlBoard);
+        if (null == pointrepository.save(point).getId()) {
+            return false;
+        }
+        return true;
+    }
 
-	public JsonObject getPointsAsJsonArray() {
-		List<Object[]> arrayObj = this.pointrepository.findAllWithIdLatLng();
-		JsonArrayBuilder array = Json.createArrayBuilder();
-		for (int i = 0; i < arrayObj.size(); i++) {
-			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-			objBuilder.add("id", arrayObj.get(i)[0].toString());
-			objBuilder.add("lat", arrayObj.get(i)[1].toString());
-			objBuilder.add("lng", arrayObj.get(i)[2].toString());
-			objBuilder.add("name", arrayObj.get(i)[3].toString());
-			array.add(objBuilder);
-		}
-		JsonObject json = Json.createObjectBuilder()
-				.add("point", array).build();
-		return json;
-	}
+    @Transactional() //в разработка
+    public boolean registerNew(PointBindingModel bindingModel) {
+        return true;
+    }
 
-	public List<JsonObject> getPointsAutocomplete(String dataSearch, TypeSearch typeSearch) {
-		List<Object[]> points = new ArrayList<>();
-		switch (typeSearch) {
-			case NAME:
-				points = pointrepository.findByName(dataSearch);
-				break;
-			case IDENTIFIER:
-				points = pointrepository.findByIdentifier(dataSearch);
-				break;
-		}
-		List<JsonObject> array = new ArrayList<>();
-		points.stream().forEach(p -> {
-			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-			objBuilder.add("id", p[0].toString());
-			objBuilder.add("name", p[1].toString());
-			array.add(objBuilder.build());
-		});
-		return array;
-	}
+    public JsonObject getPointsAsJsonArray() {
+        List<Object[]> arrayObj = this.pointrepository.findAllWithIdLatLng();
+        JsonArrayBuilder array = Json.createArrayBuilder();
+        for (int i = 0; i < arrayObj.size(); i++) {
+            JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+            objBuilder.add("id", arrayObj.get(i)[0].toString());
+            objBuilder.add("lat", arrayObj.get(i)[1].toString());
+            objBuilder.add("lng", arrayObj.get(i)[2].toString());
+            objBuilder.add("name", arrayObj.get(i)[3].toString());
+            array.add(objBuilder);
+        }
+        JsonObject json = Json.createObjectBuilder()
+                .add("point", array).build();
+        return json;
+    }
 
-	public void deletePoint(Long id) {
-		pointrepository.deleteById(id);
-	}
+    public List<JsonObject> getPointsAutocomplete(String dataSearch, TypeSearch typeSearch) {
+        List<Object[]> points = new ArrayList<>();
+        switch (typeSearch) {
+            case NAME:
+                points = pointrepository.findByName(dataSearch);
+                break;
+            case IDENTIFIER:
+                points = pointrepository.findByIdentifier(dataSearch);
+                break;
+        }
+        List<JsonObject> array = new ArrayList<>();
+        points.stream().forEach(p -> {
+            JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+            objBuilder.add("id", p[0].toString());
+            objBuilder.add("name", p[1].toString());
+            array.add(objBuilder.build());
+        });
+        return array;
+    }
+
+    public void deletePoint(Long id) {
+        pointrepository.deleteById(id);
+    }
 
 }

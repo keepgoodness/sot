@@ -19,39 +19,46 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "places")
 public class Place {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 
-	@NotNull
-	@Column(length = 30, unique = true)
-	private String name;
-	
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull
+    @Column(length = 30, unique = true)
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    public Place() {
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Place(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
-		try {
-			return "\"place\":" + new ObjectMapper().writeValueAsString(this);
-		} catch (JsonProcessingException ex) {
-			Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return "";
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return "\"place\":" + new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Address.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
 //		return "\"place\":{" + "\"name\":\"" + name + "\"}";
-	}
+    }
 }

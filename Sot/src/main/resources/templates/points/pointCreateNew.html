@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+        <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+            /*]]>*/
+
+        </script>
+        <div class="container">
+            <!--*** Header ***-->
+            <div th:replace="~{fragments/header}"></div>
+            <!--*** Map ***-->
+            <div id="map" class="mb-3"></div>
+
+            <form th:object="${pointAtrBindingModel}" th:action="@{/point-create-new}" method="post">
+                <div class="row">
+                    <div class="col-lg-4 form-group input-group-append">
+                        <input id="latInfoInput" class="form-control">
+                        <input id="lngInfoInput" class="form-control">
+                        <div class="btn btn-primary" onclick="initMap();">&#9755;</div>
+                    </div>
+                </div>
+                <div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Обект</legend>
+                                <div class="col-sm-8">
+                                    <label class="col-form-label" for="pointName">Име</label>
+                                    <span style="color: red; font-weight: bold">&nbsp*</span>
+                                    <input th:field="*{point.name}" type="text" class="form-control" placeholder="Име на обекта..." id="pointName">
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label class="col-form-label" for="pointID">ID</label>
+                                    <span style="color: red; font-weight: bold">&nbsp*</span>
+                                    <input th:field="*{point.identifier}" type="text" class="form-control" placeholder="ID на обекта..." id="pointID">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('point.name')}" th:errors="*{point.name}" style="color:red;">Name Error</div>
+                                    <div th:if="${#fields.hasErrors('point.identifier')}" th:errors="*{point.identifier}" style="color:red;">Identifier Error</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Адрес</legend>
+                                <div class="col-sm-5">
+                                    <label class="col-form-label" for="inputDefault">Населено място</label>
+                                    <select th:field="*{place}" class="custom-select">
+                                        <option th:each="p : *{places}" 
+                                                th:value="${p.id}"
+                                                th:text="${p.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-12 input-group-append">
+                                    <div class="col-7">
+                                        <label class="col-form-label" for="street">Улица</label>
+                                        <input th:field="*{address.street}" type="text" class="form-control" placeholder="..." id="street">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="num">№</label>
+                                        <input th:field="*{address.number}" type="text" class="form-control" placeholder="..." id="num">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="entrance">Вх.</label>
+                                        <input th:field="*{address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="floor">Ет.</label>
+                                        <input th:field="*{address.floor}" type="text" class="form-control" placeholder="..." id="floor">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="apartment">Ап.</label>
+                                        <input th:field="*{address.apartment}" type="text" class="form-control" placeholder="..." id="apartment">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}" style="color:red;">Street Error</div>
+                                    <div th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}" style="color:red;">Number Error</div>
+                                    <div th:if="${#fields.hasErrors('address.entrance')}" th:errors="*{address.entrance}" style="color:red;">Entrance Error</div>
+                                    <div th:if="${#fields.hasErrors('address.floor')}" th:errors="*{address.floor}" style="color:red;">Floor Error</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Сот / Видео / Пакет</legend>
+
+                                <div class="form-group col-sm-12 input-group-append">
+                                    <div class="col-sm-6">
+                                        <fieldset>
+                                            <h4>Пакет</h4>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="paidService" name="serviceStatus" class="custom-control-input" checked="">
+                                                    <label class="custom-control-label" for="paidService">Платен</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="freeService" name="serviceStatus" class="custom-control-input">
+                                                    <label class="custom-control-label" for="freeService">Безплатен</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <fieldset>
+                                            <h4>Сот/Видео</h4>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="sot" checked="">
+                                                    <label class="custom-control-label" for="sot">Сот</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="video">
+                                                    <label class="custom-control-label" for="video">Видео</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('point.name')}" th:errors="*{point.name}" style="color:red;">Name Error</div>
+                                    <div th:if="${#fields.hasErrors('point.identifier')}" th:errors="*{point.identifier}" style="color:red;">Identifier Error</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Фирма на собственика</legend>
+                                <div class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <div class="col">
+                                            <label class="col-form-label" for="bulstat">Булстат</label>
+                                            <input  type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
+                                            <fieldset class="mb-3">
+                                                <h4>МОЛ</h4>
+                                                <label class="col-form-label">Име</label>
+                                                <input  type="text" class="form-control">
+                                                <label class="col-form-label">Презиме</label>
+                                                <input  type="text" class="form-control">
+                                                <label class="col-form-label">Фамилия</label>
+                                                <input  type="text" class="form-control">
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4>Адрес на фирмата</h4>
+                                                <label class="col-form-label" for="inputDefault">Населено място</label>
+                                                <select th:field="*{place}" class="custom-select">
+                                                    <option th:each="p : *{places}" 
+                                                            th:value="${p.id}"
+                                                            th:text="${p.name}">
+                                                    </option>
+                                                </select>
+                                                <div class="form-group col-sm-12 input-group-append">
+                                                    <div class="col-7">
+                                                        <label class="col-form-label" for="street">Улица</label>
+                                                        <input  type="text" class="form-control" placeholder="..." id="street">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="num">№</label>
+                                                        <input type="text" class="form-control" placeholder="..." id="num">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="entrance">Вх.</label>
+                                                        <input  type="text" class="form-control" placeholder="..." id="entrance">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="floor">Ет.</label>
+                                                        <input  type="text" class="form-control" placeholder="..." id="floor">
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6 ">
+                                        <div class="col">
+                                            <fieldset class="mb-3">
+                                                <h4>Получател</h4>
+                                                <label class="col-form-label">Име</label>
+                                                <input  type="text" class="form-control">
+                                                <label class="col-form-label">Презиме</label>
+                                                <input  type="text" class="form-control">
+                                                <label class="col-form-label">Фамилия</label>
+                                                <input  type="text" class="form-control">
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4>ДДС Статус</h4>
+                                                <div class="form-group">
+                                                    <div id="vat">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
+                                                            <label class="custom-control-label" for="vat1">Да</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
+                                                            <label class="custom-control-label" for="vat2">Не</label>
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-form-label">ДДС номер</label>
+                                                    <input  type="text" class="form-control" id="vatnumber">
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div id="responsible-person" class="card border-primary">
+                                <legend class="card-header">Отговорници на обекта</legend>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <span>&nbsp;</span>
+                                    <button type="button" id="add-responsible" class="btn btn-outline-primary">&#43;</button>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('point.name')}" th:errors="*{point.name}" style="color:red;">Name Error</div>
+                                    <div th:if="${#fields.hasErrors('point.identifier')}" th:errors="*{point.identifier}" style="color:red;">Identifier Error</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Запази</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="lat" th:field="*{latitude}">
+                    <input type="hidden" id="lng" th:field="*{longitude}">
+                </div>
+            </form>
+
+        </div>
+        <script>
+            var marker;
+            var map;
+            var latHidden = document.getElementById("lat");
+            var lngHidden = document.getElementById("lng");
+            var latInfo = document.getElementById("latInfoInput");
+            var lngInfo = document.getElementById("lngInfoInput");
+            var iconBase = '/images/';
+            var icons = {
+                def: iconBase + "pinDefault.png",
+                cur: iconBase + "pinCurrent.png"
+            };
+            function initMap() {
+                var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
+                var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(latS, lngS),
+                    zoom: 15,
+                    styles: [
+                        {"featureType": "all",
+                            "elementType": "labels",
+                            "stylers": [
+                                {"visibility": "off"}
+                            ]
+                        },
+                        {"featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {"visibility": "simplified"},
+                                {"color": "#5b6571"},
+                                {"lightness": "35"}]
+                        },
+                        {"featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "on"}]},
+                    ]
+                });
+                allPointsString.point.forEach(function (element) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        title: element.name,
+                        position: new google.maps.LatLng(element.lat, element.lng),
+                        label: {
+                            text: element.name.substr(0, 1),
+                            color: 'white',
+                            fontFamily: 'Verdana',
+                            fontWeight: 'bold'},
+                        icon: {
+                            url: icons.def,
+                            labelOrigin: new google.maps.Point(30, 14)
+                        },
+
+                        animation: google.maps.Animation.DROP,
+                        id: element.id
+                    });
+                });
+
+                google.maps.event.addListener(map, 'click', function (event) {
+                    if (typeof marker !== "undefined") {
+                        marker.setMap(null);
+                        marker = null;
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    }
+                    marker = new google.maps.Marker({
+                        map: map,
+                        icon: "images/pinCurrent.png",
+                        draggable: true,
+                        position: event.latLng
+                    });
+
+                    google.maps.event.addListener(marker, "click", function (event) {
+                        document.getElementById("form").style.display = "block";
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
+
+                    google.maps.event.addListener(marker, "drag", function (event) {
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
+                });
+            }
+
+            function fillLatLngHidden(latLng) {
+                latHidden.value = latLng.lat();
+                lngHidden.value = latLng.lng();
+            }
+
+            function fillLatLngInfo(latLng) {
+                latInfo.value = latLng.lat();
+                lngInfo.value = latLng.lng();
+            }
+
+            let countResponsible = 1;
+            $(document).ready(function () {
+                $('#vat').change(function () {
+                    var value = $("input[name='vat']:checked").val();
+                    if (value == 1) {
+                        $("input[id='vatnumber']").prop("disabled", false);
+                    } else if (value == 0) {
+                        $("input[id='vatnumber']").prop("disabled", true).val("");
+                    }
+                });
+                $('#add-responsible').click(function () {
+                    $('#responsible-person').append(
+                            "<fieldset class=\"col-sm-12 mb-3\">"
+                            + "<div class=\"alert-dismissible\">"
+                            + "<button type=\"button\" class=\"close\">&times;</button>"
+                            + "<h4><span>" + countResponsible + "</span>. Отговорник</h4>"
+                            + "</div>"
+                            + "<label class=\"col-form-label\">Име</label>"
+                            + "<input  type=\"text\" class=\"form-control\">"
+                            + "<label class=\"col-form-label\">Презиме</label>"
+                            + "<input  type=\"text\" class=\"form-control\">"
+                            + "<label class=\"col-form-label\">Фамилия</label>"
+                            + "<input  type=\"text\" class=\"form-control\">"
+                            + "<label class=\"col-form-label\">Тел:</label>"
+                            + "<input  type=\"text\" class=\"form-control\">"
+                            + "</fieldset>"
+                            );
+                    $("button.close").click(function () {
+                        $(this).parent().parent().remove();
+                    });
+                    countResponsible++;
+                });
+            });
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
+    </body>
+</html>

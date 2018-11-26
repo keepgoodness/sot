@@ -19,38 +19,46 @@ import org.sot.enums.LifeStatus;
 @Entity(name = "streets")
 public class Street {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(length = 60, unique = true)
-	private String name;
+    @Column(length = 60, unique = true)
+    private String name;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(columnDefinition = "tinyint")
-	private LifeStatus status;
-	
-	public Long getId() {
-		return id;
-	}
+    @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "tinyint")
+    private LifeStatus status;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Street() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Street(String name, LifeStatus status) {
+        this.name = name;
+        this.status = status;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public LifeStatus getStatus() {
-		return status;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setStatus(LifeStatus status) {
-		this.status = status;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LifeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LifeStatus status) {
+        this.status = status;
+    }
 }

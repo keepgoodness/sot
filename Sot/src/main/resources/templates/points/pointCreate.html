@@ -1,221 +1,214 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-	<head>
-		<title th:text="${title}"></title>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-		<link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	</head>
-	<body>
-		<script th:inline="javascript">
-			/*<![CDATA[*/
-			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
-			/*]]>*/
-
+    <head>
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+        <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+            /*]]>*/
         </script>
-		<div class="container">
-			<!--*** Header ***-->
-			<div th:replace="~{fragments/header}"></div>
-			<!--*** Map ***-->
-			<div id="map" class="mb-3"></div>
+        <div class="container">
+            <!--*** Header ***-->
+            <div th:replace="~{fragments/header}"></div>
+            <!--*** Map ***-->
+            <div id="map" class="mb-3"></div>
 
-			<form th:object="${pointBindingModel}" th:action="@{/point-create}" method="post">
-				<div class="row">
-					<div class="col-lg-4 form-group input-group-append">
-						<input id="latInfoInput" class="form-control">
-						<input id="lngInfoInput" class="form-control">
-						<div class="btn btn-primary" onclick="initMap();">&#9755;</div>
-					</div>
-				</div>
-				<div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
-					<div class="row">
-						<div class="col-lg-4 form-group">
-							<div class="card border-primary">
-								<legend class="card-header">Обект</legend>
-								<div class="col-sm-8">
-									<label class="col-form-label" for="pointName">Име</label>
-									<input th:field="*{point.name}" type="text" class="form-control" placeholder="Име на обекта..." id="pointName">
-								</div>
-								<div class="col-sm-4 mb-3">
-									<label class="col-form-label" for="pointID">ID</label>
-									<input th:field="*{point.identifier}" type="text" class="form-control" placeholder="ID на обекта..." id="pointID">
-								</div>
-								<div class="form-group col-sm-12">
-									<div th:if="${#fields.hasErrors('point.name')}" th:errors="*{point.name}" style="color:red;">Name Error</div>
-									<div th:if="${#fields.hasErrors('point.identifier')}" th:errors="*{point.identifier}" style="color:red;">Identifier Error</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 form-group">
-							<div class="card border-primary">
-								<legend class="card-header">Адрес</legend>
-								<div class="col-sm-5">
-									<label class="col-form-label" for="inputDefault">Населено място</label>
-									<select th:field="*{place}" class="custom-select">
-										<option th:each="p : *{places}" 
-												th:value="${p.id}"
-												th:text="${p.name}">
-										</option>
-									</select>
-								</div>
-								<div class="form-group col-sm-12 input-group-append">
-									<div class="col-7">
-										<label class="col-form-label" for="street">Улица</label>
-										<input th:field="*{address.street}" type="text" class="form-control" placeholder="..." id="street">
-									</div>
-									<div>
-										<label class="col-form-label" for="num">№</label>
-										<input th:field="*{address.number}" type="text" class="form-control" placeholder="..." id="num">
-									</div>
-									<div>
-										<label class="col-form-label" for="entrance">Вх.</label>
-										<input th:field="*{address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
-									</div>
-									<div>
-										<label class="col-form-label" for="floor">Ет.</label>
-										<input th:field="*{address.floor}" type="text" class="form-control" placeholder="..." id="floor">
-									</div>
-								</div>
-								<div class="form-group col-sm-12">
-									<div th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}" style="color:red;">Street Error</div>
-									<div th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}" style="color:red;">Number Error</div>
-									<div th:if="${#fields.hasErrors('address.entrance')}" th:errors="*{address.entrance}" style="color:red;">Entrance Error</div>
-									<div th:if="${#fields.hasErrors('address.floor')}" th:errors="*{address.floor}" style="color:red;">Floor Error</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 form-group">
-							<div class="card border-primary">
-								<legend class="card-header">Контролна платка</legend>
-								<div class="col-sm-5">
-									<label class="col-form-label" for="inputDefault">Марка</label>
-									<select th:field="*{controlBoard.brand}" class="custom-select">
-										<option th:each="brand : *{brands}" 
-												th:value="${brand.id}"
-												th:text="${brand.name}">
-										</option>
-									</select>
-								</div>
-								<div class="form-group col-sm-5">
-									<label class="col-form-label" for="cBModel">Модел</label>
-									<input th:field="*{controlBoard.model}" type="text" class="form-control" placeholder="..." id="cBModel">
-								</div>
-								<div class="form-group col-sm-12">
-									<div th:if="${#fields.hasErrors('controlBoard.model')}" th:errors="*{controlBoard.model}" style="color:red;">ControlBoard Model Error</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 form-group">
-							<button type="submit" class="btn btn-primary btn-lg">Запази</button>
-						</div>
-					</div>
-					<input type="hidden" id="lat" th:field="*{latitude}">
-					<input type="hidden" id="lng" th:field="*{longitude}">
-				</div>
-			</form>
+            <form th:object="${pointBindingModel}" th:action="@{/point-create}" method="post">
+                <div class="row">
+                    <div class="col-lg-4 form-group input-group-append">
+                        <input id="latInfoInput" class="form-control">
+                        <input id="lngInfoInput" class="form-control">
+                        <div class="btn btn-primary" onclick="initMap();">&#9755;</div>
+                    </div>
+                </div>
+                <div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Обект</legend>
+                                <div class="col-sm-8">
+                                    <label class="col-form-label" for="pointName">Име</label>
+                                    <input th:field="*{point.name}" type="text" class="form-control" placeholder="Име на обекта..." id="pointName">
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label class="col-form-label" for="pointID">ID</label>
+                                    <input th:field="*{point.identifier}" type="text" class="form-control" placeholder="ID на обекта..." id="pointID">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('point.name')}" th:errors="*{point.name}" style="color:red;">Name Error</div>
+                                    <div th:if="${#fields.hasErrors('point.identifier')}" th:errors="*{point.identifier}" style="color:red;">Identifier Error</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Адрес</legend>
+                                <div class="col-sm-5">
+                                    <label class="col-form-label" for="inputDefault">Населено място</label>
+                                    <select th:field="*{place}" class="custom-select">
+                                        <option th:each="p : *{places}" 
+                                                th:value="${p.id}"
+                                                th:text="${p.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-12 input-group-append">
+                                    <div class="col-7">
+                                        <label class="col-form-label" for="street">Улица</label>
+                                        <input th:field="*{address.street}" type="text" class="form-control" placeholder="..." id="street">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="num">№</label>
+                                        <input th:field="*{address.number}" type="text" class="form-control" placeholder="..." id="num">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="entrance">Вх.</label>
+                                        <input th:field="*{address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
+                                    </div>
+                                    <div>
+                                        <label class="col-form-label" for="floor">Ет.</label>
+                                        <input th:field="*{address.floor}" type="text" class="form-control" placeholder="..." id="floor">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}" style="color:red;">Street Error</div>
+                                    <div th:if="${#fields.hasErrors('address.number')}" th:errors="*{address.number}" style="color:red;">Number Error</div>
+                                    <div th:if="${#fields.hasErrors('address.entrance')}" th:errors="*{address.entrance}" style="color:red;">Entrance Error</div>
+                                    <div th:if="${#fields.hasErrors('address.floor')}" th:errors="*{address.floor}" style="color:red;">Floor Error</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Контролна платка</legend>
+                                <div class="col-sm-5">
+                                    <label class="col-form-label" for="inputDefault">Марка</label>
+                                    <select th:field="*{controlBoard.brand}" class="custom-select">
+                                        <option th:each="brand : *{brands}" 
+                                                th:value="${brand.id}"
+                                                th:text="${brand.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-5">
+                                    <label class="col-form-label" for="cBModel">Модел</label>
+                                    <input th:field="*{controlBoard.model}" type="text" class="form-control" placeholder="..." id="cBModel">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <div th:if="${#fields.hasErrors('controlBoard.model')}" th:errors="*{controlBoard.model}" style="color:red;">ControlBoard Model Error</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Запази</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="lat" th:field="*{latitude}">
+                    <input type="hidden" id="lng" th:field="*{longitude}">
+                </div>
+            </form>
 
-		</div>
-		<script>
-			var marker;
-			var map;
-			var latHidden = document.getElementById("lat");
-			var lngHidden = document.getElementById("lng");
-			var latInfo = document.getElementById("latInfoInput");
-			var lngInfo = document.getElementById("lngInfoInput");
-			var iconBase = '/images/';
-			var icons = {
-				def: iconBase + "pinDefault.png",
-				cur: iconBase + "pinCurrent.png"
-			};
-			function initMap() {
-				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
-				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+        </div>
+        <script>
+            var marker;
+            var map;
+            var latHidden = document.getElementById("lat");
+            var lngHidden = document.getElementById("lng");
+            var latInfo = document.getElementById("latInfoInput");
+            var lngInfo = document.getElementById("lngInfoInput");
+            var iconBase = '/images/';
+            var icons = {
+                def: iconBase + "pinDefault.png",
+                cur: iconBase + "pinCurrent.png"
+            };
+            function initMap() {
+                var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
+                var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(latS, lngS),
+                    zoom: 15,
+                    styles: [
+                        {"featureType": "all",
+                            "elementType": "labels",
+                            "stylers": [
+                                {"visibility": "off"}
+                            ]
+                        },
+                        {"featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {"visibility": "simplified"},
+                                {"color": "#5b6571"},
+                                {"lightness": "35"}]
+                        },
+                        {"featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "on"}]},
+                    ]
+                });
+                allPointsString.point.forEach(function (element) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        title: element.name,
+                        position: new google.maps.LatLng(element.lat, element.lng),
+                        label: {
+                            text: element.name.substr(0, 1),
+                            color: 'white',
+                            fontFamily: 'Verdana',
+                            fontWeight: 'bold'},
+                        icon: {
+                            url: icons.def,
+                            labelOrigin: new google.maps.Point(30, 14)
+                        },
+                        animation: google.maps.Animation.DROP,
+                        id: element.id
+                    });
+                });
 
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: new google.maps.LatLng(latS, lngS),
-					zoom: 15,
-					styles: [
-						{"featureType": "all",
-							"elementType": "labels",
-							"stylers": [
-								{"visibility": "off"}
-							]
-						},
-						{"featureType": "administrative",
-							"elementType": "all",
-							"stylers": [
-								{"visibility": "simplified"},
-								{"color": "#5b6571"},
-								{"lightness": "35"}]
-						},
-						{"featureType": "road",
-							"elementType": "labels",
-							"stylers": [{"visibility": "on"}]},
-					]
-				});
-				allPointsString.point.forEach(function (element) {
-					var marker = new google.maps.Marker({
-						map: map,
-						title: element.name,
-						position: new google.maps.LatLng(element.lat, element.lng),
-						label: {
-							text: element.name.substr(0, 1),
-							color: 'white',
-							fontFamily: 'Verdana',
-							fontWeight: 'bold'},
-						icon: {
-							url: icons.def,
-							labelOrigin: new google.maps.Point(30, 14)
-						},
-
-						animation: google.maps.Animation.DROP,
-						id: element.id
-					});
-				});
-				
-				google.maps.event.addListener(map, 'click', function (event) {
-					if (typeof marker !== "undefined") {
-						marker.setMap(null);
-						marker = null;
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					}
-					marker = new google.maps.Marker({
-						map: map,
-						icon: "images/vega.png",
-						draggable: true,
-						position: event.latLng
-					});
-
-					google.maps.event.addListener(marker, "click", function (event) {
-						document.getElementById("form").style.display = "block";
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					});
-
-					google.maps.event.addListener(marker, "drag", function (event) {
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					});
-				});
-			}
-
-			function fillLatLngHidden(latLng) {
-				latHidden.value = latLng.lat();
-				lngHidden.value = latLng.lng();
-			}
-
-			function fillLatLngInfo(latLng) {
-				latInfo.value = latLng.lat();
-				lngInfo.value = latLng.lng();
-			}
-		</script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
-	</body>
+                google.maps.event.addListener(map, 'click', function (event) {
+                    if (typeof marker !== "undefined") {
+                        marker.setMap(null);
+                        marker = null;
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    }
+                    marker = new google.maps.Marker({
+                        map: map,
+                        icon: "images/vega.png",
+                        draggable: true,
+                        position: event.latLng
+                    });
+                    google.maps.event.addListener(marker, "click", function (event) {
+                        document.getElementById("form").style.display = "block";
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
+                    google.maps.event.addListener(marker, "drag", function (event) {
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
+                });
+            }
+            function fillLatLngHidden(latLng) {
+                latHidden.value = latLng.lat();
+                lngHidden.value = latLng.lng();
+            }
+            function fillLatLngInfo(latLng) {
+                latInfo.value = latLng.lat();
+                lngInfo.value = latLng.lng();
+            }
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
+    </body>
 </html>
