@@ -43,7 +43,7 @@ public class CompanyService {
         String placeName = "петрич";
         String streetName = "мусала";
 
-        Street street = streetRepository.findOneByName(streetName);
+        Street street = (Street) streetRepository.findOneByName(streetName).get();
         Place place = placeRepository.findOneByName(placeName);
         Address address = new Address(street, "4", "Б", "5", "2");
         if (place == null) {

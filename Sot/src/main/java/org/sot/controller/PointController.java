@@ -40,9 +40,9 @@ public class PointController {
 		this.pointService = pointService;
 		this.sr = sr1;
 	}
-	
+
 	@ModelAttribute("places")
-	public List<Place> getPlaces(){
+	public List<Place> getPlaces() {
 		return this.placeService.findAllPlaces();
 	}
 
@@ -63,17 +63,21 @@ public class PointController {
 		this.pointService.register(prm);
 		return "redirect:/";
 	}
-        
-        @GetMapping("/create-new")
-	public String pointCreateNew(@ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
+
+	@GetMapping("/create-new")
+	public String pointCreateNew(@Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
 		model.addAttribute("title", "Създаване на обект");
 		model.addAttribute("allPoints", pointService.getPointsAsJsonArray().toString());
 		return "points/pointCreateNew";
 	}
-        
-        @PostMapping("/create-new")
+
+	@PostMapping("/create-new")
 	public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) {
-			Point p = pointAtrBindingModel.getPoint();
+		if (bindingResult.hasErrors()) {
+			return "points/pointCreateNew";
+		}
+		System.out.println("vliza");
+		pointService.registerNew(pointAtrBindingModel);
 //			System.out.println("Id: " + p.getIdentifier());
 //			System.out.println("name: " + p.getName());
 //			Address pAddress = p.getAddress();
@@ -86,9 +90,7 @@ public class PointController {
 //			System.out.println("pAddress.apartment :" + pAddress.getApartment());
 //			System.out.println("point.ServiceStatus : " + p.isHasSse());
 //			System.out.println("point.ServiceStatus : " + p.isHasVideo());
-		if (bindingResult.hasErrors()) {
-			return "points/pointCreateNew";
-		}
+
 //		this.pointService.register(pointAtrBindingModel);
 		return "redirect:/";
 	}

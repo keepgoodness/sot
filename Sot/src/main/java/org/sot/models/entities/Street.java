@@ -23,7 +23,7 @@ public class Street {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 60, unique = true)
+    @Column(length = 60, unique = true, nullable = true)
     private String name;
 
     @Enumerated(EnumType.ORDINAL)

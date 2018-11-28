@@ -55,10 +55,10 @@ public class Point {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Place place;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "controlboard_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private ControlBoard controlBoard;
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@JoinColumn(name = "controlboard_id")
+//	@OnDelete(action = OnDeleteAction.CASCADE)
+//	private ControlBoard controlBoard;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(columnDefinition = "boolean")
@@ -136,13 +136,13 @@ public class Point {
 		this.place = place;
 	}
 
-	public ControlBoard getControlBoard() {
-		return controlBoard;
-	}
-
-	public void setControlBoard(ControlBoard controlBoard) {
-		this.controlBoard = controlBoard;
-	}
+//	public ControlBoard getControlBoard() {
+//		return controlBoard;
+//	}
+//
+//	public void setControlBoard(ControlBoard controlBoard) {
+//		this.controlBoard = controlBoard;
+//	}
 
 	public VatStatus getVatStatus() {
 		return vatStatus;

@@ -1,6 +1,7 @@
 package org.sot.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import org.sot.enums.LifeStatus;
 import org.sot.models.entities.Street;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,8 @@ public interface StreetRepository extends JpaRepository<Street, Long> {
 
 	public Street findOneById(Long id);
 	
-        public Street findOneByName(String name);
+//    public Street findOneByName(String name);
+	public Optional<Street> findOneByName(String name);
         
 	public List<Street> findByName(String name);
         

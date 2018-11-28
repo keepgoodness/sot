@@ -1,17 +1,6 @@
 <!DOCTYPE html >
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <title th:text="${title}"></title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-        <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-        <script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
-
-    </head>
+    <head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
 			/*<![CDATA[*/
@@ -21,7 +10,7 @@
         </script>
         <div class="container">
             <!--*** Header ***-->
-            <div th:replace="~{fragments/header}"></div>
+            <div th:replace="~{fragments/parts::header}"></div>
 
             <!--*** Map ***-->
             <div id="map" class="mb-3"></div>
@@ -29,7 +18,7 @@
             <!--*** Buttons ***-->
             <div class="row mb-3">
                 <div class="col-lg-4 mb-3">
-                    <a class="btn btn-success btn-lg" th:href="@{/point-create-new}" role="button">Създай нов обект</a>
+                    <a class="btn btn-success btn-lg" th:href="@{/points/create-new}" role="button">Създай нов обект</a>
                 </div>
                 <div id="updDellButt" class="col-lg-4" style="display: none;">
                     <a id="edit" class="btn btn-outline-primary"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>

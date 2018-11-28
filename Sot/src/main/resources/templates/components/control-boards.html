@@ -1,20 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-	<head>
-        <title th:text="${title}"></title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-		<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-		<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script type="text/javascript">
-
-		</script>
-    </head>
+	<head th:include="~{fragments/parts::head}"></head>
 	<body>
 		<div class="container">
-			<div th:replace="~{fragments/header}"></div>
+			<div th:replace="~{fragments/parts::header}"></div>
 			<div class="row">
 				<div class="col-lg-4">
 					<a class="btn btn-success" th:href="@{/control-board-create}" role="button">Създай Контролна платка</a>

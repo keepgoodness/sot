@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <title th:text="${title}"></title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-        <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-        <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    </head>
+	<head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
-            /*<![CDATA[*/
-            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
-            /*]]>*/
+			/*<![CDATA[*/
+			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+			/*]]>*/
         </script>
         <div class="container">
             <!--*** Header ***-->
-            <div th:replace="~{fragments/header}"></div>
+            <div th:replace="~{fragments/parts::header}"></div>
             <!--*** Map ***-->
             <div id="map" class="mb-3"></div>
 
@@ -121,93 +112,93 @@
 
         </div>
         <script>
-            var marker;
-            var map;
-            var latHidden = document.getElementById("lat");
-            var lngHidden = document.getElementById("lng");
-            var latInfo = document.getElementById("latInfoInput");
-            var lngInfo = document.getElementById("lngInfoInput");
-            var iconBase = '/images/';
-            var icons = {
-                def: iconBase + "pinDefault.png",
-                cur: iconBase + "pinCurrent.png"
-            };
-            function initMap() {
-                var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
-                var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: new google.maps.LatLng(latS, lngS),
-                    zoom: 15,
-                    styles: [
-                        {"featureType": "all",
-                            "elementType": "labels",
-                            "stylers": [
-                                {"visibility": "off"}
-                            ]
-                        },
-                        {"featureType": "administrative",
-                            "elementType": "all",
-                            "stylers": [
-                                {"visibility": "simplified"},
-                                {"color": "#5b6571"},
-                                {"lightness": "35"}]
-                        },
-                        {"featureType": "road",
-                            "elementType": "labels",
-                            "stylers": [{"visibility": "on"}]},
-                    ]
-                });
-                allPointsString.point.forEach(function (element) {
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        title: element.name,
-                        position: new google.maps.LatLng(element.lat, element.lng),
-                        label: {
-                            text: element.name.substr(0, 1),
-                            color: 'white',
-                            fontFamily: 'Verdana',
-                            fontWeight: 'bold'},
-                        icon: {
-                            url: icons.def,
-                            labelOrigin: new google.maps.Point(30, 14)
-                        },
-                        animation: google.maps.Animation.DROP,
-                        id: element.id
-                    });
-                });
+			var marker;
+			var map;
+			var latHidden = document.getElementById("lat");
+			var lngHidden = document.getElementById("lng");
+			var latInfo = document.getElementById("latInfoInput");
+			var lngInfo = document.getElementById("lngInfoInput");
+			var iconBase = '/images/';
+			var icons = {
+				def: iconBase + "pinDefault.png",
+				cur: iconBase + "pinCurrent.png"
+			};
+			function initMap() {
+				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
+				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: new google.maps.LatLng(latS, lngS),
+					zoom: 15,
+					styles: [
+						{"featureType": "all",
+							"elementType": "labels",
+							"stylers": [
+								{"visibility": "off"}
+							]
+						},
+						{"featureType": "administrative",
+							"elementType": "all",
+							"stylers": [
+								{"visibility": "simplified"},
+								{"color": "#5b6571"},
+								{"lightness": "35"}]
+						},
+						{"featureType": "road",
+							"elementType": "labels",
+							"stylers": [{"visibility": "on"}]},
+					]
+				});
+				allPointsString.point.forEach(function (element) {
+					var marker = new google.maps.Marker({
+						map: map,
+						title: element.name,
+						position: new google.maps.LatLng(element.lat, element.lng),
+						label: {
+							text: element.name.substr(0, 1),
+							color: 'white',
+							fontFamily: 'Verdana',
+							fontWeight: 'bold'},
+						icon: {
+							url: icons.def,
+							labelOrigin: new google.maps.Point(30, 14)
+						},
+						animation: google.maps.Animation.DROP,
+						id: element.id
+					});
+				});
 
-                google.maps.event.addListener(map, 'click', function (event) {
-                    if (typeof marker !== "undefined") {
-                        marker.setMap(null);
-                        marker = null;
-                        fillLatLngHidden(event.latLng);
-                        fillLatLngInfo(event.latLng);
-                    }
-                    marker = new google.maps.Marker({
-                        map: map,
-                        icon: "images/vega.png",
-                        draggable: true,
-                        position: event.latLng
-                    });
-                    google.maps.event.addListener(marker, "click", function (event) {
-                        document.getElementById("form").style.display = "block";
-                        fillLatLngHidden(event.latLng);
-                        fillLatLngInfo(event.latLng);
-                    });
-                    google.maps.event.addListener(marker, "drag", function (event) {
-                        fillLatLngHidden(event.latLng);
-                        fillLatLngInfo(event.latLng);
-                    });
-                });
-            }
-            function fillLatLngHidden(latLng) {
-                latHidden.value = latLng.lat();
-                lngHidden.value = latLng.lng();
-            }
-            function fillLatLngInfo(latLng) {
-                latInfo.value = latLng.lat();
-                lngInfo.value = latLng.lng();
-            }
+				google.maps.event.addListener(map, 'click', function (event) {
+					if (typeof marker !== "undefined") {
+						marker.setMap(null);
+						marker = null;
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
+					}
+					marker = new google.maps.Marker({
+						map: map,
+						icon: "images/vega.png",
+						draggable: true,
+						position: event.latLng
+					});
+					google.maps.event.addListener(marker, "click", function (event) {
+						document.getElementById("form").style.display = "block";
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
+					});
+					google.maps.event.addListener(marker, "drag", function (event) {
+						fillLatLngHidden(event.latLng);
+						fillLatLngInfo(event.latLng);
+					});
+				});
+			}
+			function fillLatLngHidden(latLng) {
+				latHidden.value = latLng.lat();
+				lngHidden.value = latLng.lng();
+			}
+			function fillLatLngInfo(latLng) {
+				latInfo.value = latLng.lat();
+				lngInfo.value = latLng.lng();
+			}
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
     </body>
