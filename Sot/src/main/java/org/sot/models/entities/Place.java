@@ -24,7 +24,6 @@ public class Place {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
     @Column(length = 30, unique = true)
     private String name;
 

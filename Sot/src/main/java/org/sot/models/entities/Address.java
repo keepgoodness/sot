@@ -21,7 +21,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(nullable = true)
     private Place place;
 

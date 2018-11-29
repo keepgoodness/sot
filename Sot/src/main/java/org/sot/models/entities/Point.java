@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
-import org.sot.enums.ServiceStatus;
+import org.sot.enums.SseStatus;
 import org.sot.enums.VatStatus;
 
 /**
@@ -31,11 +31,11 @@ public class Point {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = 10)
+	@Column(length = 10, unique = true)
 	@Length(min = 1, max = 10, message = "ID на обекта не трябва да надвишава 10 символа!")
 	private String identifier;
 
-	@Column(length = 100)
+	@Column(length = 100, unique = true)
 	@Length(min = 1, max = 100, message = "Името на обекта  е между 1 и 100 символа!")
 	private String name;
 
@@ -45,15 +45,14 @@ public class Point {
 	@Column
 	private Double lng;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "address_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn
 	private Address address;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "place_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Place place;
+//	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+//	@JoinColumn(name = "place_id")
+//	@OnDelete(action = OnDeleteAction.CASCADE)
+//	private Place place;
 
 //	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 //	@JoinColumn(name = "controlboard_id")
@@ -69,7 +68,7 @@ public class Point {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(columnDefinition = "boolean", length = 1)
-	private ServiceStatus serviceStatus;
+	private SseStatus sseStatus;
 
 	@Column(columnDefinition = "boolean", length = 1, nullable = false)
 	private boolean hasSse;
@@ -128,13 +127,13 @@ public class Point {
 		this.address = address;
 	}
 
-	public Place getPlace() {
-		return place;
-	}
-
-	public void setPlace(Place place) {
-		this.place = place;
-	}
+//	public Place getPlace() {
+//		return place;
+//	}
+//
+//	public void setPlace(Place place) {
+//		this.place = place;
+//	}
 
 //	public ControlBoard getControlBoard() {
 //		return controlBoard;
@@ -160,12 +159,12 @@ public class Point {
 		this.vatCode = vatCode;
 	}
 
-	public ServiceStatus getServiceStatus() {
-		return serviceStatus;
+	public SseStatus getSseStatus() {
+		return sseStatus;
 	}
 
-	public void setServiceStatus(ServiceStatus serviceStatus) {
-		this.serviceStatus = serviceStatus;
+	public void setSseStatus(SseStatus sseStatus) {
+		this.sseStatus = sseStatus;
 	}
 
 	public boolean isHasSse() {

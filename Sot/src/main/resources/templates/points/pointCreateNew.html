@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-		<head th:include="~{fragments/parts::head}"></head>
+	<head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
 			/*<![CDATA[*/
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="col-lg-4 form-group">
+                        <div class="col-lg-4 form-group">
                             <div class="card border-primary">
                                 <legend class="card-header">Сот / Видео / Пакет</legend>
                                 <div class="form-group col-sm-12 input-group-append">
@@ -93,13 +93,13 @@
                                         <fieldset>
                                             <h4>Пакет</h4>
                                             <div class="form-group">
-												<div th:each="sS : ${T(org.sot.enums.ServiceStatus).values()}" class="custom-control custom-radio">
+												<div th:each="sS : ${T(org.sot.enums.SseStatus).values()}" class="custom-control custom-radio">
 													<input type="radio"
 														   th:id="${{sS}}" 
 														   th:value="${{sS}}"
 														   th:checked="${{sS}}=='FREE'?'checked'"															   
 														   class="custom-control-input"
-														   name="point.serviceStatus"/>
+														   name="sseStatus"/>
 													<label th:for="${{sS}}"
 														   th:text="${{sS}}=='FREE' ? 'Безплатен':'Платен'"
 														   class="custom-control-label">
@@ -113,13 +113,16 @@
                                             <h4>Сот/Видео</h4>
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="point.hasSse"
+                                                    <input type="checkbox"
 														   th:checked="checked"
+														   name="hasSse"
 														   class="custom-control-input" id="sot">
                                                     <label class="custom-control-label" for="sot">Сот</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="point.hasVideo" class="custom-control-input" id="video">
+                                                    <input type="checkbox"
+														   name="hasVideo"
+														   class="custom-control-input" id="video">
                                                     <label class="custom-control-label" for="video">Видео</label>
                                                 </div>
                                             </div>
@@ -127,104 +130,104 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                     <div class="row">
-<!--                        <div class="col-lg-8 form-group">
-                            <div class="card border-primary">
-                                <legend class="card-header">Фирма на собственика</legend>
-                                <div class="row">
-                                    <div class="form-group col-sm-6 ">
-                                        <div class="col">
-                                            <label class="col-form-label" for="bulstat">Булстат</label>
-											<span style="color: red; font-weight: bold">&nbsp*</span>
-                                            <input  th:field="*{point.company.bulstat}" type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
-											<div th:if="${#fields.hasErrors('point.company.bulstat')}" th:errors="*{point.company.bulstat}" style="color:red;">Bulstat Error</div>
-                                            <fieldset class="mb-3">
-                                                <h4>МОЛ</h4>
-                                                <label class="col-form-label">Име</label>
-                                                <input th:field="*{point.company.mrp.firstName}" type="text" class="form-control">
-                                                <label class="col-form-label">Презиме</label>
-                                                <input th:field="*{point.company.mrp.middleName}" type="text" class="form-control">
-                                                <label class="col-form-label">Фамилия</label>
-                                                <input th:field="*{point.company.mrp.lastName}" type="text" class="form-control">
-                                            </fieldset>
-                                            <fieldset>
-                                                <h4>Адрес на фирмата</h4>
-                                                <label class="col-form-label" for="inputDefault">Населено място</label>
-                                                <select th:field="*{point.company.address.place}" class="custom-select">
-                                                    <option th:each="p : ${places}" 
-                                                            th:value="${p.id}"
-                                                            th:text="${p.name}">
-                                                    </option>
-                                                </select>
-                                                <div class="form-group col-sm-12 input-group-append">
-                                                    <div class="col-7">
-                                                        <label class="col-form-label" for="street">Улица</label>
-                                                        <input th:field="*{point.company.address.street}" type="text" class="form-control" placeholder="..." id="street">
-                                                    </div>
-                                                    <div>
-                                                        <label class="col-form-label" for="num">№</label>
-                                                        <input th:field="*{point.company.address.number}" type="text" class="form-control" placeholder="..." id="num">
-                                                    </div>
-                                                    <div>
-                                                        <label class="col-form-label" for="entrance">Вх.</label>
-                                                        <input th:field="*{point.company.address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
-                                                    </div>
-                                                    <div>
-                                                        <label class="col-form-label" for="floor">Ет.</label>
-                                                        <input th:field="*{point.company.address.floor}" type="text" class="form-control" placeholder="..." id="floor">
-                                                    </div>
-													<div>
-                                                        <label class="col-form-label" for="floor">Еп.</label>
-                                                        <input th:field="*{point.company.address.apartment}" type="text" class="form-control" placeholder="..." id="compApartment">
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-6 ">
-                                        <div class="col">
-                                            <fieldset class="mb-3">
-                                                <h4>Получател</h4>
-                                                <label class="col-form-label">Име</label>
-                                                <input th:field="*{point.company.resipient.firstName}" type="text" class="form-control">
-                                                <label class="col-form-label">Презиме</label>
-                                                <input th:field="*{point.company.resipient.middleName}" type="text" class="form-control">
-                                                <label class="col-form-label">Фамилия</label>
-                                                <input th:field="*{point.company.resipient.lastName}" type="text" class="form-control">
-                                            </fieldset>
-                                            <fieldset>
-                                                <h4>ДДС Статус</h4>
-                                                <div class="form-group">
-                                                    <div id="vat">
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
-                                                            <label class="custom-control-label" for="vat1">Да</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
-                                                            <label class="custom-control-label" for="vat2">Не</label>
-                                                        </div>
-                                                    </div>
-                                                    <label class="col-form-label">ДДС номер</label>
-                                                    <input  type="text" class="form-control" id="vatnumber">
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-<!--                        <div class="col-lg-4 form-group">
-                            <div id="responsible-person" class="card border-primary">
-                                <legend class="card-header">Отговорници на обекта</legend>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <span>&nbsp;</span>
-                                    <button type="button" id="add-responsible" class="btn btn-outline-primary">&#43;</button>
-                                </div>
-                            </div>
-                        </div>-->
+<!--						                        <div class="col-lg-8 form-group">
+													<div class="card border-primary">
+														<legend class="card-header">Фирма на собственика</legend>
+														<div class="row">
+															<div class="form-group col-sm-6 ">
+																<div class="col">
+																	<label class="col-form-label" for="bulstat">Булстат</label>
+																	<span style="color: red; font-weight: bold">&nbsp*</span>
+																	<input  th:field="*{point.company.bulstat}" type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
+																	<div th:if="${#fields.hasErrors('point.company.bulstat')}" th:errors="*{point.company.bulstat}" style="color:red;">Bulstat Error</div>
+																	<fieldset class="mb-3">
+																		<h4>МОЛ</h4>
+																		<label class="col-form-label">Име</label>
+																		<input th:field="*{point.company.mrp.firstName}" type="text" class="form-control">
+																		<label class="col-form-label">Презиме</label>
+																		<input th:field="*{point.company.mrp.middleName}" type="text" class="form-control">
+																		<label class="col-form-label">Фамилия</label>
+																		<input th:field="*{point.company.mrp.lastName}" type="text" class="form-control">
+																	</fieldset>
+																	<fieldset>
+																		<h4>Адрес на фирмата</h4>
+																		<label class="col-form-label" for="inputDefault">Населено място</label>
+																		<select th:field="*{point.company.address.place}" class="custom-select">
+																			<option th:each="p : ${places}" 
+																					th:value="${p.id}"
+																					th:text="${p.name}">
+																			</option>
+																		</select>
+																		<div class="form-group col-sm-12 input-group-append">
+																			<div class="col-7">
+																				<label class="col-form-label" for="street">Улица</label>
+																				<input th:field="*{point.company.address.street}" type="text" class="form-control" placeholder="..." id="street">
+																			</div>
+																			<div>
+																				<label class="col-form-label" for="num">№</label>
+																				<input th:field="*{point.company.address.number}" type="text" class="form-control" placeholder="..." id="num">
+																			</div>
+																			<div>
+																				<label class="col-form-label" for="entrance">Вх.</label>
+																				<input th:field="*{point.company.address.entrance}" type="text" class="form-control" placeholder="..." id="entrance">
+																			</div>
+																			<div>
+																				<label class="col-form-label" for="floor">Ет.</label>
+																				<input th:field="*{point.company.address.floor}" type="text" class="form-control" placeholder="..." id="floor">
+																			</div>
+																			<div>
+																				<label class="col-form-label" for="floor">Еп.</label>
+																				<input th:field="*{point.company.address.apartment}" type="text" class="form-control" placeholder="..." id="compApartment">
+																			</div>
+																		</div>
+																	</fieldset>
+																</div>
+															</div>
+															<div class="form-group col-sm-6 ">
+																<div class="col">
+																	<fieldset class="mb-3">
+																		<h4>Получател</h4>
+																		<label class="col-form-label">Име</label>
+																		<input th:field="*{point.company.resipient.firstName}" type="text" class="form-control">
+																		<label class="col-form-label">Презиме</label>
+																		<input th:field="*{point.company.resipient.middleName}" type="text" class="form-control">
+																		<label class="col-form-label">Фамилия</label>
+																		<input th:field="*{point.company.resipient.lastName}" type="text" class="form-control">
+																	</fieldset>
+																	<fieldset>
+																		<h4>ДДС Статус</h4>
+																		<div class="form-group">
+																			<div id="vat">
+																				<div class="custom-control custom-radio">
+																					<input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
+																					<label class="custom-control-label" for="vat1">Да</label>
+																				</div>
+																				<div class="custom-control custom-radio">
+																					<input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
+																					<label class="custom-control-label" for="vat2">Не</label>
+																				</div>
+																			</div>
+																			<label class="col-form-label">ДДС номер</label>
+																			<input  type="text" class="form-control" id="vatnumber">
+																		</div>
+																	</fieldset>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+						                        <div class="col-lg-4 form-group">
+													<div id="responsible-person" class="card border-primary">
+														<legend class="card-header">Отговорници на обекта</legend>
+														<div class="d-flex w-100 justify-content-between">
+															<span>&nbsp;</span>
+															<button type="button" id="add-responsible" class="btn btn-outline-primary">&#43;</button>
+														</div>
+													</div>
+												</div>-->
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">

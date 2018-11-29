@@ -31,6 +31,7 @@ public class Street {
     private LifeStatus status;
 
     public Street() {
+		this.status = LifeStatus.EXISTING;
     }
 
     public Street(String name, LifeStatus status) {

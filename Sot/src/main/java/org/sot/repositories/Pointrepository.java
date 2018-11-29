@@ -25,6 +25,7 @@ public interface Pointrepository extends JpaRepository<Point, Long>{
 	public List<Object[]> findAllWithIdLatLng();
 	
 	public Point findPointById(Long id);
+	public Optional<Point> findOneByName(String name);
 	public Optional<Point> findById(Long id);
 	public Point save(Point point);
 	public void deleteById(Long id);

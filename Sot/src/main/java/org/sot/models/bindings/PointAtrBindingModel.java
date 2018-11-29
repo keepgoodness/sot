@@ -1,13 +1,7 @@
 package org.sot.models.bindings;
 
-import java.util.List;
-import javax.validation.Valid;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.sot.models.entities.Address;
-import org.sot.models.entities.Company;
-import org.sot.models.entities.Place;
-import org.sot.models.entities.Point;
+
 
 /**
  *
@@ -24,6 +18,7 @@ public class PointAtrBindingModel {
 	private Double lat;
 	private Double lng;
 
+	// *** Sddress ***
 	private String addressPlaceId;
     private String addressPlaceName;
 	
@@ -42,6 +37,13 @@ public class PointAtrBindingModel {
     @Size(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
     private String addressApartment;
 
+	// *** Ssestatus ***
+	private String sseStatus;
+	private boolean hasSse;
+	private boolean hasVideo;
+	
+	// *** Company ***
+	
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -129,5 +131,31 @@ public class PointAtrBindingModel {
 	public void setAddressApartment(String addressApartment) {
 		this.addressApartment = addressApartment;
 	}
+
+	public String getSseStatus() {
+		return sseStatus;
+	}
+
+	public void setSseStatus(String sseStatus) {
+		this.sseStatus = sseStatus;
+	}
+
+	public boolean isHasSse() {
+		return hasSse;
+	}
+
+	public void setHasSse(boolean hasSse) {
+		this.hasSse = hasSse;
+	}
+
+	public boolean isHasVideo() {
+		return hasVideo;
+	}
+
+	public void setHasVideo(boolean hasVideo) {
+		this.hasVideo = hasVideo;
+	}
+
+
 	
 }

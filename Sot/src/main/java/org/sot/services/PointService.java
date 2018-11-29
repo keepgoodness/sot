@@ -1,13 +1,20 @@
 package org.sot.services;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import org.hibernate.exception.ConstraintViolationException;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
+import org.sot.converters.BooleanConverter;
 import org.sot.enums.LifeStatus;
+import org.sot.enums.SseStatus;
 import org.sot.enums.TypeSearch;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.entities.Address;
@@ -22,6 +29,7 @@ import org.sot.repositories.Pointrepository;
 import org.sot.repositories.StreetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -46,43 +54,40 @@ public class PointService {
 		this.modelMapper = modelMapper;
 	}
 
-	@Transactional()
-	public boolean register(PointBindingModel bindingModel) {
-		Address address = bindingModel.getAddress();
-		ControlBoard controlBoard = bindingModel.getControlBoard();
-		Point point = new Point();
-		point.setName(bindingModel.getPoint().getName());
-		point.setIdentifier(bindingModel.getPoint().getIdentifier());
-		point.setPlace(bindingModel.getPlace());
-		point.setAddress(address);
-//		point.setControlBoard(controlBoard);
-		point.setLat(Double.parseDouble(bindingModel.getLatitude()));
-		point.setLng(Double.parseDouble(bindingModel.getLongitude()));
-		addressRepository.save(address).getId();
-		controlBoardRepository.save(controlBoard);
-		if (null == pointrepository.save(point).getId()) {
-			return false;
+//	@Transactional()
+//	public boolean register(PointBindingModel bindingModel) {
+//		Address address = bindingModel.getAddress();
+//		ControlBoard controlBoard = bindingModel.getControlBoard();
+//		Point point = new Point();
+//		point.setName(bindingModel.getPoint().getName());
+//		point.setIdentifier(bindingModel.getPoint().getIdentifier());
+//		point.setAddress(address);
+////		point.setControlBoard(controlBoard);
+//		point.setLat(Double.parseDouble(bindingModel.getLatitude()));
+//		point.setLng(Double.parseDouble(bindingModel.getLongitude()));
+//		addressRepository.save(address).getId();
+//		controlBoardRepository.save(controlBoard);
+//		if (null == pointrepository.save(point).getId()) {
+//			return false;
+//		}
+//		return true;
+//	}
+	@Transactional //в разработка
+	public boolean registerNew(PointAtrBindingModel bindingModel) throws MySQLIntegrityConstraintViolationException {
+		Point point = this.modelMapper.map(bindingModel, Point.class);
+		if (this.pointrepository.findOneByName(point.getName()).isPresent()) {
+			throw new MySQLIntegrityConstraintViolationException("Вече съществува обект с име " + point.getName());
 		}
-		return true;
-	}
+		Address address = point.getAddress();
+		Street street = address.getStreet();
 
-	@Transactional() //в разработка
-	public boolean registerNew(PointAtrBindingModel bindingModel) {
-		Point mPoint = this.modelMapper.map(bindingModel, Point.class);
-		Address mAddress = mPoint.getAddress();
-		Place mplace = mAddress.getPlace();
-		Street mStreet = mAddress.getStreet();
-		System.out.println("street_id: " + mStreet.getId());
-		System.out.println("street_name: " + mStreet.getName());
-		if(this.streetRepository.findOneByName(mStreet.getName()).isPresent()){
-			System.out.println("Съществува улица с име: " + mStreet.getName());
+		Optional<Street> dbStreet = this.streetRepository.findOneByName(street.getName());
+		if (dbStreet.isPresent()) {
+			point.getAddress().setStreet(dbStreet.get());
 		} else {
-			Street savedStreet = this.streetRepository.save(new Street(mStreet.getName(), LifeStatus.EXISTING));
-			System.out.println("Създаден нова улица с име: " + savedStreet.getName() +" и id: " + savedStreet.getId());
+			point.getAddress().setStreet(new Street(street.getName(), LifeStatus.EXISTING));
 		}
-		
-		System.out.println("place_id: " + mPoint.getAddress().getPlace().getId());
-		System.out.println("street: " + mPoint.getAddress().getStreet().getName());
+		this.pointrepository.save(point);
 		return true;
 	}
 

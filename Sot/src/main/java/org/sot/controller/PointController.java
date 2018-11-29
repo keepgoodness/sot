@@ -1,7 +1,9 @@
 package org.sot.controller;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.util.List;
 import javax.validation.Valid;
+import org.sot.enums.SseStatus;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Address;
@@ -15,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -55,14 +59,14 @@ public class PointController {
 		return "points/pointCreate";
 	}
 
-	@PostMapping("point-create")
-	public String pointCreate(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "points/pointCreate";
-		}
-		this.pointService.register(prm);
-		return "redirect:/";
-	}
+//	@PostMapping("point-create")
+//	public String pointCreate(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
+//		if (bindingResult.hasErrors()) {
+//			return "points/pointCreate";
+//		}
+//		this.pointService.register(prm);
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/create-new")
 	public String pointCreateNew(@Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
@@ -72,26 +76,11 @@ public class PointController {
 	}
 
 	@PostMapping("/create-new")
-	public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) {
+	public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) throws MySQLIntegrityConstraintViolationException {
 		if (bindingResult.hasErrors()) {
 			return "points/pointCreateNew";
 		}
-		System.out.println("vliza");
 		pointService.registerNew(pointAtrBindingModel);
-//			System.out.println("Id: " + p.getIdentifier());
-//			System.out.println("name: " + p.getName());
-//			Address pAddress = p.getAddress();
-//			
-//			System.out.println("pAddress.place.name : " + pAddress.getPlace().getName());
-//			System.out.println("pAddress.street.name : " + pAddress.getStreet().getName());
-//			System.out.println("pAddress.number : " + pAddress.getNumber());
-//			System.out.println("pAddress.entrance : " + pAddress.getEntrance());
-//			System.out.println("pAddress.floor : " + pAddress.getFloor());
-//			System.out.println("pAddress.apartment :" + pAddress.getApartment());
-//			System.out.println("point.ServiceStatus : " + p.isHasSse());
-//			System.out.println("point.ServiceStatus : " + p.isHasVideo());
-
-//		this.pointService.register(pointAtrBindingModel);
 		return "redirect:/";
 	}
 }
