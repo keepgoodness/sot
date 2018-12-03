@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 import org.sot.enums.SseStatus;
 import org.sot.enums.VatStatus;
@@ -32,11 +30,9 @@ public class Point {
 	private Long id;
 
 	@Column(length = 10, unique = true)
-	@Length(min = 1, max = 10, message = "ID на обекта не трябва да надвишава 10 символа!")
 	private String identifier;
 
 	@Column(length = 100, unique = true)
-	@Length(min = 1, max = 100, message = "Името на обекта  е между 1 и 100 символа!")
 	private String name;
 
 	@Column

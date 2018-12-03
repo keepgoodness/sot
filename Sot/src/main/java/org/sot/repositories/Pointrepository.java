@@ -17,22 +17,28 @@ import org.springframework.stereotype.Repository;
  * @author Jordan
  */
 @Repository
-public interface Pointrepository extends JpaRepository<Point, Long>{
+public interface Pointrepository extends JpaRepository<Point, Long> {
 
-	public List<Point> findAll();
-	
-	@Query(value = "select p.id, p.lat, p.lng, p.name from Point p")
-	public List<Object[]> findAllWithIdLatLng();
-	
-	public Point findPointById(Long id);
-	public Optional<Point> findOneByName(String name);
-	public Optional<Point> findById(Long id);
-	public Point save(Point point);
-	public void deleteById(Long id);
-	
-	@Query(value = "select p.id, p.name from Point p where p.name like %?1%")
-	public List<Object[]> findByName(String name);
-	
-	@Query(value = "select p.id, p.name from Point p where p.identifier like %?1%")
-	public List<Object[]> findByIdentifier(String identifier);
+    public List<Point> findAll();
+
+    @Query(value = "select p.id, p.lat, p.lng, p.name from Point p")
+    public List<Object[]> findAllWithIdLatLng();
+
+    public Point findPointById(Long id);
+
+    public Optional<Point> findOneByName(String name);
+
+    public Optional<Point> findOneByIdentifier(String identifier);
+
+    public Optional<Point> findById(Long id);
+
+    public Point save(Point point);
+
+    public void deleteById(Long id);
+
+    @Query(value = "select p.id, p.name from Point p where p.name like %?1%")
+    public List<Object[]> findByName(String name);
+
+    @Query(value = "select p.id, p.name from Point p where p.identifier like %?1%")
+    public List<Object[]> findByIdentifier(String identifier);
 }

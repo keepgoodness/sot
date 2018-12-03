@@ -73,12 +73,12 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/company", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public Company adsCompany() {
-        Company savedCompany = companyService.saveCompany();
-
-        return savedCompany;
-    }
+//    @GetMapping(value = "/company", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ResponseBody
+//    public Company adsCompany() {
+////        Company savedCompany = companyService.saveCompany();
+//
+//        return savedCompany;
+//    }
 
 }
