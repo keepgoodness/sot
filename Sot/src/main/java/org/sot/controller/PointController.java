@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.sot.exceptions.ExistingIdentifierException;
 import org.sot.exceptions.ExistingPointException;
+import org.sot.models.bindings.CompanyBindingModel;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Place;
@@ -42,6 +43,11 @@ public class PointController {
     public List<Place> getPlaces() {
         return this.placeService.findAllPlaces();
     }
+	
+	@ModelAttribute("allPoints")
+	public String getAllPoint(){
+		return this.pointService.getPointsAsJsonArray().toString();
+	}
 
 //    @GetMapping("point-create")
 //    public String pointCreate(@ModelAttribute PointBindingModel pointBindingModel, Model model) {
@@ -63,16 +69,15 @@ public class PointController {
     @GetMapping("/create-new")
     public String pointCreateNew(@Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
         model.addAttribute("title", "Създаване на обект");
-        model.addAttribute("allPoints", pointService.getPointsAsJsonArray().toString());
         return "points/pointCreateNew";
     }
 
     @PostMapping("/create-new")
-    public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) {
+    public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel,  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "points/pointCreateNew";
         }
-
+		System.out.println(pointAtrBindingModel.getResponsiblePersons().get(0).getFirstName());
         try {
             pointService.registerNew(pointAtrBindingModel);
         } catch (ExistingPointException exP) {

@@ -77,7 +77,8 @@ public class PointService {
     @Transactional //в разработка
     public boolean registerNew(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
         Point point = this.modelMapper.map(bindingModel, Point.class);
-        if (this.pointrepository.findOneByName(point.getName()).isPresent()) {
+		Optional<Point> findOneByName = this.pointrepository.findOneByName(point.getName());
+        if (findOneByName.isPresent()) {
             throw new ExistingPointException("Вече съществува обект с име " + point.getName());
         }
         if (this.pointrepository.findOneByIdentifier(point.getIdentifier()).isPresent()) {

@@ -23,7 +23,6 @@ public class Company {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Length(min = 3, max = 15, message = "Булстата е задължителен.Между 3 и 15 символа")
 	@Column(length = 15, nullable = false)
 	private String bulstat;
 
@@ -50,9 +49,9 @@ public class Company {
 		return id;
 	}
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 	public String getBulstat() {
 		return bulstat;
 	}

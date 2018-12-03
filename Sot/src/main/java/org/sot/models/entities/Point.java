@@ -1,5 +1,7 @@
 package org.sot.models.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.validator.constraints.Length;
 import org.sot.enums.SseStatus;
 import org.sot.enums.VatStatus;
 
@@ -45,16 +48,6 @@ public class Point {
 	@JoinColumn
 	private Address address;
 
-//	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-//	@JoinColumn(name = "place_id")
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	private Place place;
-
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//	@JoinColumn(name = "controlboard_id")
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	private ControlBoard controlBoard;
-
 	@Enumerated(EnumType.ORDINAL)
 	@Column(columnDefinition = "boolean")
 	private VatStatus vatStatus;
@@ -74,6 +67,15 @@ public class Point {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Company company;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(
+		joinColumns = {@JoinColumn(name = "point_id")},
+		inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
+	private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
+
+	public Point() {
+	}
 
 	public Long getId() {
 		return id;
@@ -123,22 +125,6 @@ public class Point {
 		this.address = address;
 	}
 
-//	public Place getPlace() {
-//		return place;
-//	}
-//
-//	public void setPlace(Place place) {
-//		this.place = place;
-//	}
-
-//	public ControlBoard getControlBoard() {
-//		return controlBoard;
-//	}
-//
-//	public void setControlBoard(ControlBoard controlBoard) {
-//		this.controlBoard = controlBoard;
-//	}
-
 	public VatStatus getVatStatus() {
 		return vatStatus;
 	}
@@ -186,9 +172,13 @@ public class Point {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-//	@Override
-//	public String toString() {
-//		return "{\"point\":{" + "\"id\":" + id + ", \"identifier\":\"" + identifier + "\", \"name\":\"" + name + "\", \"lat\":\"" + lat + "\", \"lng\":\"" + lng + "\", " + address.toString() + ", " + place.toString() + ", " + controlBoard.toString() + "}}";
-//	}
+
+	public List<ResponsiblePerson> getResponsiblePersons() {
+		return responsiblePersons;
+	}
+
+	public void setResponsiblePersons(List<ResponsiblePerson> responsiblePersons) {
+		this.responsiblePersons = responsiblePersons;
+	}
 
 }
