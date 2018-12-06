@@ -1,6 +1,13 @@
 package org.sot.config;
 
+import org.sot.models.bindings.PointAtrBindingModel;
+import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.spi.MappingContext;
+import org.sot.models.entities.Company;
+import org.sot.models.entities.Point;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +20,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanConfig {
 
+	private final PointRequestToPointYesOrNoCompany pointRequestToPointYesOrNoCompany;
+
+	@Autowired
+	public BeanConfig(PointRequestToPointYesOrNoCompany pointRequestToPointYesOrNoCompany) {
+		this.pointRequestToPointYesOrNoCompany = pointRequestToPointYesOrNoCompany;
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -20,6 +34,12 @@ public class BeanConfig {
 
 	@Bean
 	public ModelMapper getModelMapper() {
-		return new ModelMapper();
+		ModelMapper modelMapper = new ModelMapper();
+		if (modelMapper.getTypeMap(PointAtrBindingModel.class, Point.class) == null) {
+			modelMapper.addMappings(this.pointRequestToPointYesOrNoCompany);
+
+		}
+		return modelMapper;
 	}
+
 }

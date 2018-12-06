@@ -2,7 +2,7 @@ package org.sot.models.bindings;
 
 import java.util.List;
 import javax.validation.constraints.Size;
-import org.sot.models.entities.Address;
+import org.sot.models.entities.ResponsiblePerson;
 import org.sot.models.entities.ResponsiblePerson;
 
 /**
@@ -43,6 +43,10 @@ public class PointAtrBindingModel {
 	private String sseStatus;
 	private boolean hasSse;
 	private boolean hasVideo;
+	
+	// *** Company ***
+	@Size(max = 15, message = "Булстатът не трябва да надвишава 15 символа")
+	private String companyBulstat;
 	
 	private List<ResponsiblePerson> responsiblePersons;
 
@@ -166,4 +170,11 @@ public class PointAtrBindingModel {
 		this.responsiblePersons = responsiblePersons;
 	}
 
+	public String getCompanyBulstat() {
+		return companyBulstat;
+	}
+
+	public void setCompanyBulstat(String companyBulstat) {
+		this.companyBulstat = companyBulstat;
+	}
 }

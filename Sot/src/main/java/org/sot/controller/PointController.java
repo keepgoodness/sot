@@ -77,16 +77,16 @@ public class PointController {
         if (bindingResult.hasErrors()) {
             return "points/pointCreateNew";
         }
-		System.out.println(pointAtrBindingModel.getResponsiblePersons().get(0).getFirstName());
-        try {
-            pointService.registerNew(pointAtrBindingModel);
-        } catch (ExistingPointException exP) {
-            bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
-            return "points/pointCreateNew";
-        } catch (ExistingIdentifierException exId){
-            bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
-            return "points/pointCreateNew";
-        }
+		pointService.updatePoint(pointAtrBindingModel);
+//        try {
+//            pointService.registerNew(pointAtrBindingModel);
+//        } catch (ExistingPointException exP) {
+//            bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
+//            return "points/pointCreateNew";
+//        } catch (ExistingIdentifierException exId){
+//            bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
+//            return "points/pointCreateNew";
+//        }
         return "redirect:/";
     }
 }

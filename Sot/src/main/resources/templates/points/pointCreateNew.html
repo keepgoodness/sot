@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head th:include="~{fragments/parts::head}"></head>
     <body>
@@ -21,6 +21,9 @@
                         <div class="btn btn-primary" onclick="initMap();">&#9755;</div>
                     </div>
                 </div>
+				<div th:if="${#fields.hasAnyErrors()}">
+					<h3><p class="errorRed">Имате грешка, плъзнете надолу да я поправите!</p></h3>
+				</div>
                 <div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
                     <div class="row">
                         <div class="col-lg-4 form-group">
@@ -141,9 +144,8 @@
                                     <div class="form-group col-sm-6 ">
                                         <div class="col">
                                             <label class="col-form-label" for="bulstat">Булстат</label>
-                                            <span style="color: red; font-weight: bold">&nbsp*</span>
-                                            <input type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
-                                            <!--<div th:if="${#fields.hasErrors('company.bulstat')}" th:errors="*{bulstat}" style="color:red;">Bulstat Error</div>-->
+                                            <input th:field="*{companyBulstat}" type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
+                                            <div th:if="${#fields.hasErrors('companyBulstat')}" th:errors="*{companyBulstat}" th:errorclass="errorRed" th:classappend="company">Bulstat Error</div>
                                             <fieldset class="mb-3">
                                                 <h4>МОЛ</h4>
                                                 <label class="col-form-label">Име</label>
@@ -348,6 +350,12 @@
 					}
 				});
 				$("#form-company").hide();
+				if ($(".errorRed .company").length) {
+					$("#form-company").show("slow");
+				} else {
+					$("#form-company").hide("slow");
+				}
+
 				$("#add-company").click(function () {
 					if ($("#add-company").html() === "+") {
 						$("#add-company").html("&#8722");

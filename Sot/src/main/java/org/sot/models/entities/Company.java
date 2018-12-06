@@ -26,23 +26,27 @@ public class Company {
 	@Column(length = 15, nullable = false)
 	private String bulstat;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Mrp mrp;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Resipient resipient;
-
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn
-	private Address address;
-
-	@Column(length = 15, nullable = true)
-	private String vat;
-
-	@Column(columnDefinition = "boolean default 0")
-	private boolean vatStatus;
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	private Mrp mrp;
+//
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	private Resipient resipient;
+//
+//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+//	@JoinColumn
+//	private Address address;
+//
+//	@Column(length = 15, nullable = true)
+//	private String vat;
+//
+//	@Column(columnDefinition = "boolean default 0")
+//	private boolean vatStatus;
 
 	public Company() {
+	}
+
+	public Company(String bulstat) {
+		this.bulstat = bulstat;
 	}
 
 	public Long getId() {
@@ -60,28 +64,28 @@ public class Company {
 		this.bulstat = bulstat;
 	}
 
-	public Mrp getMrp() {
-		return mrp;
-	}
-
-	public void setMrp(Mrp mrp) {
-		this.mrp = mrp;
-	}
-
-	public Resipient getResipient() {
-		return resipient;
-	}
-
-	public void setResipient(Resipient resipient) {
-		this.resipient = resipient;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+//	public Mrp getMrp() {
+//		return mrp;
+//	}
+//
+//	public void setMrp(Mrp mrp) {
+//		this.mrp = mrp;
+//	}
+//
+//	public Resipient getResipient() {
+//		return resipient;
+//	}
+//
+//	public void setResipient(Resipient resipient) {
+//		this.resipient = resipient;
+//	}
+//
+//	public Address getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(Address address) {
+//		this.address = address;
+//	}
 
 }
