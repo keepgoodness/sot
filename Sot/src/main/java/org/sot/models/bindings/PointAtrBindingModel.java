@@ -43,11 +43,25 @@ public class PointAtrBindingModel {
 	private String sseStatus;
 	private boolean hasSse;
 	private boolean hasVideo;
-	
+
 	// *** Company ***
 	@Size(max = 15, message = "Булстатът не трябва да надвишава 15 символа")
 	private String companyBulstat;
 	
+	@Size(max = 60, message = "МОЛ - името не трябва да надвишава 60 символа")
+	private String companyMrpFirstName;
+	@Size(max = 60, message = "МОЛ - бащиното име не трябва да надвишава 60 символа")
+	private String companyMrpMiddleName;
+	@Size(max = 60, message = "МОЛ - фамилията не трябва да надвишава 60 символа")
+	private String companyMrpLastName;
+	
+	@Size(max = 60, message = "Името на получателя не трябва да надвишава 60 символа")
+	private String companyRecipientFirstName;
+	@Size(max = 60, message = "Бащиното име на получателя не трябва да надвишава 60 символа")
+	private String companyRecipientMiddleName;
+	@Size(max = 60, message = "Фамилията на получателя не трябва да надвишава 60 символа")
+	private String companyRecipientLastName;
+
 	private List<ResponsiblePerson> responsiblePersons;
 
 	public String getIdentifier() {

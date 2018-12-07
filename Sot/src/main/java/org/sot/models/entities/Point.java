@@ -49,18 +49,11 @@ public class Point {
 	private Address address;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(columnDefinition = "boolean")
-	private VatStatus vatStatus;
-
-	@Column(length = 15, nullable = true)
-	private String vatCode;
-
-	@Enumerated(EnumType.ORDINAL)
 	@Column(columnDefinition = "boolean", length = 1)
 	private SseStatus sseStatus;
 
 	@Column(columnDefinition = "boolean", length = 1, nullable = false)
-	private boolean hasSse;
+	private boolean hasSot;
 
 	@Column(columnDefinition = "boolean", length = 1, nullable = false)
 	private boolean hasVideo;
@@ -70,8 +63,8 @@ public class Point {
 
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinTable(
-//		joinColumns = {@JoinColumn(name = "point_id")},
-//		inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
+//	joinColumns = {@JoinColumn(name = "point_id")},
+//	inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
 //	private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
 
 	public Point() {
@@ -125,22 +118,6 @@ public class Point {
 		this.address = address;
 	}
 
-	public VatStatus getVatStatus() {
-		return vatStatus;
-	}
-
-	public void setVatStatus(VatStatus vatStatus) {
-		this.vatStatus = vatStatus;
-	}
-
-	public String getVatCode() {
-		return vatCode;
-	}
-
-	public void setVatCode(String vatCode) {
-		this.vatCode = vatCode;
-	}
-
 	public SseStatus getSseStatus() {
 		return sseStatus;
 	}
@@ -149,12 +126,12 @@ public class Point {
 		this.sseStatus = sseStatus;
 	}
 
-	public boolean isHasSse() {
-		return hasSse;
+	public boolean isHasSot() {
+		return hasSot;
 	}
 
-	public void setHasSse(boolean hasSse) {
-		this.hasSse = hasSse;
+	public void setHasSot(boolean hasSot) {
+		this.hasSot = hasSot;
 	}
 
 	public boolean isHasVideo() {

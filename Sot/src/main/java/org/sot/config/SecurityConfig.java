@@ -29,12 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
 				.antMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**");
+				
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				//.antMatchers("/", "/login").permitAll()
+//				.antMatchers("").permitAll()
 				.anyRequest().authenticated()
 			.and().formLogin()
 				.loginPage("/login").permitAll()

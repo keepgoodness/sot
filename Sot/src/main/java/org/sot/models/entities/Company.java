@@ -3,6 +3,8 @@ package org.sot.models.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
+import org.sot.enums.VatStatus;
 
 /**
  *
@@ -26,21 +29,22 @@ public class Company {
 	@Column(length = 15, nullable = false)
 	private String bulstat;
 
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	private Mrp mrp;
-//
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	private Resipient resipient;
-//
-//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-//	@JoinColumn
-//	private Address address;
-//
-//	@Column(length = 15, nullable = true)
-//	private String vat;
-//
-//	@Column(columnDefinition = "boolean default 0")
-//	private boolean vatStatus;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Mrp mrp;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Resipient resipient;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn
+	private Address address;
+
+	@Column(length = 15, nullable = true)
+	private String vatCode;
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column(columnDefinition = "boolean default 0")
+	private VatStatus vatStatus;
 
 	public Company() {
 	}
@@ -53,9 +57,10 @@ public class Company {
 		return id;
 	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getBulstat() {
 		return bulstat;
 	}
@@ -64,28 +69,44 @@ public class Company {
 		this.bulstat = bulstat;
 	}
 
-//	public Mrp getMrp() {
-//		return mrp;
-//	}
-//
-//	public void setMrp(Mrp mrp) {
-//		this.mrp = mrp;
-//	}
-//
-//	public Resipient getResipient() {
-//		return resipient;
-//	}
-//
-//	public void setResipient(Resipient resipient) {
-//		this.resipient = resipient;
-//	}
-//
-//	public Address getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
+	public Mrp getMrp() {
+		return mrp;
+	}
+
+	public void setMrp(Mrp mrp) {
+		this.mrp = mrp;
+	}
+
+	public Resipient getResipient() {
+		return resipient;
+	}
+
+	public void setResipient(Resipient resipient) {
+		this.resipient = resipient;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String getVatCode() {
+		return vatCode;
+	}
+
+	public void setVatCode(String vatCode) {
+		this.vatCode = vatCode;
+	}
+
+	public VatStatus getVatStatus() {
+		return vatStatus;
+	}
+
+	public void setVatStatus(VatStatus vatStatus) {
+		this.vatStatus = vatStatus;
+	}
 
 }

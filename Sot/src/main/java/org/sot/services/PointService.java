@@ -145,7 +145,7 @@ public class PointService {
 		Point point = this.modelMapper.map(bindingModel, Point.class);
 
 
-//		this.pointrepository.save(point);
+		this.pointrepository.save(point);
 		return true;
 	}
 
