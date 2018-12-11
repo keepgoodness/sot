@@ -33,7 +33,7 @@ public class Company {
 	private Mrp mrp;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Resipient resipient;
+	private Recipient recipient;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn
@@ -77,13 +77,14 @@ public class Company {
 		this.mrp = mrp;
 	}
 
-	public Resipient getResipient() {
-		return resipient;
+	public Recipient getRecipient() {
+		return recipient;
 	}
 
-	public void setResipient(Resipient resipient) {
-		this.resipient = resipient;
+	public void setRecipient(Recipient recipient) {
+		this.recipient = recipient;
 	}
+
 
 	public Address getAddress() {
 		return address;

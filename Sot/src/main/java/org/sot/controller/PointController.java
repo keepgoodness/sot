@@ -8,6 +8,7 @@ import org.sot.models.bindings.CompanyBindingModel;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Place;
+import org.sot.models.entities.Point;
 import org.sot.repositories.StreetRepository;
 import org.sot.services.PlaceService;
 import org.sot.services.PointService;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -77,16 +79,16 @@ public class PointController {
         if (bindingResult.hasErrors()) {
             return "points/pointCreateNew";
         }
-		pointService.updatePoint(pointAtrBindingModel);
-//        try {
-//            pointService.registerNew(pointAtrBindingModel);
-//        } catch (ExistingPointException exP) {
-//            bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
-//            return "points/pointCreateNew";
-//        } catch (ExistingIdentifierException exId){
-//            bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
-//            return "points/pointCreateNew";
-//        }
+
+        try {
+            pointService.createPoint(pointAtrBindingModel);
+        } catch (ExistingPointException exP) {
+            bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
+            return "points/pointCreateNew";
+        } catch (ExistingIdentifierException exId){
+            bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
+            return "points/pointCreateNew";
+        }
         return "redirect:/";
     }
 }

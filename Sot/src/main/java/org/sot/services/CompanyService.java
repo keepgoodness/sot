@@ -10,7 +10,7 @@ import org.sot.models.entities.Address;
 import org.sot.models.entities.Company;
 import org.sot.models.entities.Mrp;
 import org.sot.models.entities.Place;
-import org.sot.models.entities.Resipient;
+import org.sot.models.entities.Recipient;
 import org.sot.models.entities.Street;
 import org.sot.repositories.CompanyRepository;
 import org.sot.repositories.PlaceRepository;
@@ -64,7 +64,7 @@ public class CompanyService {
 //        Company company = new Company();
 //        company.setBulstat("123456789111111");
 //        company.setMrp(new Mrp("киро", "dimitrov", "lazarov"));
-//        company.setResipient(new Resipient("киро", "kirilov", "kirilov"));
+//        company.setResipient(new Recipient("киро", "kirilov", "kirilov"));
 //        company.setAddress(address);
 //        Company saved = companyRepository.save(company);
 //        Address savedAddress = saved.getAddress();

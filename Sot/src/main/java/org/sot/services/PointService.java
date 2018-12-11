@@ -23,14 +23,15 @@ import org.sot.exceptions.ExistingIdentifierException;
 import org.sot.exceptions.ExistingPointException;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.entities.Address;
-import org.sot.models.entities.ControlBoard;
 import org.sot.models.entities.Point;
 import org.sot.models.bindings.PointBindingModel;
 import org.sot.models.entities.Company;
+import org.sot.models.entities.Mrp;
 import org.sot.models.entities.Place;
+import org.sot.models.entities.Recipient;
 import org.sot.models.entities.Street;
 import org.sot.repositories.AddressRepository;
-import org.sot.repositories.ControlBoardRepository;
+import org.sot.repositories.CompanyRepository;
 import org.sot.repositories.Pointrepository;
 import org.sot.repositories.StreetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +48,17 @@ public class PointService {
 
 	private final AddressRepository addressRepository;
 	private final Pointrepository pointrepository;
-	private final ControlBoardRepository controlBoardRepository;
 	private final StreetRepository streetRepository;
+	private final CompanyRepository companyRepository;
 	private ModelMapper modelMapper;
 
 	@Autowired
-	public PointService(AddressRepository addressRepository, Pointrepository pointrepository, ControlBoardRepository controlBoardRepository, StreetRepository streetRepository, ModelMapper modelMapper) {
+	public PointService(AddressRepository addressRepository, Pointrepository pointrepository, StreetRepository streetRepository, ModelMapper modelMapper, CompanyRepository companyRepository) {
 		this.addressRepository = addressRepository;
 		this.pointrepository = pointrepository;
-		this.controlBoardRepository = controlBoardRepository;
 		this.streetRepository = streetRepository;
 		this.modelMapper = modelMapper;
+		this.companyRepository = companyRepository;
 	}
 
 //	@Transactional()
@@ -115,38 +116,49 @@ public class PointService {
 	}
 
 	public void deletePoint(Long id) {
-		pointrepository.deleteById(id);
+		Optional<Point> findByIdOpt = pointrepository.findById(id);
+		if (findByIdOpt.isPresent()) {
+			pointrepository.deleteById(id);
+		}
 	}
 
-//	@Transactional //в разработка
-//	public boolean registerNew(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
-//		Point point = this.modelMapper.map(bindingModel, Point.class);
-//		Optional<Point> findOneByName = this.pointrepository.findOneByName(point.getName());
-//		if (findOneByName.isPresent()) {
-//			throw new ExistingPointException("Вече съществува обект с име " + point.getName());
-//		}
-//		if (this.pointrepository.findOneByIdentifier(point.getIdentifier()).isPresent()) {
-//			throw new ExistingIdentifierException("Вече съществува обект с код " + point.getIdentifier());
-//		}
-//		
-//		Street street = point.getAddress().getStreet();
-//		Optional<Street> dbStreet = this.streetRepository.findOneByName(street.getName());
-//		
-//		if (dbStreet.isPresent()) {
-//			point.getAddress().setStreet(dbStreet.get());
-//		} else {
-//			point.getAddress().setStreet(new Street(street.getName(), LifeStatus.EXISTING));
-//		}
-//		this.pointrepository.save(point);
-//		return true;
-//	}
-//	
-	public boolean updatePoint(PointAtrBindingModel bindingModel) {
+	@Transactional //в разработка
+	public boolean createPoint(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
 		Point point = this.modelMapper.map(bindingModel, Point.class);
-
+		Optional<Point> findOneByName = this.pointrepository.findOneByName(point.getName());
+		if (findOneByName.isPresent()) {
+			throw new ExistingPointException("Вече съществува обект с име " + point.getName());
+		}
+		if (this.pointrepository.findOneByIdentifier(point.getIdentifier()).isPresent()) {
+			throw new ExistingIdentifierException("Вече съществува обект с код " + point.getIdentifier());
+		}
+//		
+		Street pointStreet = point.getAddress().getStreet();
+		Optional<Street> dbStreet = this.streetRepository.findOneByName(pointStreet.getName());
+		if (dbStreet.isPresent()) {
+			System.out.println("strP:"+ dbStreet.get().getName());
+			point.getAddress().setStreet(dbStreet.get());
+		} else {
+			System.out.println("strP_No:");
+			point.getAddress().setStreet(new Street(pointStreet.getName(), LifeStatus.EXISTING));
+		}
+		Street companyStreet = point.getCompany().getAddress().getStreet();
+		Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreet.getName());
+		if (companyStrOpt.isPresent()) {
+			System.out.println("companyStrP:"+ companyStrOpt.get().getName());
+			point.getCompany().getAddress().setStreet(companyStrOpt.get());
+		} else {
+			System.out.println("companyStrP_No:");
+			point.getCompany().getAddress().setStreet(new Street(pointStreet.getName(), LifeStatus.EXISTING));
+		}
 
 		this.pointrepository.save(point);
 		return true;
 	}
+//	
 
+	public boolean updatePoint(PointAtrBindingModel bindingModel) {
+
+		return true;
+	}
 }

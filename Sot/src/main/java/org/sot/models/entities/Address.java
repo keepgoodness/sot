@@ -25,7 +25,7 @@ public class Address {
     @JoinColumn(nullable = true)
     private Place place;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(nullable = true)
     private Street street;
 

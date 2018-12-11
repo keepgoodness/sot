@@ -3,7 +3,6 @@ package org.sot.controller;
 import org.sot.converters.TypeSearchConverter;
 import org.sot.enums.TypeSearch;
 import org.sot.models.bindings.PointBindingModel;
-import org.sot.models.entities.Company;
 import org.sot.models.entities.Point;
 import org.sot.repositories.Pointrepository;
 import org.sot.services.CompanyService;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -53,10 +51,10 @@ public class HomeController {
         return "index";
     }
 
-    @ResponseBody
+    
     @GetMapping(value = "/point", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String getPointJson(@RequestParam("id") String id, Model model) {
-        return pointrepository.findPointById(Long.parseLong(id)).toString();
+    public @ResponseBody Point getPointJson(@RequestParam("id") String id, Model model) {
+        return pointrepository.findPointById(Long.parseLong(id));
     }
 
     @ResponseBody
@@ -64,21 +62,6 @@ public class HomeController {
     public String getAllPointsIdNameJson(@RequestParam String dataSearch, @RequestParam TypeSearch typeSearch) {
         return pointService.getPointsAutocomplete(dataSearch, typeSearch).toString();
     }
-
-    @GetMapping(value = "/point-delete/{id}")
-    public String delete(@PathVariable String id) {
-        Point point = pointrepository.getOne(Long.parseLong(id));
-        System.out.println(point.toString());
-//		pointService.deletePoint(Long.parseLong(id));
-        return "redirect:/";
-    }
-
-//    @GetMapping(value = "/company", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    @ResponseBody
-//    public Company adsCompany() {
-////        Company savedCompany = companyService.saveCompany();
-//
-//        return savedCompany;
-//    }
+ 
 
 }

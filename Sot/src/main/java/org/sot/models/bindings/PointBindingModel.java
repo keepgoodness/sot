@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import org.sot.models.entities.Address;
 import org.sot.models.entities.Brand;
-import org.sot.models.entities.ControlBoard;
 import org.sot.models.entities.Place;
 import org.sot.models.entities.Point;
 
@@ -23,8 +22,6 @@ public class PointBindingModel {
 	private Place place;
 	private List<Place> places;
 	private List<Brand> brands;
-	@Valid
-	private ControlBoard controlBoard;
 	private String latitude;
 	private String longitude;
 
@@ -66,14 +63,6 @@ public class PointBindingModel {
 
 	public void setBrands(List<Brand> brands) {
 		this.brands = brands;
-	}
-
-	public ControlBoard getControlBoard() {
-		return controlBoard;
-	}
-
-	public void setControlBoard(ControlBoard controlBoard) {
-		this.controlBoard = controlBoard;
 	}
 
 	public String getLatitude() {

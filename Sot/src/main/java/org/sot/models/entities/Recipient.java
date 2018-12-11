@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * @author Jordan
  */
 @Entity(name = "recipients")
-public class Resipient {
+public class Recipient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,13 +26,13 @@ public class Resipient {
     @Column(length = 60, nullable = true)
     private String lastName;
 
-    public Resipient(String firstName, String middleName, String lastName) {
+    public Recipient(String firstName, String middleName, String lastName) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
     }
 
-    public Resipient() {
+    public Recipient() {
     }
 
     public Long getId() {

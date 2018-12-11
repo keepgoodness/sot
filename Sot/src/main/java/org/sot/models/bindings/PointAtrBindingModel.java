@@ -61,6 +61,24 @@ public class PointAtrBindingModel {
 	private String companyRecipientMiddleName;
 	@Size(max = 60, message = "Фамилията на получателя не трябва да надвишава 60 символа")
 	private String companyRecipientLastName;
+	
+	private String companyAddressPlaceId;
+	private String companyAddressPlaceName;
+
+	@Size(max = 60, message = "Улицата не трябва да надвишава 60 символа")
+	private String companyAddressStreetName;
+
+	@Size(max = 3, message = "Номерът не трябва да надвишава 3 символа")
+	private String companyAddressNumber;
+
+	@Size(max = 2, message = "Входът не трябва да надвишава 2 символа")
+	private String companyAddressEntrance;
+
+	@Size(max = 3, message = "Етажът не трябва да надвишава 3 символа")
+	private String companyAddressFloor;
+
+	@Size(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
+	private String companyAddressApartment;
 
 	private List<ResponsiblePerson> responsiblePersons;
 
@@ -190,5 +208,109 @@ public class PointAtrBindingModel {
 
 	public void setCompanyBulstat(String companyBulstat) {
 		this.companyBulstat = companyBulstat;
+	}
+
+	public String getCompanyMrpFirstName() {
+		return companyMrpFirstName;
+	}
+
+	public void setCompanyMrpFirstName(String companyMrpFirstName) {
+		this.companyMrpFirstName = companyMrpFirstName;
+	}
+
+	public String getCompanyMrpMiddleName() {
+		return companyMrpMiddleName;
+	}
+
+	public void setCompanyMrpMiddleName(String companyMrpMiddleName) {
+		this.companyMrpMiddleName = companyMrpMiddleName;
+	}
+
+	public String getCompanyMrpLastName() {
+		return companyMrpLastName;
+	}
+
+	public void setCompanyMrpLastName(String companyMrpLastName) {
+		this.companyMrpLastName = companyMrpLastName;
+	}
+
+	public String getCompanyRecipientFirstName() {
+		return companyRecipientFirstName;
+	}
+
+	public void setCompanyRecipientFirstName(String companyRecipientFirstName) {
+		this.companyRecipientFirstName = companyRecipientFirstName;
+	}
+
+	public String getCompanyRecipientMiddleName() {
+		return companyRecipientMiddleName;
+	}
+
+	public void setCompanyRecipientMiddleName(String companyRecipientMiddleName) {
+		this.companyRecipientMiddleName = companyRecipientMiddleName;
+	}
+
+	public String getCompanyRecipientLastName() {
+		return companyRecipientLastName;
+	}
+
+	public void setCompanyRecipientLastName(String companyRecipientLastName) {
+		this.companyRecipientLastName = companyRecipientLastName;
+	}
+
+	public String getCompanyAddressPlaceId() {
+		return companyAddressPlaceId;
+	}
+
+	public void setCompanyAddressPlaceId(String companyAddressPlaceId) {
+		this.companyAddressPlaceId = companyAddressPlaceId;
+	}
+
+	public String getCompanyAddressPlaceName() {
+		return companyAddressPlaceName;
+	}
+
+	public void setCompanyAddressPlaceName(String companyAddressPlaceName) {
+		this.companyAddressPlaceName = companyAddressPlaceName;
+	}
+
+	public String getCompanyAddressStreetName() {
+		return companyAddressStreetName;
+	}
+
+	public void setCompanyAddressStreetName(String companyAddressStreetName) {
+		this.companyAddressStreetName = companyAddressStreetName;
+	}
+
+	public String getCompanyAddressNumber() {
+		return companyAddressNumber;
+	}
+
+	public void setCompanyAddressNumber(String companyAddressNumber) {
+		this.companyAddressNumber = companyAddressNumber;
+	}
+
+	public String getCompanyAddressEntrance() {
+		return companyAddressEntrance;
+	}
+
+	public void setCompanyAddressEntrance(String companyAddressEntrance) {
+		this.companyAddressEntrance = companyAddressEntrance;
+	}
+
+	public String getCompanyAddressFloor() {
+		return companyAddressFloor;
+	}
+
+	public void setCompanyAddressFloor(String companyAddressFloor) {
+		this.companyAddressFloor = companyAddressFloor;
+	}
+
+	public String getCompanyAddressApartment() {
+		return companyAddressApartment;
+	}
+
+	public void setCompanyAddressApartment(String companyAddressApartment) {
+		this.companyAddressApartment = companyAddressApartment;
 	}
 }

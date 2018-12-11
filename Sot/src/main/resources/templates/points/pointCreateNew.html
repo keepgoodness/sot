@@ -49,7 +49,7 @@
                             <div class="card border-primary">
                                 <legend class="card-header">Адрес</legend>
                                 <div class="col-sm-5">
-                                    <label class="col-form-label" for="inputDefault">Населено място</label>
+                                    <label class="col-form-label">Населено място</label>
                                     <select th:field="*{addressPlaceId}" class="custom-select">
                                         <option th:each="p : ${places}" 
                                                 th:value="${p.id}"
@@ -149,16 +149,16 @@
                                             <fieldset class="mb-3">
                                                 <h4>МОЛ</h4>
                                                 <label class="col-form-label">Име</label>
-                                                <input type="text" class="form-control">
+                                                <input th:field="*{companyMrpFirstName}" type="text" class="form-control">
                                                 <label class="col-form-label">Презиме</label>
-                                                <input type="text" class="form-control">
+                                                <input th:field="*{companyMrpMiddleName}" type="text" class="form-control">
                                                 <label class="col-form-label">Фамилия</label>
-                                                <input type="text" class="form-control">
+                                                <input th:field="*{companyMrpLastName}" type="text" class="form-control">
                                             </fieldset>
                                             <fieldset>
                                                 <h4>Адрес на фирмата</h4>
                                                 <label class="col-form-label" for="inputDefault">Населено място</label>
-                                                <select class="custom-select">
+                                                <select th:field="*{companyAddressPlaceId}" class="custom-select">
                                                     <option th:each="p : ${places}" 
                                                             th:value="${p.id}"
                                                             th:text="${p.name}">
@@ -167,23 +167,23 @@
                                                 <div class="form-group col-sm-12 input-group-append">
                                                     <div class="col-7">
                                                         <label class="col-form-label" for="street">Улица</label>
-                                                        <input  type="text" class="form-control" placeholder="..." id="street">
+                                                        <input  th:field="*{companyAddressStreetName}" type="text" class="form-control" placeholder="..." id="street">
                                                     </div>
                                                     <div>
                                                         <label class="col-form-label" for="num">№</label>
-                                                        <input  type="text" class="form-control" placeholder="..." id="num">
+                                                        <input th:field="*{companyAddressNumber}" type="text" class="form-control" placeholder="..." id="num">
                                                     </div>
                                                     <div>
                                                         <label class="col-form-label" for="entrance">Вх.</label>
-                                                        <input  type="text" class="form-control" placeholder="..." id="entrance">
+                                                        <input th:field="*{companyAddressEntrance}" type="text" class="form-control" placeholder="..." id="entrance">
                                                     </div>
                                                     <div>
                                                         <label class="col-form-label" for="floor">Ет.</label>
-                                                        <input  type="text" class="form-control" placeholder="..." id="floor">
+                                                        <input th:field="*{companyAddressFloor}" type="text" class="form-control" placeholder="..." id="floor">
                                                     </div>
                                                     <div>
                                                         <label class="col-form-label" for="floor">Еп.</label>
-                                                        <input type="text" class="form-control" placeholder="..." id="compApartment">
+                                                        <input th:field="*{companyAddressApartment}" type="text" class="form-control" placeholder="..." id="compApartment">
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -194,11 +194,11 @@
                                             <fieldset class="mb-3">
                                                 <h4>Получател</h4>
                                                 <label class="col-form-label">Име</label>
-                                                <input  type="text" class="form-control">
+                                                <input th:field="*{companyRecipientFirstName}" type="text" class="form-control">
                                                 <label class="col-form-label">Презиме</label>
-                                                <input  type="text" class="form-control">
+                                                <input th:field="*{companyRecipientMiddleName}" type="text" class="form-control">
                                                 <label class="col-form-label">Фамилия</label>
-                                                <input  type="text" class="form-control">
+                                                <input th:field="*{companyRecipientLastName}" type="text" class="form-control">
                                             </fieldset>
                                             <fieldset>
                                                 <h4>ДДС Статус</h4>
