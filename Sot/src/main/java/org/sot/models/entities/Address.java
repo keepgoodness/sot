@@ -17,100 +17,100 @@ import org.hibernate.validator.constraints.Length;
 @Entity(name = "address")
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(nullable = true)
-    private Place place;
+	@ManyToOne
+	@JoinColumn(nullable = true)
+	private Place place;
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-    @JoinColumn(nullable = true)
-    private Street street;
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(nullable = true)
+	private Street street;
 
-    @Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
-    @Column(length = 3, nullable = true)
-    private String number;
+	@Length(max = 3, message = "Номерът не трябва да надвишава 3 символа")
+	@Column(length = 3, nullable = true)
+	private String number;
 
-    @Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
-    @Column(length = 2, nullable = true)
-    private String entrance;
+	@Length(max = 2, message = "Входът не трябва да надвишава 2 символа")
+	@Column(length = 2, nullable = true)
+	private String entrance;
 
-    @Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
-    @Column(length = 3, nullable = true)
-    private String floor;
+	@Length(max = 3, message = "Етажът не трябва да надвишава 3 символа")
+	@Column(length = 3, nullable = true)
+	private String floor;
 
-    @Length(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
-    @Column(length = 3, nullable = true)
-    private String apartment;
+	@Length(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
+	@Column(length = 3, nullable = true)
+	private String apartment;
 
-    public Address() {
-    }
+	public Address() {
+	}
 
-    public Address(Street street, String number, String entrance, String floor, String apartment) {
-        this.street = street;
-        this.number = number;
-        this.entrance = entrance;
-        this.floor = floor;
-        this.apartment = apartment;
-    }
+	public Address(Street street, String number, String entrance, String floor, String apartment) {
+		this.street = street;
+		this.number = number;
+		this.entrance = entrance;
+		this.floor = floor;
+		this.apartment = apartment;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Place getPlace() {
-        return place;
-    }
+	public Place getPlace() {
+		return place;
+	}
 
-    public void setPlace(Place place) {
-        this.place = place;
-    }
+	public void setPlace(Place place) {
+		this.place = place;
+	}
 
-    public Street getStreet() {
-        return street;
-    }
+	public Street getStreet() {
+		return street;
+	}
 
-    public void setStreet(Street street) {
-        this.street = street;
-    }
+	public void setStreet(Street street) {
+		this.street = street;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    public String getEntrance() {
-        return entrance;
-    }
+	public String getEntrance() {
+		return entrance;
+	}
 
-    public void setEntrance(String entrance) {
-        this.entrance = entrance;
-    }
+	public void setEntrance(String entrance) {
+		this.entrance = entrance;
+	}
 
-    public String getFloor() {
-        return floor;
-    }
+	public String getFloor() {
+		return floor;
+	}
 
-    public void setFloor(String floor) {
-        this.floor = floor;
-    }
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
 
-    public String getApartment() {
-        return apartment;
-    }
+	public String getApartment() {
+		return apartment;
+	}
 
-    public void setApartment(String apartment) {
-        this.apartment = apartment;
-    }
+	public void setApartment(String apartment) {
+		this.apartment = apartment;
+	}
 
 //    @Override
 //    public String toString() {
