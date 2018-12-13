@@ -33,60 +33,185 @@
                 </div>
             </div>
 
-            <!--*** Fomr ***-->
-            <form>
-                <div id="form" class="row" style="display: none;">
-                    <div class="col-lg-4 form-group">
-                        <div class="card border-primary">
-                            <legend class="card-header">Обект</legend>
-                            <div class="card-body">
-                                <h4 class="card-title">Име</h4>
-                                <p id="objName" class="card-text"></p>
-                                <h4 class="card-title">ID</h4>
-                                <p id="identifier" class="card-text"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 form-group">
-                        <div class="card border-primary">
-                            <legend class="card-header">Адрес</legend>
-                            <div class="card-body">
-                                <h4 class="card-title">Населено място</h4>
-                                <p id="place" class="card-text"></p>
-                                <div class=" input-group-append">
-                                    <div class="col-7">
-                                        <h4 class="card-title">Улица</h4>
-                                        <p id="street" class="card-text"></p>
-                                    </div>
-                                    <div class="offset-1">
-                                        <h5 class="card-title">№</h5>
-                                        <p id="number" class="card-text"></p>
-                                    </div>
-                                    <div class="offset-1">
-                                        <h5 class="card-title">Вх.</h5>
-                                        <p id="entrance" class="card-text"></p>
-                                    </div>
-                                    <div class="offset-1">
-                                        <h5 class="card-title">Ет.</h5>
-                                        <p id="floor" class="card-text"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 form-group">
-                        <div class="card border-primary">
-                            <legend class="card-header">Контролна платка</legend>
-                            <div class="card-body">
-                                <h4 class="card-title">Марка</h4>
-                                <p id="controlBoardName" class="card-text"></p>
-                                <h4 class="card-title">Модел</h4>
-                                <p id="controlBoardModel" class="card-text"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <!--*** Data ***-->
+			<div id="form" class="row" style="display: none;">
+				<div class="col-lg-4 form-group">
+					<div class="card border-primary">
+						<legend class="card-header">Обект</legend>
+						<div class="card-body">
+							<h4 class="card-title">Име</h4>
+							<p id="objName" class="card-text"></p>
+							<h4 class="card-title">ID</h4>
+							<p id="identifier" class="card-text"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 form-group">
+					<div class="card border-primary">
+						<legend class="card-header">Адрес</legend>
+						<div class="card-body">
+							<h4 class="card-title">Населено място</h4>
+							<p id="place" class="card-text"></p>
+							<div class="input-group-append">
+								<div>
+									<label class="h5">Ул.</label>
+									<p id="street" class="card-text" style="max-width: 100px;"></p>
+								</div>
+								<div class="col-auto">
+									<h5>№</h5>
+									<span id="number"></span>
+								</div>
+								<div class="col-auto">
+									<h5>Вх.</h5>
+									<span id="entrance" ></span>
+								</div>
+								<div class="col-auto">
+									<h5>Ет.</h5>
+									<span id="floor"></span>
+								</div>
+								<div class="col-auto">
+									<h5>Ап.</h5>
+									<span id="apartment"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 form-group">
+					<div class="card border-primary">
+						<legend class="card-header">Сот / Видео / Пакет</legend>
+						<div class="form-group col-sm-12 input-group-append">
+							<div class="col-sm-6">
+								<fieldset>
+									<h4>Пакет</h4>
+									<div class="form-group">
+										<div class="custom-control custom-radio">
+											<label id="sse_status" class="custom-control-label">тест</label>
+										</div>
+									</div>
+								</fieldset>
+							</div>
+							<div class="col-sm-6">
+								<fieldset>
+									<h4>Сот/Видео</h4>
+									<div class="form-group">
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox"
+												   id="sot"
+												   name="hasSot"
+												   class="custom-control-input"
+												   disabled="disabled">
+											<label class="custom-control-label" for="sot">Сот</label>
+										</div>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox"
+												   id="video"
+												   name="hasVideo"
+												   class="custom-control-input"
+												   disabled="disabled">
+											<label class="custom-control-label" for="video">Видео</label>
+										</div>
+									</div>
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="company" class="row" style="display: none;">
+				<div class="col-lg-8 form-group">
+					<div class="card border-primary">
+						<legend class="card-header">Фирма на собственика</legend>
+						<div id="form-company" class="row">
+							<div class="form-group col-sm-6 ">
+								<div class="col">
+									<h4 >Булстат</h4>
+									<p id="companyBulstat" class="mb-3"></p>
+									<fieldset class="mb-3">
+										<h4>МОЛ</h4>
+										<label class="col-form-label">Име</label>
+										<p id="companyMrpFName"></p>
+										<label class="col-form-label">Презиме</label>
+										<p id="companyMrpMName"></p>
+										<label class="col-form-label">Фамилия</label>
+										<p id="companyMrpLName"></p>
+									</fieldset>
+									<fieldset>
+										<h4>Адрес на фирмата</h4>
+										<div class="card-body">
+											<h4 class="card-title">Населено място</h4>
+											<p id="companyPlace" class="card-text"></p>
+											<div class="input-group-append">
+												<div>
+													<label class="h5">Ул.</label>
+													<p id="companyStreet" class="card-text" style="max-width: 100px;"></p>
+												</div>
+												<div class="col-auto">
+													<h5>№</h5>
+													<span id="companyNumber"></span>
+												</div>
+												<div class="col-auto">
+													<h5>Вх.</h5>
+													<span id="companyEntrance" ></span>
+												</div>
+												<div class="col-auto">
+													<h5>Ет.</h5>
+													<span id="companyFloor"></span>
+												</div>
+												<div class="col-auto">
+													<h5>Ап.</h5>
+													<span id="companyApartment"></span>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group col-sm-6 ">
+								<div class="col">
+									<fieldset class="mb-3">
+										<h4>Получател</h4>
+										<div class="list-group-item d-flex justify-content-between align-items-center">
+											<label class="h5 text-muted">Име:</label>
+											<p id="companyRecFName" class="badge badge-primary badge-pill">...</p>
+										</div>
+										<div class="input-group-append">
+											<label class="h5 text-muted">Презиме:</label>
+											<p id="companyRecMName" class="offset-1">...</p>
+										</div>
+										<div class="input-group-append">
+											<label class="h5 text-muted">Фамилия</label>
+											<p id="companyRecLName" class="offset-1"></p>
+										</div>
+									</fieldset>
+									<fieldset>
+										<h4>ДДС Статус</h4>
+										<div class="form-group">
+											<div id="vat">
+												<div class="custom-control custom-radio">
+													<input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
+													<label class="custom-control-label" for="vat1">Да</label>
+												</div>
+												<div class="custom-control custom-radio">
+													<input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
+													<label class="custom-control-label" for="vat2">Не</label>
+												</div>
+											</div>
+											<label class="col-form-label">ДДС номер</label>
+											<input  type="text" class="form-control" id="vatnumber">
+										</div>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 form-group">
+					<div id="responsible-person" class="card border-primary">
+						<legend class="card-header">Отговорници на обекта</legend>
+					</div>
+				</div>
+			</div>
         </div>
         <script th:inline="javascript">
 			var map;
@@ -205,7 +330,9 @@
 					url: url,
 					data: {id: paramId},
 					success: function (point) {
+						console.log(JSON.stringify(point));
 						document.getElementById("form").style.display = "flex";
+						document.getElementById("company").style.display = "flex";
 						document.getElementById("updDellButt").style.display = "inline";
 						document.getElementById("excPdfButt").style.display = "inline";
 						$("#objName").html(point.name);
@@ -215,6 +342,31 @@
 						$("#number").html(point.address.number);
 						$("#entrance").html(point.address.entrance);
 						$("#floor").html(point.address.floor);
+						$("#apartment").html(point.address.apartment);
+						$("#sse_status").html(
+								(point.sseStatus === "FREE" ? "Безплатен" : "Платен")
+								);
+						$("#sot").attr("checked", ((point.hasSot) ? "checked" : null));
+						$("#video").attr("checked", ((point.hasVideo === true) ? "checked" : null));
+
+						//фирма
+						$("#companyBulstat").html(point.company.bulstat);
+						$("#companyMrpFName").html(point.company.mrp.firstName);
+						$("#companyMrpMName").html(point.company.mrp.middleName);
+						$("#companyMrpLName").html(point.company.mrp.lastName);
+
+						$("#companyPlace").html(point.company.address.place.name);
+						$("#companyStreet").html(point.company.address.street.name);
+						$("#companyNumber").html(point.company.address.number);
+						$("#companyEntrance").html(point.company.address.entrance);
+						$("#companyFloor").html(point.company.address.floor);
+						$("#companyApartment").html(point.company.address.apartment);
+
+						$("#companyRecFName").html(point.company.recipient.firstName);
+						$("#companyRecMName").html(point.company.recipient.middleName);
+						$("#companyRecLName").html(point.company.recipient.lastName);
+
+
 						$("#edit").attr("href", '/point-edit/' + paramId);
 						$("#delete").find('input').attr("value", paramId);
 						$("#downlExcel").attr("href", '/point-excel/' + paramId);
@@ -227,12 +379,12 @@
 				var customerId = $(this).find('input').val();
 				$.ajax({
 					method: "DELETE",
-					url: window.location + "points/delete/" + customerId,
+					url: "/points/delete/" + customerId,
 					success: function (result) {
 						location.reload();
 					},
 					error: function (e) {
-						alert(e.valueOf());
+						alert(e);
 					}
 				});
 

@@ -41,7 +41,7 @@ public class PointAtrBindingModel {
 
 	// *** Ssestatus ***
 	private String sseStatus;
-	private boolean hasSse;
+	private boolean hasSot;
 	private boolean hasVideo;
 
 	// *** Company ***
@@ -178,12 +178,12 @@ public class PointAtrBindingModel {
 		this.sseStatus = sseStatus;
 	}
 
-	public boolean isHasSse() {
-		return hasSse;
+	public boolean isHasSot() {
+		return hasSot;
 	}
 
-	public void setHasSse(boolean hasSse) {
-		this.hasSse = hasSse;
+	public void setHasSot(boolean hasSot) {
+		this.hasSot = hasSot;
 	}
 
 	public boolean isHasVideo() {

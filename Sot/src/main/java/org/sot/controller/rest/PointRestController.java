@@ -21,10 +21,8 @@ public class PointRestController {
 	}
 	
 	@DeleteMapping("/points/delete/{id}")
-	public String deletePoint(@PathVariable String id){
-		System.out.println("before:" + id);
+	public String deletePoint(@PathVariable("id") String id){
 		this.pointService.deletePoint(Long.parseLong(id));
-		System.out.println("after:" + id);
 		return "OK!";
 	}
 }
