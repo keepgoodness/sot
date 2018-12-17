@@ -1,5 +1,7 @@
 package org.sot.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,25 +137,27 @@ public class PointService {
 		// point address-street
 		String pointStreetName = point.getAddress().getStreet().getName();
 		// company address-street
-		String companyStreetName = point.getCompany().getAddress().getStreet().getName();
-
+		String companyStreetName = (point.getCompany() != null) ? point.getCompany().getAddress().getStreet().getName() : "";
+		System.out.println("companyStreetName:" + companyStreetName);
 		Optional<Street> pointDbStreet = this.streetRepository.findOneByName(pointStreetName);
 		Street newStreetSaved = null;
 		if (pointDbStreet.isPresent()) {
 			System.out.println("1.улицата на обекта съществува!");
 			point.getAddress().setStreet(pointDbStreet.get());
-			if (companyStreetName.toLowerCase().equals(pointDbStreet.get().getName().toLowerCase())) {
-				System.out.println("1.1.Съвпада с името на улицата на фирмата!");
-				point.getCompany().getAddress().setStreet(pointDbStreet.get());
-			} else {
-				System.out.println("1.2.Двете улици са с различни имена!");
-				Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
-				if (companyStrOpt.isPresent()) {
-					System.out.println("1.2.1 Но името на фирмата съществува!");
-					point.getCompany().getAddress().setStreet(companyStrOpt.get());
+			if (!companyStreetName.isEmpty()) {
+				if (companyStreetName.toLowerCase().equals(pointDbStreet.get().getName().toLowerCase())) {
+					System.out.println("1.1.Съвпада с името на улицата на фирмата!");
+					point.getCompany().getAddress().setStreet(pointDbStreet.get());
 				} else {
-					System.out.println("1.2.2 Името на фирмата не съществува и създаваме нова!");
-					point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
+					System.out.println("1.2.Двете улици са с различни имена!");
+					Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
+					if (companyStrOpt.isPresent()) {
+						System.out.println("1.2.1 Но името на фирмата съществува!");
+						point.getCompany().getAddress().setStreet(companyStrOpt.get());
+					} else {
+						System.out.println("1.2.2 Името на фирмата не съществува и създаваме нова!");
+						point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
+					}
 				}
 			}
 		} else {
@@ -161,18 +165,20 @@ public class PointService {
 			System.out.println("2. Създаваме нова улица/flush и я сетваме на обекта");
 			newStreetSaved = this.streetRepository.saveAndFlush(newPStreet);
 			point.getAddress().setStreet(newStreetSaved);
-			if (companyStreetName.toLowerCase().equals(newStreetSaved.getName().toLowerCase())) {
-				System.out.println("2.1. Съвпада с името на улицата на фирмата!");
-				point.getCompany().getAddress().setStreet(newStreetSaved);
-			} else {
-				Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
-				System.out.println("2.2.НЕ съвпада с името на улицата на фирмата!");
-				if (companyStrOpt.isPresent()) {
-					System.out.println("2.2.1 Но името на фирмата съществува!");
-					point.getCompany().getAddress().setStreet(companyStrOpt.get());
+			if (!companyStreetName.isEmpty()) {
+				if (companyStreetName.toLowerCase().equals(newStreetSaved.getName().toLowerCase())) {
+					System.out.println("2.1. Съвпада с името на улицата на фирмата!");
+					point.getCompany().getAddress().setStreet(newStreetSaved);
 				} else {
-					System.out.println("2.2.2 Името на фирмата не съществува и създаваме нова!");
-					point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
+					Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
+					System.out.println("2.2.НЕ съвпада с името на улицата на фирмата!");
+					if (companyStrOpt.isPresent()) {
+						System.out.println("2.2.1 Но името на фирмата съществува!");
+						point.getCompany().getAddress().setStreet(companyStrOpt.get());
+					} else {
+						System.out.println("2.2.2 Името на фирмата не съществува и създаваме нова!");
+						point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
+					}
 				}
 			}
 		}
@@ -182,7 +188,13 @@ public class PointService {
 	}
 //	
 
-	public boolean updatePoint(PointAtrBindingModel bindingModel) {
+	public boolean addCompany(PointAtrBindingModel bindingModel) throws JsonProcessingException {
+		Company company = this.modelMapper.map(bindingModel, Company.class);
+		if (company != null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonString = objectMapper.writeValueAsString(company);
+			System.out.println(jsonString);
+		}
 
 		return true;
 	}

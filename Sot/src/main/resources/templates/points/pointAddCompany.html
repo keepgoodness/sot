@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:include="~{fragments/parts::head}"></head>
+    <body>
+        <div class="container">
+			<div th:replace="~{fragments/parts::header}"></div>
+			
+			<form th:object="${pointAtrBindingModel}" method="post" th:action="@{/points/point-add-company}">
+				<div th:if="${#fields.hasAnyErrors()}">
+					<h3><p class="errorRed">Имате грешка, плъзнете надолу да я поправите!</p></h3>
+				</div>
+                <div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
+                    <div class="row" >
+                        <div class="col-lg-8 form-group">
+                            <div class="card border-primary">
+                                <legend class="card-header">Фирма на собственика</legend>
+                                <button type="button" id="add-company" class="btn-lg btn-outline-primary">&#43</button>
+                                <div id="form-company" class="row">
+                                    <div class="form-group col-sm-6 ">
+                                        <div class="col">
+                                            <label class="col-form-label" for="bulstat">Булстат</label>
+                                            <input th:field="*{companyBulstat}" type="text" id="bulstat" class="form-control mb-3" placeholder="Посочи булстат...">
+                                            <div th:if="${#fields.hasErrors('companyBulstat')}" th:errors="*{companyBulstat}" th:errorclass="errorRed" th:classappend="company">Bulstat Error</div>
+                                            <fieldset class="mb-3">
+                                                <h4>МОЛ</h4>
+                                                <label class="col-form-label">Име</label>
+                                                <input th:field="*{companyMrpFirstName}" type="text" class="form-control">
+                                                <label class="col-form-label">Презиме</label>
+                                                <input th:field="*{companyMrpMiddleName}" type="text" class="form-control">
+                                                <label class="col-form-label">Фамилия</label>
+                                                <input th:field="*{companyMrpLastName}" type="text" class="form-control">
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4>Адрес на фирмата</h4>
+                                                <label class="col-form-label" for="inputDefault">Населено място</label>
+                                                <select th:field="*{companyAddressPlaceId}" class="custom-select">
+                                                    <option th:each="p : ${places}" 
+                                                            th:value="${p.id}"
+                                                            th:text="${p.name}">
+                                                    </option>
+                                                </select>
+                                                <div class="form-group col-sm-12 input-group-append">
+                                                    <div class="col-7">
+                                                        <label class="col-form-label" for="street">Улица</label>
+                                                        <input  th:field="*{companyAddressStreetName}" type="text" class="form-control" placeholder="..." id="street">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="num">№</label>
+                                                        <input th:field="*{companyAddressNumber}" type="text" class="form-control" placeholder="..." id="num">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="entrance">Вх.</label>
+                                                        <input th:field="*{companyAddressEntrance}" type="text" class="form-control" placeholder="..." id="entrance">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="floor">Ет.</label>
+                                                        <input th:field="*{companyAddressFloor}" type="text" class="form-control" placeholder="..." id="floor">
+                                                    </div>
+                                                    <div>
+                                                        <label class="col-form-label" for="floor">Еп.</label>
+                                                        <input th:field="*{companyAddressApartment}" type="text" class="form-control" placeholder="..." id="compApartment">
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6 ">
+                                        <div class="col">
+                                            <fieldset class="mb-3">
+                                                <h4>Получател</h4>
+                                                <label class="col-form-label">Име</label>
+                                                <input th:field="*{companyRecipientFirstName}" type="text" class="form-control">
+                                                <label class="col-form-label">Презиме</label>
+                                                <input th:field="*{companyRecipientMiddleName}" type="text" class="form-control">
+                                                <label class="col-form-label">Фамилия</label>
+                                                <input th:field="*{companyRecipientLastName}" type="text" class="form-control">
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4>ДДС Статус</h4>
+                                                <div class="form-group">
+                                                    <div id="vat">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
+                                                            <label class="custom-control-label" for="vat1">Да</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
+                                                            <label class="custom-control-label" for="vat2">Не</label>
+                                                        </div>
+                                                    </div>
+                                                    <label class="col-form-label">ДДС номер</label>
+                                                    <input  type="text" class="form-control" id="vatnumber">
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div id="responsible-person" class="card border-primary">
+                                <legend class="card-header">Отговорници на обекта</legend>
+                                <button type="button" id="add-responsible" class="btn-lg btn-outline-primary">&#43;</button>
+								<!--                                <div class="d-flex w-100 justify-content-between">
+																	<span>&nbsp;</span>
+																	<button type="button" id="add-responsible" class="btn btn-outline-primary">&#43;</button>
+																</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Запази</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+		</div>
+	</body>
+</html>

@@ -1,5 +1,6 @@
 package org.sot.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import javax.validation.Valid;
 import org.sot.exceptions.ExistingIdentifierException;
@@ -30,24 +31,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/points")
 public class PointController {
 
-    private final PlaceService placeService;
-    private final PointService pointService;
-    private final StreetRepository sr;
+	private final PlaceService placeService;
+	private final PointService pointService;
+	private final StreetRepository sr;
 
-    @Autowired
-    public PointController(PlaceService placeService, PointService pointService, StreetRepository sr1) {
-        this.placeService = placeService;
-        this.pointService = pointService;
-        this.sr = sr1;
-    }
+	@Autowired
+	public PointController(PlaceService placeService, PointService pointService, StreetRepository sr1) {
+		this.placeService = placeService;
+		this.pointService = pointService;
+		this.sr = sr1;
+	}
 
-    @ModelAttribute("places")
-    public List<Place> getPlaces() {
-        return this.placeService.findAllPlaces();
-    }
-	
+	@ModelAttribute("places")
+	public List<Place> getPlaces() {
+		return this.placeService.findAllPlaces();
+	}
+
 	@ModelAttribute("allPoints")
-	public String getAllPoint(){
+	public String getAllPoint() {
 		return this.pointService.getPointsAsJsonArray().toString();
 	}
 
@@ -59,7 +60,6 @@ public class PointController {
 //        model.addAttribute("allPoints", pointService.getPointsAsJsonArray().toString());
 //        return "points/pointCreate";
 //    }
-
 //	@PostMapping("point-create")
 //	public String pointCreate(Model model, @Valid @ModelAttribute PointBindingModel prm, BindingResult bindingResult) {
 //		if (bindingResult.hasErrors()) {
@@ -68,27 +68,44 @@ public class PointController {
 //		this.pointService.register(prm);
 //		return "redirect:/";
 //	}
-    @GetMapping("/create-new")
-    public String pointCreateNew(@Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
-        model.addAttribute("title", "Създаване на обект");
-        return "points/pointCreateNew";
-    }
+	@GetMapping("/create-new")
+	public String pointCreateNew(@Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, Model model) {
+		model.addAttribute("title", "Създаване на обект");
+		return "points/pointCreateNew";
+	}
 
-    @PostMapping("/create-new")
-    public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel,  BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "points/pointCreateNew";
-        }
+	@PostMapping("/create-new")
+	public String pointCreateNew(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "points/pointCreateNew";
+		}
 
-        try {
-            pointService.createPoint(pointAtrBindingModel);
-        } catch (ExistingPointException exP) {
-            bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
-            return "points/pointCreateNew";
-        } catch (ExistingIdentifierException exId){
-            bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
-            return "points/pointCreateNew";
-        }
-        return "redirect:/";
-    }
+		try {
+			pointService.createPoint(pointAtrBindingModel);
+		} catch (ExistingPointException exP) {
+			bindingResult.rejectValue("name", null, "Вече съществува обект с това имееее");
+			return "points/pointCreateNew";
+		} catch (ExistingIdentifierException exId) {
+			bindingResult.rejectValue("name", null, "Вече съществува обект с това ID");
+			return "points/pointCreateNew";
+		}
+		return "redirect:/";
+	}
+
+	@GetMapping("point-add-company")
+	public String addCompany(Model model, @ModelAttribute PointAtrBindingModel pointAtrBindingModel) {
+		model.addAttribute("title", "Добави фирма");
+		return "points/pointAddCompany";
+	}
+
+	@PostMapping("point-add-company")
+	public String addCompany(Model model, @Valid @ModelAttribute PointAtrBindingModel pointAtrBindingModel, BindingResult bindingResult) throws JsonProcessingException {
+		if (bindingResult.hasErrors()) {
+			return "points/pointCreateNew";
+		}
+		
+		pointService.addCompany(pointAtrBindingModel);
+		// do something
+		return "redirect:/";
+	}
 }
