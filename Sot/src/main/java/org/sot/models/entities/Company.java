@@ -43,7 +43,7 @@ public class Company {
 	private String vatCode;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(columnDefinition = "boolean default 0")
+	@Column(columnDefinition = "boolean default 0", length = 1)
 	private VatStatus vatStatus;
 
 	public Company() {

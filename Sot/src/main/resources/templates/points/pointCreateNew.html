@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-						
+
                         <div class="col-lg-4 form-group">
                             <div class="card border-primary">
                                 <legend class="card-header">Сот / Видео / Пакет</legend>
@@ -205,17 +205,21 @@
                                                 <h4>ДДС Статус</h4>
                                                 <div class="form-group">
                                                     <div id="vat">
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
-                                                            <label class="custom-control-label" for="vat1">Да</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
-                                                            <label class="custom-control-label" for="vat2">Не</label>
-                                                        </div>
+														<div th:each="vS : ${T(org.sot.enums.VatStatus).values()}" class="custom-control custom-radio">
+															<input type="radio"
+																   th:id="${{vS}}" 
+																   th:value="${{vS}}"
+																   th:checked="${{vS}}=='YES'?'checked'"															   
+																   class="custom-control-input"
+																   name="companyVatStatus"/>
+															<label th:for="${{vS}}"
+																   th:text="${{vS}}=='NO' ? 'Не':'Да'"
+																   class="custom-control-label">
+															</label>
+														</div>
                                                     </div>
                                                     <label class="col-form-label">ДДС номер</label>
-                                                    <input  type="text" class="form-control" id="vatnumber">
+                                                    <input th:field="*{companyVatCode}" type="text" class="form-control" id="vatCode">
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -227,10 +231,6 @@
                             <div id="responsible-person" class="card border-primary">
                                 <legend class="card-header">Отговорници на обекта</legend>
                                 <button type="button" id="add-responsible" class="btn-lg btn-outline-primary">&#43;</button>
-								<!--                                <div class="d-flex w-100 justify-content-between">
-																	<span>&nbsp;</span>
-																	<button type="button" id="add-responsible" class="btn btn-outline-primary">&#43;</button>
-																</div>-->
                             </div>
                         </div>
                     </div>
@@ -343,11 +343,11 @@
 			let countResponsible = 0;
 			$(document).ready(function () {
 				$('#vat').change(function () {
-					var value = $("input[name='vat']:checked").val();
-					if (value == 1) {
-						$("input[id='vatnumber']").prop("disabled", false);
-					} else if (value == 0) {
-						$("input[id='vatnumber']").prop("disabled", true).val("");
+					var v = $("input[name='vatStatus']:checked").val();
+					if (v === "YES") {
+						$("input[id='vatCode']").prop("disabled", false);
+					} else if (v === "NO") {
+						$("input[id='vatCode']").prop("disabled", true).val("");
 					}
 				});
 				$("#form-company").hide();
@@ -375,11 +375,11 @@
 								+ "<h4><span>" + countResponsible + "</span>. Отговорник</h4>"
 								+ "</div>"
 								+ "<label class=\"col-form-label\">Име</label>"
-								+ "<input th:field='*{responsiblePersons[" + countResponsible + "].firstName}' type=\"text\" class=\"form-control\">"
+								+ "<input name='responsiblePersons[" + countResponsible + "].firstName' type=\"text\" class=\"form-control\">"
 								+ "<label class=\"col-form-label\">Презиме</label>"
-								+ "<input th:field='*{responsiblePersons[" + countResponsible + "].middleName}' type=\"text\" class=\"form-control\">"
+								+ "<input name='responsiblePersons[" + countResponsible + "].middleName' type=\"text\" class=\"form-control\">"
 								+ "<label class=\"col-form-label\">Фамилия</label>"
-								+ "<input th:field='*{responsiblePersons[" + countResponsible + "].lastName}' type=\"text\" class=\"form-control\">"
+								+ "<input name='responsiblePersons[" + countResponsible + "].lastName' type=\"text\" class=\"form-control\">"
 								+ "<label class=\"col-form-label\">Тел:</label>"
 								+ "<input  type=\"text\" class=\"form-control\">"
 								+ "</fieldset>"

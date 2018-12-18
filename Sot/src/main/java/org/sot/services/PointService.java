@@ -126,6 +126,8 @@ public class PointService {
 
 	@Transactional //в разработка
 	public boolean createPoint(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
+		System.out.println( "companyVatCode:" + bindingModel.getCompanyVatCode() + ":");
+		System.out.println("responsiblePerson" + bindingModel.getResponsiblePersons().size()+":");
 		Point point = this.modelMapper.map(bindingModel, Point.class);
 		Optional<Point> findOneByName = this.pointrepository.findOneByName(point.getName());
 		if (findOneByName.isPresent()) {

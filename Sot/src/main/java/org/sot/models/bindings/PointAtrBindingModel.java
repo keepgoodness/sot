@@ -3,7 +3,6 @@ package org.sot.models.bindings;
 import java.util.List;
 import javax.validation.constraints.Size;
 import org.sot.models.entities.ResponsiblePerson;
-import org.sot.models.entities.ResponsiblePerson;
 
 /**
  *
@@ -79,6 +78,12 @@ public class PointAtrBindingModel {
 
 	@Size(max = 3, message = "Апартаментът не трябва да надвишава 3 символа")
 	private String companyAddressApartment;
+	
+	
+	
+	private String companyVatStatus;
+	@Size(max = 15, message = "ДДС кода не трябва да надвишава 15 символа")
+	private String companyVatCode;
 
 	private List<ResponsiblePerson> responsiblePersons;
 
@@ -312,5 +317,21 @@ public class PointAtrBindingModel {
 
 	public void setCompanyAddressApartment(String companyAddressApartment) {
 		this.companyAddressApartment = companyAddressApartment;
+	}
+
+	public String getCompanyVatCode() {
+		return companyVatCode;
+	}
+
+	public void setCompanyVatCode(String companyVatCode) {
+		this.companyVatCode = companyVatCode;
+	}
+
+	public String getCompanyVatStatus() {
+		return companyVatStatus;
+	}
+
+	public void setCompanyVatStatus(String companyVatStatus) {
+		this.companyVatStatus = companyVatStatus;
 	}
 }

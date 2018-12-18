@@ -61,11 +61,11 @@ public class Point {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Company company;
 
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(
-//	joinColumns = {@JoinColumn(name = "point_id")},
-//	inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
-//	private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(
+	joinColumns = {@JoinColumn(name = "point_id")},
+	inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
+	private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
 
 	public Point() {
 	}
@@ -150,12 +150,12 @@ public class Point {
 		this.company = company;
 	}
 
-//	public List<ResponsiblePerson> getResponsiblePersons() {
-//		return responsiblePersons;
-//	}
-//
-//	public void setResponsiblePersons(List<ResponsiblePerson> responsiblePersons) {
-//		this.responsiblePersons = responsiblePersons;
-//	}
+	public List<ResponsiblePerson> getResponsiblePersons() {
+		return responsiblePersons;
+	}
+
+	public void setResponsiblePersons(List<ResponsiblePerson> responsiblePersons) {
+		this.responsiblePersons = responsiblePersons;
+	}
 
 }
