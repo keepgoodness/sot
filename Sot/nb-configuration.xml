@@ -6,40 +6,6 @@ The configuration is intended to be shared among all the users of project and
 therefore it is assumed to be part of version control checkout.
 Without this configuration present, some functionality in the IDE may be limited or fail altogether.
 -->
-    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-        <word>nbsp</word>
-        <word>Безплатен</word>
-        <word>Булстат</word>
-        <word>Видео</word>
-        <word>Влез</word>
-        <word>Вх</word>
-        <word>Да</word>
-        <word>ДДС</word>
-        <word>Ет</word>
-        <word>Запомни</word>
-        <word>име</word>
-        <word>ме</word>
-        <word>МОЛ</word>
-        <word>място</word>
-        <word>на</word>
-        <word>Населено</word>
-        <word>Не</word>
-        <word>номер</word>
-        <word>обекта</word>
-        <word>Отговорник</word>
-        <word>Отговорници</word>
-        <word>Пакет</word>
-        <word>Платен</word>
-        <word>Получател</word>
-        <word>Потребителско</word>
-        <word>Презиме</word>
-        <word>собственика</word>
-        <word>Сот</word>
-        <word>Статус</word>
-        <word>Улица</word>
-        <word>Фамилия</word>
-        <word>Фирма</word>
-    </spellchecker-wordlist>
     <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
         <!--
 Properties that influence various parts of the IDE, especially code formatting and the like. 
@@ -49,4 +15,55 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
     </properties>
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>nbsp</word>
+        <word>PricePre</word>
+        <word>PriceSuf</word>
+        <word>Адрес</word>
+        <word>Безплатен</word>
+        <word>Булстат</word>
+        <word>Видео</word>
+        <word>Влез</word>
+        <word>Вх</word>
+        <word>грешка</word>
+        <word>Да</word>
+        <word>датчици</word>
+        <word>ДДС</word>
+        <word>Еп</word>
+        <word>Ет</word>
+        <word>Запази</word>
+        <word>Запомни</word>
+        <word>Имате</word>
+        <word>име</word>
+        <word>Марка</word>
+        <word>Марки</word>
+        <word>ме</word>
+        <word>МОЛ</word>
+        <word>място</word>
+        <word>на</word>
+        <word>надолу</word>
+        <word>Налични</word>
+        <word>Населено</word>
+        <word>Не</word>
+        <word>номер</word>
+        <word>Обект</word>
+        <word>обекта</word>
+        <word>Отговорник</word>
+        <word>Отговорници</word>
+        <word>Пакет</word>
+        <word>Платен</word>
+        <word>плъзнете</word>
+        <word>Получател</word>
+        <word>поправите</word>
+        <word>Потребителско</word>
+        <word>Презиме</word>
+        <word>собственика</word>
+        <word>Сот</word>
+        <word>Статус</word>
+        <word>Текущи</word>
+        <word>Улица</word>
+        <word>Фамилия</word>
+        <word>Фирма</word>
+        <word>фирмата</word>
+    </spellchecker-wordlist>
 </project-shared-configuration>

@@ -48,20 +48,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PointService {
 
-	private final AddressRepository addressRepository;
-	private final Pointrepository pointrepository;
-	private final StreetRepository streetRepository;
-	private final CompanyRepository companyRepository;
-	private ModelMapper modelMapper;
+    private final AddressRepository addressRepository;
+    private final Pointrepository pointrepository;
+    private final StreetRepository streetRepository;
+    private final CompanyRepository companyRepository;
+    private ModelMapper modelMapper;
 
-	@Autowired
-	public PointService(AddressRepository addressRepository, Pointrepository pointrepository, StreetRepository streetRepository, ModelMapper modelMapper, CompanyRepository companyRepository) {
-		this.addressRepository = addressRepository;
-		this.pointrepository = pointrepository;
-		this.streetRepository = streetRepository;
-		this.modelMapper = modelMapper;
-		this.companyRepository = companyRepository;
-	}
+    @Autowired
+    public PointService(AddressRepository addressRepository, Pointrepository pointrepository, StreetRepository streetRepository, ModelMapper modelMapper, CompanyRepository companyRepository) {
+        this.addressRepository = addressRepository;
+        this.pointrepository = pointrepository;
+        this.streetRepository = streetRepository;
+        this.modelMapper = modelMapper;
+        this.companyRepository = companyRepository;
+    }
 
 //	@Transactional()
 //	public boolean register(PointBindingModel bindingModel) {
@@ -81,123 +81,110 @@ public class PointService {
 //		}
 //		return true;
 //	}
-	public JsonObject getPointsAsJsonArray() {
-		List<Object[]> arrayObj = this.pointrepository.findAllWithIdLatLng();
-		JsonArrayBuilder array = Json.createArrayBuilder();
-		for (int i = 0; i < arrayObj.size(); i++) {
-			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-			objBuilder.add("id", arrayObj.get(i)[0].toString());
-			objBuilder.add("lat", arrayObj.get(i)[1].toString());
-			objBuilder.add("lng", arrayObj.get(i)[2].toString());
-			objBuilder.add("name", arrayObj.get(i)[3].toString());
-			array.add(objBuilder);
-		}
-		JsonObject json = Json.createObjectBuilder()
-				.add("point", array).build();
-		return json;
-	}
+    public JsonObject getPointsAsJsonArray() {
+        List<Object[]> arrayObj = this.pointrepository.findAllWithIdLatLng();
+        JsonArrayBuilder array = Json.createArrayBuilder();
+        for (int i = 0; i < arrayObj.size(); i++) {
+            JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+            objBuilder.add("id", arrayObj.get(i)[0].toString());
+            objBuilder.add("lat", arrayObj.get(i)[1].toString());
+            objBuilder.add("lng", arrayObj.get(i)[2].toString());
+            objBuilder.add("name", arrayObj.get(i)[3].toString());
+            array.add(objBuilder);
+        }
+        JsonObject json = Json.createObjectBuilder()
+                .add("point", array).build();
+        return json;
+    }
 
-	public List<JsonObject> getPointsAutocomplete(String dataSearch, TypeSearch typeSearch) {
-		List<Object[]> points = new ArrayList<>();
-		switch (typeSearch) {
-			case NAME:
-				points = pointrepository.findByName(dataSearch);
-				break;
-			case IDENTIFIER:
-				points = pointrepository.findByIdentifier(dataSearch);
-				break;
-		}
-		List<JsonObject> array = new ArrayList<>();
-		points.stream().forEach(p -> {
-			JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-			objBuilder.add("id", p[0].toString());
-			objBuilder.add("name", p[1].toString());
-			array.add(objBuilder.build());
-		});
-		return array;
-	}
+    public List<JsonObject> getPointsAutocomplete(String dataSearch, TypeSearch typeSearch) {
+        List<Object[]> points = new ArrayList<>();
+        switch (typeSearch) {
+            case NAME:
+                points = pointrepository.findByName(dataSearch);
+                break;
+            case IDENTIFIER:
+                points = pointrepository.findByIdentifier(dataSearch);
+                break;
+        }
+        List<JsonObject> array = new ArrayList<>();
+        points.stream().forEach(p -> {
+            JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+            objBuilder.add("id", p[0].toString());
+            objBuilder.add("name", p[1].toString());
+            array.add(objBuilder.build());
+        });
+        return array;
+    }
 
-	public void deletePoint(Long id) {
-		Optional<Point> findByIdOpt = pointrepository.findById(id);
-		if (findByIdOpt.isPresent()) {
-			pointrepository.deleteById(id);
-		}
-	}
+    public void deletePoint(Long id) {
+        Optional<Point> findByIdOpt = pointrepository.findById(id);
+        if (findByIdOpt.isPresent()) {
+            pointrepository.deleteById(id);
+        }
+    }
 
-	@Transactional //в разработка
-	public boolean createPoint(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
-		System.out.println( "companyVatCode:" + bindingModel.getCompanyVatCode() + ":");
-		System.out.println("responsiblePerson" + bindingModel.getResponsiblePersons().size()+":");
-		Point point = this.modelMapper.map(bindingModel, Point.class);
-		Optional<Point> findOneByName = this.pointrepository.findOneByName(point.getName());
-		if (findOneByName.isPresent()) {
-			throw new ExistingPointException("Вече съществува обект с име " + point.getName());
-		}
-		if (this.pointrepository.findOneByIdentifier(point.getIdentifier()).isPresent()) {
-			throw new ExistingIdentifierException("Вече съществува обект с код " + point.getIdentifier());
-		}
-		// point address-street
-		String pointStreetName = point.getAddress().getStreet().getName();
-		// company address-street
-		String companyStreetName = (point.getCompany() != null) ? point.getCompany().getAddress().getStreet().getName() : "";
-		System.out.println("companyStreetName:" + companyStreetName);
-		Optional<Street> pointDbStreet = this.streetRepository.findOneByName(pointStreetName);
-		Street newStreetSaved = null;
-		if (pointDbStreet.isPresent()) {
-			System.out.println("1.улицата на обекта съществува!");
-			point.getAddress().setStreet(pointDbStreet.get());
-			if (!companyStreetName.isEmpty()) {
-				if (companyStreetName.toLowerCase().equals(pointDbStreet.get().getName().toLowerCase())) {
-					System.out.println("1.1.Съвпада с името на улицата на фирмата!");
-					point.getCompany().getAddress().setStreet(pointDbStreet.get());
-				} else {
-					System.out.println("1.2.Двете улици са с различни имена!");
-					Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
-					if (companyStrOpt.isPresent()) {
-						System.out.println("1.2.1 Но името на фирмата съществува!");
-						point.getCompany().getAddress().setStreet(companyStrOpt.get());
-					} else {
-						System.out.println("1.2.2 Името на фирмата не съществува и създаваме нова!");
-						point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
-					}
-				}
-			}
-		} else {
-			Street newPStreet = new Street(pointStreetName, LifeStatus.EXISTING);
-			System.out.println("2. Създаваме нова улица/flush и я сетваме на обекта");
-			newStreetSaved = this.streetRepository.saveAndFlush(newPStreet);
-			point.getAddress().setStreet(newStreetSaved);
-			if (!companyStreetName.isEmpty()) {
-				if (companyStreetName.toLowerCase().equals(newStreetSaved.getName().toLowerCase())) {
-					System.out.println("2.1. Съвпада с името на улицата на фирмата!");
-					point.getCompany().getAddress().setStreet(newStreetSaved);
-				} else {
-					Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreetName);
-					System.out.println("2.2.НЕ съвпада с името на улицата на фирмата!");
-					if (companyStrOpt.isPresent()) {
-						System.out.println("2.2.1 Но името на фирмата съществува!");
-						point.getCompany().getAddress().setStreet(companyStrOpt.get());
-					} else {
-						System.out.println("2.2.2 Името на фирмата не съществува и създаваме нова!");
-						point.getCompany().getAddress().setStreet(new Street(companyStreetName, LifeStatus.EXISTING));
-					}
-				}
-			}
-		}
-		System.out.println("3. Записваме обекта!");
-		this.pointrepository.save(point);
-		return true;
-	}
+    @Transactional //в разработка
+    public boolean createPoint(PointAtrBindingModel bindingModel) throws ExistingPointException, ExistingIdentifierException {
+        Point point = this.modelMapper.map(bindingModel, Point.class);
+        Optional<Point> pointOpt = this.pointrepository.findOneByName(point.getName());
+        if (pointOpt.isPresent()) {
+            throw new ExistingPointException("Вече съществува обект с име " + point.getName());
+        }
+        if (this.pointrepository.findOneByIdentifier(point.getIdentifier()).isPresent()) {
+            throw new ExistingIdentifierException("Вече съществува обект с код " + point.getIdentifier());
+        }
+        // point address-street
+        String pointStreet = point.getAddress().getStreet().getName();
+
+        // company address-street
+        Company company = point.getCompany();
+        String companyStreet = (company != null) ? company.getAddress().getStreet().getName() : "";
+        Optional<Street> pointDbStreet = this.streetRepository.findOneByName(pointStreet);
+        Street newStreetSaved = null;
+        if (pointDbStreet.isPresent()) {
+            point.getAddress().setStreet(pointDbStreet.get());
+            if (!companyStreet.isEmpty()) {
+                if (companyStreet.toLowerCase().equals(pointDbStreet.get().getName().toLowerCase())) {
+                    company.getAddress().setStreet(pointDbStreet.get());
+                } else {
+                    Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreet);
+                    if (companyStrOpt.isPresent()) {
+                        company.getAddress().setStreet(companyStrOpt.get());
+                    } else {
+                        company.getAddress().setStreet(new Street(companyStreet, LifeStatus.EXISTING));
+                    }
+                }
+            }
+        } else {
+            Street newPStreet = new Street(pointStreet, LifeStatus.EXISTING);
+            newStreetSaved = this.streetRepository.saveAndFlush(newPStreet);
+            point.getAddress().setStreet(newStreetSaved);
+            if (!companyStreet.isEmpty()) {
+                if (companyStreet.toLowerCase().equals(newStreetSaved.getName().toLowerCase())) {
+                    company.getAddress().setStreet(newStreetSaved);
+                } else {
+                    Optional<Street> companyStrOpt = this.streetRepository.findOneByName(companyStreet);
+                    if (companyStrOpt.isPresent()) {
+                        company.getAddress().setStreet(companyStrOpt.get());
+                    } else {
+                        company.getAddress().setStreet(new Street(companyStreet, LifeStatus.EXISTING));
+                    }
+                }
+            }
+        }
+        this.pointrepository.save(point);
+        return true;
+    }
 //	
 
-	public boolean addCompany(PointAtrBindingModel bindingModel) throws JsonProcessingException {
-		Company company = this.modelMapper.map(bindingModel, Company.class);
-		if (company != null) {
-			ObjectMapper objectMapper = new ObjectMapper();
-			String jsonString = objectMapper.writeValueAsString(company);
-			System.out.println(jsonString);
-		}
+    public boolean addCompany(PointAtrBindingModel bindingModel) throws JsonProcessingException {
+        Company company = this.modelMapper.map(bindingModel, Company.class);
+        if (company != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(company);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

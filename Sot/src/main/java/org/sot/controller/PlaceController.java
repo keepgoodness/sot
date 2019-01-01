@@ -50,13 +50,6 @@ public class PlaceController {
 		return "redirect:/places";
 	}
 
-	@GetMapping("/place-delete")
-	public String delete(Model model) {
-		model.addAttribute("title", "Изтриване населено място");
-		model.addAttribute("places", this.placeService.findAllPlaces());
-		return "components/place-delete";
-	}
-
 	@PostMapping("/place-delete")
 	@ResponseBody
 	public String delete(@RequestParam("id") String id, Model model) {

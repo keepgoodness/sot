@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.sot.config;
+package org.sot.config.modelmapper;
 
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.modelmapper.Condition;

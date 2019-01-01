@@ -4,6 +4,8 @@ import javax.validation.Valid;
 import org.sot.models.bindings.BrandBindingModel;
 import org.sot.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,47 +22,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BrandController {
 
-	private final BrandService brandService;
+    private final BrandService brandService;
 
-	@Autowired
-	public BrandController(BrandService brandService) {
-		this.brandService = brandService;
-	}
+    @Autowired
+    public BrandController(BrandService brandService) {
+        this.brandService = brandService;
+    }
 
-	@GetMapping("/brands")
-	public String allBrands(Model model) {
-		model.addAttribute("title", "Всички марки");
-		model.addAttribute("brands", this.brandService.findAllBrands());
-		return "components/brands";
-	}
+    @GetMapping("/brands")
+    public String allBrands(Model model) {
+        model.addAttribute("title", "Всички марки");
+        model.addAttribute("brands", this.brandService.findAllBrands());
+        return "components/brands";
+    }
 
-	@GetMapping("/brand-create")
-	public String register(Model model, @ModelAttribute BrandBindingModel brandBindingModel) {
-		model.addAttribute("title", "Марка");
-		model.addAttribute("brands", this.brandService.findAllBrands());
-		return "components/brand-create";
-	}
+    @GetMapping("/brand-create")
+    public String register(Model model, @ModelAttribute BrandBindingModel brandBindingModel) {
+        model.addAttribute("title", "Марка");
+        model.addAttribute("brands", this.brandService.findAllBrands());
+        return "components/brand-create";
+    }
 
-	@PostMapping("/brand-create")
-	public String register(Model model, @Valid @ModelAttribute BrandBindingModel brandBindingModel, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return register(model, brandBindingModel);
-		}
-		this.brandService.register(brandBindingModel);
-		return "redirect:/brands";
-	}
+    @PostMapping("/brand-create")
+    public String register(Model model, @Valid @ModelAttribute BrandBindingModel brandBindingModel, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return register(model, brandBindingModel);
+        }
+        this.brandService.register(brandBindingModel);
+        return "redirect:/brands";
+    }
 
-	@GetMapping("/brand-delete")
-	public String delete(Model model) {
-		model.addAttribute("title", "Изтриване марка");
-		model.addAttribute("brands", this.brandService.findAllBrands());
-		return "components/brand-delete";
-	}
-
-	@PostMapping("/brand-delete")
-	@ResponseBody
-	public String delete(@RequestParam("id") String id) {
-		this.brandService.delete(id);
-		return "redirect:/brands";
-	}
+    @PostMapping("/brand-delete")
+    public ResponseEntity<Object> delete(@RequestParam("id") String id) {
+        this.brandService.delete(id);
+        return new ResponseEntity(id, HttpStatus.OK);
+    }
 }

@@ -1,6 +1,8 @@
 package org.sot.models.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,8 +34,8 @@ public class ResponsiblePerson {
 	private String lastName;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "responsible_person_id")
-	private Set<PhoneNumber> phoneNumbers = new HashSet<>();
+	@JoinColumn(name = "responsible_person_id",insertable = true)
+	private List<PhoneNumber> phoneNumbers = new ArrayList<>();
 
 	public ResponsiblePerson() {
 	}
@@ -76,11 +78,13 @@ public class ResponsiblePerson {
 		this.lastName = lastName;
 	}
 
-	public Set<PhoneNumber> getPhoneNumbers() {
-		return phoneNumbers;
-	}
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
+    }
 
-	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
-		this.phoneNumbers = phoneNumbers;
-	}
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+
 }

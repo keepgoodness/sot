@@ -1,5 +1,6 @@
 package org.sot.config;
 
+import org.sot.config.modelmapper.PointRequestToPointYesOrNoCompany;
 import org.sot.models.bindings.PointAtrBindingModel;
 import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
@@ -20,26 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanConfig {
 
-	private final PointRequestToPointYesOrNoCompany pointRequestToPointYesOrNoCompany;
-
-	@Autowired
-	public BeanConfig(PointRequestToPointYesOrNoCompany pointRequestToPointYesOrNoCompany) {
-		this.pointRequestToPointYesOrNoCompany = pointRequestToPointYesOrNoCompany;
-	}
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	@Bean
-	public ModelMapper getModelMapper() {
-		ModelMapper modelMapper = new ModelMapper();
-		if (modelMapper.getTypeMap(PointAtrBindingModel.class, Point.class) == null) {
-			modelMapper.addMappings(this.pointRequestToPointYesOrNoCompany);
-
-		}
-		return modelMapper;
-	}
-
 }

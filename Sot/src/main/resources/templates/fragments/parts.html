@@ -3,182 +3,177 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-	<body>
-		<!--Fragment Head-->
-		<div th:fragment="head">
-			<title th:text="${title}"></title>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-			<link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
-			<link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
-			<script type="text/javascript" th:src="@{/js/main.js}"></script>
-			<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
-		</div>
+    <body>
+        <!--Fragment Head-->
+        <div th:fragment="head">
+            <title th:text="${title}"></title>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta th:name="_csrf" th:content="${_csrf.token}"/>
+            <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+            <link rel='stylesheet' id='google-fonts-css'  href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
+            <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
+            <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
+            <script type="text/javascript" th:src="@{/js/main.js}"></script>
+            <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+            <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+            <script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
+        </div>
 
-		<!--Fragment Header-->
-		<header th:fragment="header">
-			<!--*** Header ***-->
-			<div class="row mb-3">
-				<div class="col-lg-5 col-md-7 col-sm-6">
-					<h1>Сот</h1>
-					<p class="lead">Блааааааблаааааа</p>
-				</div>
-			</div>
+        <!--Fragment Header-->
+        <header th:fragment="header">
+            <!--*** Header ***-->
+            <div class="row mb-3">
+                <div class="col-lg-5 col-md-7 col-sm-6">
+                    <h1>Сот</h1>
+                    <p class="lead">Блааааааблаааааа</p>
+                </div>
+            </div>
 
-			<!--*** Menu ***-->
-			<div class="mb-3">
-				<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-					<a class="navbar-brand" th:href="@{/}">Карта</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+            <!--*** Menu ***-->
+            <div class="mb-3">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <a class="navbar-brand" th:href="@{/}">Карта</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-					<div class="collapse navbar-collapse" id="navbarColor01">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item">
-								<a class="nav-link" href="#">Въвеждане</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
-								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-									<a class="dropdown-item" th:href="@{/brands}">Марки</a>
-									<a class="dropdown-item" th:href="@{/places}">Населени места</a>
-									<a class="dropdown-item" th:href="@{/control-boards}">Контролни платки</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" th:href="@{/units}">Компоненти</a>
-								</div>
-							</li>
-						</ul>
-						<!--th:action="@{/search}"-->
-						<!--https://www.devbridge.com/sourcery/components/jquery-autocomplete/-->
-						<!--https://www.mkyong.com/spring-mvc/spring-mvc-jquery-autocomplete-example/ autocomplete with ajax-->
-						<form class="form-inline my-2 my-lg-0">
-							<div class="btn-group" data-toggle="buttons">
-								<label class="btn btn-outline-secondary">
-									<input type="radio" name="search-radio" checked="" value="name"> Име
-								</label>
-								<label class="btn btn-outline-secondary">
-									<input type="radio" name="search-radio" value="identifier"> ID
-								</label>
-							</div>
-							<input class="form-control mr-sm-2" type="text" id="input-search" list="name_list">
-							<datalist id="name_list"></datalist>
-							<button class="btn btn-secondary my-2 my-sm-0" id="button-search" type="button">Search</button>
-						</form>
-					</div>
-				</nav>
-			</div>
-		</header>
+                    <div class="collapse navbar-collapse" id="navbarColor01">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Празно</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Компоненти</a>
+                                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                    <a class="dropdown-item" th:href="@{/brands}">Марки</a>
+                                    <a class="dropdown-item" th:href="@{/places}">Населени места</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" th:href="@{/sensors}">Датчици</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--th:action="@{/search}"-->
+                        <!--https://www.devbridge.com/sourcery/components/jquery-autocomplete/-->
+                        <!--https://www.mkyong.com/spring-mvc/spring-mvc-jquery-autocomplete-example/ autocomplete with ajax-->
+                        <form class="form-inline my-2 my-lg-0">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary">
+                                    <input type="radio" name="search-radio" checked="" value="name"> Име
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                    <input type="radio" name="search-radio" value="identifier"> ID
+                                </label>
+                            </div>
+                            <input class="form-control mr-sm-2" type="text" id="input-search" list="name_list">
+                            <datalist id="name_list"></datalist>
+                            <button class="btn btn-secondary my-2 my-sm-0" id="button-search" type="button">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </header>
 
-		<!--Fragment companyFormInfo-->
-		<div th:fragment="companyFormInfo" th:disabled="true">
-			<div id="companyInfo" class="row" style="display: none;">
-				<div class="col-lg-8 form-group">
-					<div class="card border-primary">
-						<legend class="card-header mb-3">Фирма на собственика</legend>
-						<div id="form-company" class="row">
-							<div class="form-group col-sm-6 ">
-								<div class="col">
-									<div class="input-group-append mb-3">
-										<label class="col-form-label-lg col-sm-4 h5 text-muted">Булстат:</label>
-										<p id="companyBulstat" class="form-control-plaintext h5"></p>
-									</div>
-									<fieldset class="mb-3">
-										<h4>МОЛ</h4>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Име:</label>
-											<p id="companyMrpFName" class="form-control-plaintext h5"></p>
-										</div>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Презиме:</label>
-											<p id="companyMrpMName" class="form-control-plaintext h5"></p>
-										</div>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Фамилия:</label>
-											<p id="companyMrpLName" class="form-control-plaintext h5"></p>
-										</div>
-									</fieldset>
-									<fieldset>
-										<h4>Адрес на фирмата</h4>
-										<div class="card-body">
-											<h4 class="card-title text-muted">Населено място</h4>
-											<p id="companyPlace" class="form-control-plaintext h5"></p>
-											<div class="input-group-append">
-												<div>
-													<label class="h5 text-muted">Ул.</label>
-													<p id="companyStreet" class="card-text" style="max-width: 100px;"></p>
-												</div>
-												<div class="col-auto">
-													<h5 class="text-muted">№</h5>
-													<span id="companyNumber"></span>
-												</div>
-												<div class="col-auto">
-													<h5 class="text-muted">Вх.</h5>
-													<span id="companyEntrance" ></span>
-												</div>
-												<div class="col-auto">
-													<h5 class="text-muted">Ет.</h5>
-													<span id="companyFloor"></span>
-												</div>
-												<div class="col-auto">
-													<h5 class="text-muted">Ап.</h5>
-													<span id="companyApartment"></span>
-												</div>
-											</div>
-										</div>
-									</fieldset>
-								</div>
-							</div>
-							<div class="form-group col-sm-6 ">
-								<div class="col">
-									<fieldset class="mb-3">
-										<h4>Получател</h4>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Име:</label>
-											<p id="companyRecFName" class="form-control-plaintext h5">...</p>
-										</div>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Презиме:</label>
-											<p id="companyRecMName" class="form-control-plaintext h5">...</p>
-										</div>
-										<div class="input-group-append">
-											<label class="col-form-label-lg col-sm-4 h5 text-muted">Фамилия</label>
-											<p id="companyRecLName" class="form-control-plaintext h5"></p>
-										</div>
-									</fieldset>
-									<fieldset>
-										<h4>ДДС Статус</h4>
-										<div class="form-group">
-											<div id="vat">
-												<div class="custom-control custom-radio">
-													<input type="radio" id="vat1" name="vat" class="custom-control-input" checked="" th:value="1">
-													<label class="custom-control-label" for="vat1">Да</label>
-												</div>
-												<div class="custom-control custom-radio">
-													<input type="radio" id="vat2" name="vat" class="custom-control-input" th:value="0">
-													<label class="custom-control-label" for="vat2">Не</label>
-												</div>
-												
-											</div>
-											<label class="col-form-label">ДДС номер</label>
-											<input id="vatCode" type="text" class="form-control">
-										</div>
-									</fieldset>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 form-group">
-					<div id="responsible-person" class="card border-primary">
-						<legend class="card-header">Отговорници на обекта</legend>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</body>
+        <!--Fragment companyFormInfo-->
+        <div th:fragment="companyFormInfo" th:disabled="true">
+            <div id="companyInfo" class="row" style="display: none;">
+                <div class="col-lg-8 form-group">
+                    <div class="card border-primary">
+                        <legend class="card-header mb-3">Фирма на собственика</legend>
+                        <div id="form-company" class="row">
+                            <div class="form-group col-sm-6 ">
+                                <div class="col">
+                                    <div class="input-group-append mb-3">
+                                        <label class="col-form-label-lg col-sm-4 h5 text-muted">Булстат:</label>
+                                        <p id="companyBulstat" class="form-control-plaintext h5"></p>
+                                    </div>
+                                    <fieldset class="mb-3">
+                                        <h4>МОЛ</h4>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Име:</label>
+                                            <p id="companyMrpFName" class="form-control-plaintext h5"></p>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Презиме:</label>
+                                            <p id="companyMrpMName" class="form-control-plaintext h5"></p>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Фамилия:</label>
+                                            <p id="companyMrpLName" class="form-control-plaintext h5"></p>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <h4>Адрес на фирмата</h4>
+                                        <div class="card-body">
+                                            <h4 class="card-title text-muted">Населено място</h4>
+                                            <p id="companyPlace" class="form-control-plaintext h5"></p>
+                                            <div class="input-group-append">
+                                                <div>
+                                                    <label class="h5 text-muted">Ул.</label>
+                                                    <p id="companyStreet" class="card-text" style="max-width: 100px;"></p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <h5 class="text-muted">№</h5>
+                                                    <span id="companyNumber"></span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <h5 class="text-muted">Вх.</h5>
+                                                    <span id="companyEntrance" ></span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <h5 class="text-muted">Ет.</h5>
+                                                    <span id="companyFloor"></span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <h5 class="text-muted">Ап.</h5>
+                                                    <span id="companyApartment"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6 ">
+                                <div class="col">
+                                    <fieldset class="mb-3">
+                                        <h4>Получател</h4>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Име:</label>
+                                            <p id="companyRecFName" class="form-control-plaintext h5">...</p>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Презиме:</label>
+                                            <p id="companyRecMName" class="form-control-plaintext h5">...</p>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <label class="col-form-label-lg col-sm-4 h5 text-muted">Фамилия</label>
+                                            <p id="companyRecLName" class="form-control-plaintext h5"></p>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <h4>ДДС Статус</h4>
+                                        <div class="form-group">
+                                            <div id="vat">
+                                                <div class="custom-control custom-radio">
+                                                    <label id="vat_status" class="custom-control-label"></label>
+                                                </div>
+                                            </div>
+                                            <label class="col-form-label">ДДС номер</label>
+                                            <p id="vatCode" class="form-control-plaintext h5"></p>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <div id="responsible-person" class="card border-primary">
+                        <legend class="card-header">Отговорници на обекта</legend>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
 </html>

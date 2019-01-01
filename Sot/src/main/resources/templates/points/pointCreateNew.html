@@ -3,9 +3,9 @@
     <head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
-			/*<![CDATA[*/
-			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
-			/*]]>*/
+            /*<![CDATA[*/
+            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+            /*]]>*/
         </script>
         <div class="container">
             <!--*** Header ***-->
@@ -21,9 +21,9 @@
                         <div class="btn btn-primary" onclick="initMap();">&#9755;</div>
                     </div>
                 </div>
-				<div th:if="${#fields.hasAnyErrors()}">
-					<h3><p class="errorRed">Имате грешка, плъзнете надолу да я поправите!</p></h3>
-				</div>
+                <div th:if="${#fields.hasAnyErrors()}">
+                    <h3><p class="errorRed">Имате грешка, плъзнете надолу да я поправите!</p></h3>
+                </div>
                 <div id="form" th:styleappend="${#fields.hasErrors()}? 'display: block;' : 'display: none;'">
                     <div class="row">
                         <div class="col-lg-4 form-group">
@@ -205,18 +205,18 @@
                                                 <h4>ДДС Статус</h4>
                                                 <div class="form-group">
                                                     <div id="vat">
-														<div th:each="vS : ${T(org.sot.enums.VatStatus).values()}" class="custom-control custom-radio">
-															<input type="radio"
-																   th:id="${{vS}}" 
-																   th:value="${{vS}}"
-																   th:checked="${{vS}}=='YES'?'checked'"															   
-																   class="custom-control-input"
-																   name="companyVatStatus"/>
-															<label th:for="${{vS}}"
-																   th:text="${{vS}}=='NO' ? 'Не':'Да'"
-																   class="custom-control-label">
-															</label>
-														</div>
+                                                        <div th:each="vS : ${T(org.sot.enums.VatStatus).values()}" class="custom-control custom-radio">
+                                                            <input type="radio"
+                                                                   th:id="${{vS}}" 
+                                                                   th:value="${{vS}}"
+                                                                   th:checked="${{vS}}=='YES'?'checked'"															   
+                                                                   class="custom-control-input"
+                                                                   name="companyVatStatus"/>
+                                                            <label th:for="${{vS}}"
+                                                                   th:text="${{vS}}=='NO' ? 'Не':'Да'"
+                                                                   class="custom-control-label">
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                     <label class="col-form-label">ДДС номер</label>
                                                     <input th:field="*{companyVatCode}" type="text" class="form-control" id="vatCode">
@@ -246,153 +246,156 @@
 
         </div>
         <script>
-			var marker;
-			var map;
-			var latHidden = document.getElementById("lat");
-			var lngHidden = document.getElementById("lng");
-			var latInfo = document.getElementById("latInfoInput");
-			var lngInfo = document.getElementById("lngInfoInput");
-			var iconBase = '/images/';
-			var icons = {
-				def: iconBase + "pinDefault.png",
-				cur: iconBase + "pinCurrent.png"
-			};
-			function initMap() {
-				var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
-				var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
+            var marker;
+            var map;
+            var latHidden = document.getElementById("lat");
+            var lngHidden = document.getElementById("lng");
+            var latInfo = document.getElementById("latInfoInput");
+            var lngInfo = document.getElementById("lngInfoInput");
+            var iconBase = '/images/';
+            var icons = {
+                def: iconBase + "pinDefault.png",
+                cur: iconBase + "pinCurrent.png"
+            };
+            function initMap() {
+                var latS = (latInfo.value !== "") ? latInfo.value : 41.5629455;
+                var lngS = (lngInfo.value !== "") ? lngInfo.value : 23.2725755;
 
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: new google.maps.LatLng(latS, lngS),
-					zoom: 15,
-					styles: [
-						{"featureType": "all",
-							"elementType": "labels",
-							"stylers": [
-								{"visibility": "off"}
-							]
-						},
-						{"featureType": "administrative",
-							"elementType": "all",
-							"stylers": [
-								{"visibility": "simplified"},
-								{"color": "#5b6571"},
-								{"lightness": "35"}]
-						},
-						{"featureType": "road",
-							"elementType": "labels",
-							"stylers": [{"visibility": "on"}]},
-					]
-				});
-				allPointsString.point.forEach(function (element) {
-					var marker = new google.maps.Marker({
-						map: map,
-						title: element.name,
-						position: new google.maps.LatLng(element.lat, element.lng),
-						label: {
-							text: element.name.substr(0, 1),
-							color: 'white',
-							fontFamily: 'Verdana',
-							fontWeight: 'bold'},
-						icon: {
-							url: icons.def,
-							labelOrigin: new google.maps.Point(30, 14)
-						},
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(latS, lngS),
+                    zoom: 15,
+                    styles: [
+                        {"featureType": "all",
+                            "elementType": "labels",
+                            "stylers": [
+                                {"visibility": "off"}
+                            ]
+                        },
+                        {"featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {"visibility": "simplified"},
+                                {"color": "#5b6571"},
+                                {"lightness": "35"}]
+                        },
+                        {"featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "on"}]},
+                    ]
+                });
+                allPointsString.point.forEach(function (element) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        title: element.name,
+                        position: new google.maps.LatLng(element.lat, element.lng),
+                        label: {
+                            text: element.name.substr(0, 1),
+                            color: 'white',
+                            fontFamily: 'Verdana',
+                            fontWeight: 'bold'},
+                        icon: {
+                            url: icons.def,
+                            labelOrigin: new google.maps.Point(30, 14)
+                        },
 
-						animation: google.maps.Animation.DROP,
-						id: element.id
-					});
-				});
+                        animation: google.maps.Animation.DROP,
+                        id: element.id
+                    });
+                });
 
-				google.maps.event.addListener(map, 'click', function (event) {
-					if (typeof marker !== "undefined") {
-						marker.setMap(null);
-						marker = null;
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					}
-					marker = new google.maps.Marker({
-						map: map,
-						icon: icons.cur,
-						draggable: true,
-						position: event.latLng
-					});
+                google.maps.event.addListener(map, 'click', function (event) {
+                    if (typeof marker !== "undefined") {
+                        marker.setMap(null);
+                        marker = null;
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    }
+                    marker = new google.maps.Marker({
+                        map: map,
+                        icon: icons.cur,
+                        draggable: true,
+                        position: event.latLng
+                    });
 
-					google.maps.event.addListener(marker, "click", function (event) {
-						document.getElementById("form").style.display = "block";
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					});
+                    google.maps.event.addListener(marker, "click", function (event) {
+                        document.getElementById("form").style.display = "block";
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
 
-					google.maps.event.addListener(marker, "drag", function (event) {
-						fillLatLngHidden(event.latLng);
-						fillLatLngInfo(event.latLng);
-					});
-				});
-			}
+                    google.maps.event.addListener(marker, "drag", function (event) {
+                        fillLatLngHidden(event.latLng);
+                        fillLatLngInfo(event.latLng);
+                    });
+                });
+            }
 
-			function fillLatLngHidden(latLng) {
-				latHidden.value = latLng.lat();
-				lngHidden.value = latLng.lng();
-			}
+            function fillLatLngHidden(latLng) {
+                latHidden.value = latLng.lat();
+                lngHidden.value = latLng.lng();
+            }
 
-			function fillLatLngInfo(latLng) {
-				latInfo.value = latLng.lat();
-				lngInfo.value = latLng.lng();
-			}
+            function fillLatLngInfo(latLng) {
+                latInfo.value = latLng.lat();
+                lngInfo.value = latLng.lng();
+            }
 
-			let countResponsible = 0;
-			$(document).ready(function () {
-				$('#vat').change(function () {
-					var v = $("input[name='vatStatus']:checked").val();
-					if (v === "YES") {
-						$("input[id='vatCode']").prop("disabled", false);
-					} else if (v === "NO") {
-						$("input[id='vatCode']").prop("disabled", true).val("");
-					}
-				});
-				$("#form-company").hide();
-				if ($(".errorRed .company").length) {
-					$("#form-company").show("slow");
-				} else {
-					$("#form-company").hide("slow");
-				}
+            let countRp = 0;
+            let countNum = 0;
+            $(document).ready(function () {
+                $('#vat').change(function () {
+                    var v = $("input[name='vatStatus']:checked").val();
+                    if (v === "YES") {
+                        $("input[id='vatCode']").prop("disabled", false);
+                    } else if (v === "NO") {
+                        $("input[id='vatCode']").prop("disabled", true).val("");
+                    }
+                });
+                $("#form-company").hide();
+                if ($(".errorRed .company").length) {
+                    $("#form-company").show("slow");
+                } else {
+                    $("#form-company").hide("slow");
+                }
 
-				$("#add-company").click(function () {
-					if ($("#add-company").html() === "+") {
-						$("#add-company").html("&#8722");
-						$("#form-company").show("slow");
-					} else {
-						$("#add-company").html("&#43");
-						$("#form-company").hide("slow");
-					}
-				});
-				$('#add-responsible').click(function () {
-					if (countResponsible < 2) {
-						$('#responsible-person').append(
-								"<fieldset class=\"col-sm-12 mb-3\">"
-								+ "<div class=\"alert-dismissible\">"
-								+ "<button type=\"button\" class=\"close\">&times;</button>"
-								+ "<h4><span>" + countResponsible + "</span>. Отговорник</h4>"
-								+ "</div>"
-								+ "<label class=\"col-form-label\">Име</label>"
-								+ "<input name='responsiblePersons[" + countResponsible + "].firstName' type=\"text\" class=\"form-control\">"
-								+ "<label class=\"col-form-label\">Презиме</label>"
-								+ "<input name='responsiblePersons[" + countResponsible + "].middleName' type=\"text\" class=\"form-control\">"
-								+ "<label class=\"col-form-label\">Фамилия</label>"
-								+ "<input name='responsiblePersons[" + countResponsible + "].lastName' type=\"text\" class=\"form-control\">"
-								+ "<label class=\"col-form-label\">Тел:</label>"
-								+ "<input  type=\"text\" class=\"form-control\">"
-								+ "</fieldset>"
-								);
-					}
-					$("button.close").click(function () {
-						$(this).parent().parent().remove();
-						countResponsible--;
-					});
-					countResponsible++;
-				});
+                $("#add-company").click(function () {
+                    if ($("#add-company").html() === "+") {
+                        $("#add-company").html("&#8722");
+                        $("#form-company").show("slow");
+                    } else {
+                        $("#add-company").html("&#43");
+                        $("#form-company").hide("slow");
+                    }
+                });
+                $('#add-responsible').click(function () {
+                    if (countRp < 2) {
+                        $('#responsible-person').append(
+                                "<fieldset class=\"col-sm-12 mb-3\">"
+                                + "<div class=\"alert-dismissible\">"
+                                + "<button type=\"button\" class=\"close\">&times;</button>"
+                                + "<h4><span>" + countRp + "</span>. Отговорник</h4>"
+                                + "</div>"
+                                + "<label class=\"col-form-label\">Име</label>"
+                                + "<input name='responsiblePersons[" + countRp + "].firstName' type=\"text\" class=\"form-control\">"
+                                + "<label class=\"col-form-label\">Презиме</label>"
+                                + "<input name='responsiblePersons[" + countRp + "].middleName' type=\"text\" class=\"form-control\">"
+                                + "<label class=\"col-form-label\">Фамилия</label>"
+                                + "<input name='responsiblePersons[" + countRp + "].lastName' type=\"text\" class=\"form-control\">"
+                                + "<label class=\"col-form-label\">Тел:</label>"
+                                + "<input name='responsiblePersons[" + countRp + "].phoneNumbers[" + countNum + "].number' type=\"text\" class=\"form-control\">"
+                                + "</fieldset>"
+                                );
+                    }
+                    $("button.close").click(function () {
+                        $(this).parent().parent().remove();
+                        countRp--;
+                        countNum--;
+                    });
+                    countRp++;
+                    countNum++;
+                });
 
-			});
+            });
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
     </body>

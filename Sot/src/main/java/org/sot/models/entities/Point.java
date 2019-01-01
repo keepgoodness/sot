@@ -28,134 +28,152 @@ import org.sot.enums.VatStatus;
 @Table(name = "points")
 public class Point {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(length = 10, unique = true)
-	private String identifier;
+    @Column(length = 10, unique = true)
+    private String identifier;
 
-	@Column(length = 100, unique = true)
-	private String name;
+    @Column(length = 100, unique = true)
+    private String name;
 
-	@Column
-	private Double lat;
+    @Column
+    private Double lat;
 
-	@Column
-	private Double lng;
+    @Column
+    private Double lng;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn
-	private Address address;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn
+    private Address address;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(columnDefinition = "boolean", length = 1)
-	private SseStatus sseStatus;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "boolean", length = 1)
+    private SseStatus sseStatus;
 
-	@Column(columnDefinition = "boolean", length = 1, nullable = false)
-	private boolean hasSot;
+    @Column(columnDefinition = "boolean", length = 1, nullable = false)
+    private boolean hasSot;
 
-	@Column(columnDefinition = "boolean", length = 1, nullable = false)
-	private boolean hasVideo;
+    @Column(columnDefinition = "boolean", length = 1, nullable = false)
+    private boolean hasVideo;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Company company;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Company company;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-	joinColumns = {@JoinColumn(name = "point_id")},
-	inverseJoinColumns = {@JoinColumn(name = "responsible_person_id")})
-	private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            joinColumns = {
+                @JoinColumn(name = "point_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "responsible_person_id")})
+    private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
 
-	public Point() {
-	}
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            joinColumns = {
+                @JoinColumn(name = "point_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "sensor_id")})
+    private List<Sensor> sensors = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
+    public Point() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getIdentifier() {
-		return identifier;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
+    public String getIdentifier() {
+        return identifier;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Double getLat() {
-		return lat;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setLat(Double lat) {
-		this.lat = lat;
-	}
+    public Double getLat() {
+        return lat;
+    }
 
-	public Double getLng() {
-		return lng;
-	}
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
 
-	public void setLng(Double lng) {
-		this.lng = lng;
-	}
+    public Double getLng() {
+        return lng;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public SseStatus getSseStatus() {
-		return sseStatus;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public void setSseStatus(SseStatus sseStatus) {
-		this.sseStatus = sseStatus;
-	}
+    public SseStatus getSseStatus() {
+        return sseStatus;
+    }
 
-	public boolean isHasSot() {
-		return hasSot;
-	}
+    public void setSseStatus(SseStatus sseStatus) {
+        this.sseStatus = sseStatus;
+    }
 
-	public void setHasSot(boolean hasSot) {
-		this.hasSot = hasSot;
-	}
+    public boolean isHasSot() {
+        return hasSot;
+    }
 
-	public boolean isHasVideo() {
-		return hasVideo;
-	}
+    public void setHasSot(boolean hasSot) {
+        this.hasSot = hasSot;
+    }
 
-	public void setHasVideo(boolean hasVideo) {
-		this.hasVideo = hasVideo;
-	}
+    public boolean isHasVideo() {
+        return hasVideo;
+    }
 
-	public Company getCompany() {
-		return company;
-	}
+    public void setHasVideo(boolean hasVideo) {
+        this.hasVideo = hasVideo;
+    }
 
-	public void setCompany(Company company) {
-		this.company = company;
-	}
+    public Company getCompany() {
+        return company;
+    }
 
-	public List<ResponsiblePerson> getResponsiblePersons() {
-		return responsiblePersons;
-	}
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
-	public void setResponsiblePersons(List<ResponsiblePerson> responsiblePersons) {
-		this.responsiblePersons = responsiblePersons;
-	}
+    public List<ResponsiblePerson> getResponsiblePersons() {
+        return responsiblePersons;
+    }
+
+    public void setResponsiblePersons(List<ResponsiblePerson> responsiblePersons) {
+        this.responsiblePersons = responsiblePersons;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
+    }
 
 }

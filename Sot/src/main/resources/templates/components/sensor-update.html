@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:include="~{fragments/parts::head}"></head>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").submit(function (e) {
+                let pre = ($("#pre").val() === "") ? "0" : $("#pre").val();
+                let suf = ($("#suf").val() === "") ? "0" : $("#suf").val();
+                $("#price").val(pre + "." + suf);
+            });
+        }
+        );
+    </script>
+    <body>
+        <div class="container">
+            <div th:replace="~{fragments/parts::header}"></div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <form th:object="${bindModel}" method="post" th:action="@{/sensor-update}">
+                        <input th:field="*{sensorId}" hidden="">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-form-label" >Вид</label>
+                                <select th:field="*{sensorType}"  class="custom-select">
+                                    <option th:each="type : ${T(org.sot.enums.SensorType).values()}"
+                                            th:value="${type}"
+                                            th:text="${type.getValue()}"
+                                            th:selected="${type}==*{sensorType}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" >Марка</label>
+                                <select th:field="*{sensorBrandId}" class="custom-select">
+                                    <option th:each="b : ${brands}" 
+                                            th:value="${b.id}"
+                                            th:text="${b.name}"
+                                            th:selected="${b.id}==*{sensorBrandId}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="model">Модел</label>
+                                <input th:field="*{sensorModel}" type="text" class="form-control" placeholder="..." id="model">
+                                <div th:if="${#fields.hasErrors('sensorModel')}" th:errors="*{sensorModel}" style="color:red;">Model Error</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="code">Код</label>
+                                <input th:field="*{sensorCode}" type="text" class="form-control" placeholder="..." id="code">
+                                <div th:if="${#fields.hasErrors('sensorCode')}" th:errors="*{sensorCode}" style="color:red;">Code Error</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="code">Цена</label>
+                                <div  class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">BGN</span>
+                                        </div>
+                                        <th:block th:unless="*{sensorPrice == null}" th:with="price = *{sensorPrice}" >
+                                            <th:block th:each="el,itr : ${#strings.arraySplit(price,'.')}">
+
+                                                <th:block th:if="${itr.index}==0">
+                                                    <input th:value="${el}" id="pre" type="text" class="form-control col-sm-3 " maxlength="6">
+                                                    <span>.</span>
+                                                </th:block>
+                                                <th:block th:if="${itr.index}==1">
+                                                    <input th:value="${el}" id="suf" type="text" class="form-control col-sm-2" placeholder="00" maxlength="2">
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+                                        <input th:field="*{sensorPrice}" type="hidden" id="price" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-lg-12 form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Запази</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

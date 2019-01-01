@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:include="~{fragments/parts::head}"></head>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").submit(function (e) {
+                let pre = ($("#pre").val() === "") ? "0" : $("#pre").val();
+                let suf = ($("#suf").val() === "") ? "0" : $("#suf").val();
+                $("#price").val(pre + "." + suf);
+            });
+        }
+        );
+    </script>
+    <body>
+        <div class="container">
+            <div th:replace="~{fragments/parts::header}"></div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <form th:object="${sensorCreateBindingModel}" method="post" th:action="@{/sensor-create}">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-form-label" >Вид</label>
+                                <select th:field="*{sensorType}"  class="custom-select">
+                                    <option th:each="type : ${T(org.sot.enums.SensorType).getSortedValues()}"
+                                            th:value="${type}"
+                                            th:text="${type.getValue()}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" >Марка</label>
+                                <select th:field="*{sensorBrandId}" class="custom-select">
+                                    <option th:each="b : ${brands}" 
+                                            th:value="${b.id}"
+                                            th:text="${b.name}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="model">Модел</label>
+                                <input th:field="*{sensorModel}" type="text" class="form-control" placeholder="..." id="model">
+                                <div th:if="${#fields.hasErrors('sensorModel')}" th:errors="*{sensorModel}" style="color:red;">Model Error</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="code">Код</label>
+                                <input th:field="*{sensorCode}" type="text" class="form-control" placeholder="..." id="code">
+                                <div th:if="${#fields.hasErrors('sensorCode')}" th:errors="*{sensorCode}" style="color:red;">Code Error</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="code">Цена</label>
+                                <div  class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">BGN</span>
+                                        </div>
+                                        <input  type="text" class="form-control col-sm-3" placeholder="000000" id="pre" maxlength="6">
+                                        <p>.</p>
+                                        <input type="text" class="form-control col-sm-2" placeholder="00" id="suf" maxlength="2">
+                                        <input th:field="*{sensorPrice}" type="hidden" id="price" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-lg-12 form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Запази</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <legend>Създадени датчици</legend>
+                    <div style="height: 500px; overflow: auto;">
+                        <ul class="list-group">
+                            <li th:each="s : ${sensors}"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span th:text="${s.brand.name} +' | '+ ${s.model} + ' | ' + ${s.type.getValue()}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

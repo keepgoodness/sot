@@ -3,9 +3,9 @@
     <head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
-			/*<![CDATA[*/
-			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
-			/*]]>*/
+            /*<![CDATA[*/
+            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+            /*]]>*/
 
         </script>
         <div class="container">
@@ -18,19 +18,26 @@
             <!--*** Buttons ***-->
             <div class="row mb-3">
                 <div class="col-lg-4 mb-3">
-                    <a class="btn btn-success btn-lg" th:href="@{/points/create-new}" role="button">Създай нов обект</a>
-					<a id="аddCompany" class="btn btn-outline-primary" style="display: none;">
-						<input type="hidden" value="">
-						<img th:src="@{/images/edit_20px.png}"><strong>Добави фирма</strong>
-					</a>
+                    <a class="btn btn-success btn-lg btn-block" th:href="@{/points/create-new}" role="button">Създай нов обект</a>
                 </div>
                 <div id="updDellButt" class="col-lg-4" style="display: none;">
-                    <a id="edit" class="btn btn-outline-primary"><img th:src="@{/images/edit_20px.png}"><strong> Редактиране обект</strong></a>
+                    <a id="edit" class="btn btn-outline-primary">
+                        <img th:src="@{/images/edit_20px.png}">
+                    </a>
                     <a id="delete" class="btn btn-outline-danger">
-						<input type="hidden" value="">
-						<img th:src="@{/images/trash_20px.png}"><strong>Изтриване обект</strong>
-					</a>
+                        <input type="hidden" value="">
+                        <img th:src="@{/images/trash_20px.png}">
+                    </a>
                 </div>
+                <div class="col-lg-4 mb-3">
+                    <a id="аddCompany" class="btn btn-outline-success" style="display: none;">
+                        <input type="hidden" value="">
+                        <img th:src="@{/images/add_20px.png}"><strong>Добави фирма</strong>
+                    </a>
+                </div>
+
+            </div>
+            <div class="row mb-3">
                 <div id="excPdfButt" class="col-lg-4" style="display: none;">
                     <a id="downlExcel" class="btn btn-outline-success"><img th:src="@{/images/excel_20px.png}"><strong> Свали като EXCEL</strong></a>
                     <a id="downlPdf" class="btn btn-outline-secondary"><img th:src="@{/images/pdf_20px.png}"><strong>Свали като PDF</strong></a>
@@ -38,166 +45,166 @@
             </div>
 
             <!--*** Data ***-->
-			<div id="form" class="row" style="display: none;">
-				<div class="col-lg-4 form-group">
-					<div class="card border-primary">
-						<legend class="card-header">Обект</legend>
-						<div class="card-body">
-							<h4 class="card-title">Име</h4>
-							<p id="objName" class="card-text"></p>
-							<h4 class="card-title">ID</h4>
-							<p id="identifier" class="card-text"></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 form-group">
-					<div class="card border-primary">
-						<legend class="card-header">Адрес</legend>
-						<div class="card-body">
-							<h4 class="card-title">Населено място</h4>
-							<p id="place" class="card-text"></p>
-							<div class="input-group-append">
-								<div>
-									<label class="h5">Ул.</label>
-									<p id="street" class="card-text" style="max-width: 100px;"></p>
-								</div>
-								<div class="col-auto">
-									<h5>№</h5>
-									<span id="number"></span>
-								</div>
-								<div class="col-auto">
-									<h5>Вх.</h5>
-									<span id="entrance" ></span>
-								</div>
-								<div class="col-auto">
-									<h5>Ет.</h5>
-									<span id="floor"></span>
-								</div>
-								<div class="col-auto">
-									<h5>Ап.</h5>
-									<span id="apartment"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 form-group">
-					<div class="card border-primary">
-						<legend class="card-header">Сот / Видео / Пакет</legend>
-						<div class="form-group col-sm-12 input-group-append">
-							<div class="col-sm-6">
-								<fieldset>
-									<h4>Пакет</h4>
-									<div class="form-group">
-										<div class="custom-control custom-radio">
-											<label id="sse_status" class="custom-control-label">тест</label>
-										</div>
-									</div>
-								</fieldset>
-							</div>
-							<div class="col-sm-6">
-								<fieldset>
-									<h4>Сот/Видео</h4>
-									<div class="form-group">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox"
-												   id="sot"
-												   name="hasSot"
-												   class="custom-control-input"
-												   disabled="disabled">
-											<label class="custom-control-label" for="sot">Сот</label>
-										</div>
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox"
-												   id="video"
-												   name="hasVideo"
-												   class="custom-control-input"
-												   disabled="disabled">
-											<label class="custom-control-label" for="video">Видео</label>
-										</div>
-									</div>
-								</fieldset>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--Company Form Info-->
-			<div th:include="~{fragments/parts::companyFormInfo}"></div>
+            <div id="form" class="row" style="display: none;">
+                <div class="col-lg-4 form-group">
+                    <div class="card border-primary">
+                        <legend class="card-header">Обект</legend>
+                        <div class="card-body">
+                            <h4 class="card-title">Име</h4>
+                            <p id="objName" class="card-text"></p>
+                            <h4 class="card-title">ID</h4>
+                            <p id="identifier" class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <div class="card border-primary">
+                        <legend class="card-header">Адрес</legend>
+                        <div class="card-body">
+                            <h4 class="card-title">Населено място</h4>
+                            <p id="place" class="card-text"></p>
+                            <div class="input-group-append">
+                                <div>
+                                    <label class="h5">Ул.</label>
+                                    <p id="street" class="card-text" style="max-width: 100px;"></p>
+                                </div>
+                                <div class="col-auto">
+                                    <h5>№</h5>
+                                    <span id="number"></span>
+                                </div>
+                                <div class="col-auto">
+                                    <h5>Вх.</h5>
+                                    <span id="entrance" ></span>
+                                </div>
+                                <div class="col-auto">
+                                    <h5>Ет.</h5>
+                                    <span id="floor"></span>
+                                </div>
+                                <div class="col-auto">
+                                    <h5>Ап.</h5>
+                                    <span id="apartment"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <div class="card border-primary">
+                        <legend class="card-header">Сот / Видео / Пакет</legend>
+                        <div class="form-group col-sm-12 input-group-append">
+                            <div class="col-sm-6">
+                                <fieldset>
+                                    <h4>Пакет</h4>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <label id="sse_status" class="custom-control-label"></label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-sm-6">
+                                <fieldset>
+                                    <h4>Сот/Видео</h4>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                   id="sot"
+                                                   name="hasSot"
+                                                   class="custom-control-input"
+                                                   disabled="disabled">
+                                            <label class="custom-control-label" for="sot">Сот</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                   id="video"
+                                                   name="hasVideo"
+                                                   class="custom-control-input"
+                                                   disabled="disabled">
+                                            <label class="custom-control-label" for="video">Видео</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Company Form Info-->
+            <div th:include="~{fragments/parts::companyFormInfo}"></div>
         </div>
         <script th:inline="javascript">
-			var map;
-			var markersOnMap = new Map();
-			var autocompletePointId;
-			var actionAjax = /*[[@{/point}]]*/ '/point';
-			var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
-			var iconBase = '/images/';
-			var icons = {
-				def: iconBase + "pinDefault.png",
-				cur: iconBase + "pinCurrent.png"
-			};
+            var map;
+            var markersOnMap = new Map();
+            var autocompletePointId;
+            var actionAjax = /*[[@{/point}]]*/ '/point';
+            var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
+            var iconBase = '/images/';
+            var icons = {
+                def: iconBase + "pinDefault.png",
+                cur: iconBase + "pinCurrent.png"
+            };
 
-			function initMap() {
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: {lat: 41.562945, lng: 23.2725755}, // sandanski
-					zoom: 14,
-					gestureHandling: 'greedy', //greedy; cooperative
-					styles: [
-						{"featureType": "all",
-							"elementType": "labels",
-							"stylers": [
-								{"visibility": "off"}
-							]
-						},
-						{"featureType": "administrative",
-							"elementType": "all",
-							"stylers": [
-								{"visibility": "simplified"},
-								{"color": "#5b6571"},
-								{"lightness": "35"}]
-						},
-						{"featureType": "road",
-							"elementType": "labels",
-							"stylers": [{"visibility": "on"}]},
-					]
-				});
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 41.562945, lng: 23.2725755}, // sandanski
+                    zoom: 14,
+                    gestureHandling: 'greedy', //greedy; cooperative
+                    styles: [
+                        {"featureType": "all",
+                            "elementType": "labels",
+                            "stylers": [
+                                {"visibility": "off"}
+                            ]
+                        },
+                        {"featureType": "administrative",
+                            "elementType": "all",
+                            "stylers": [
+                                {"visibility": "simplified"},
+                                {"color": "#5b6571"},
+                                {"lightness": "35"}]
+                        },
+                        {"featureType": "road",
+                            "elementType": "labels",
+                            "stylers": [{"visibility": "on"}]},
+                    ]
+                });
 
-				allPointsString.point.forEach(function (element) {
-					var marker = new google.maps.Marker({
-						map: map,
-						title: element.name,
-						position: new google.maps.LatLng(element.lat, element.lng),
-						label: {
-							text: element.name.substr(0, 1),
-							color: 'white',
-							fontFamily: 'Verdana',
-							fontWeight: 'bold'},
-						icon: {
-							url: icons.def,
-							labelOrigin: new google.maps.Point(30, 14)
-						},
+                allPointsString.point.forEach(function (element) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        title: element.name,
+                        position: new google.maps.LatLng(element.lat, element.lng),
+                        label: {
+                            text: element.name.substr(0, 1),
+                            color: 'white',
+                            fontFamily: 'Verdana',
+                            fontWeight: 'bold'},
+                        icon: {
+                            url: icons.def,
+                            labelOrigin: new google.maps.Point(30, 14)
+                        },
 
-						animation: google.maps.Animation.DROP,
-						id: element.id
-					});
-					markersOnMap.set(element.id, marker);
+                        animation: google.maps.Animation.DROP,
+                        id: element.id
+                    });
+                    markersOnMap.set(element.id, marker);
 
-					google.maps.event.addListener(marker, "click", function () {
-						switchIcon(marker);
-						ajaxGetPoint(actionAjax, element.id);
-						$('#input-search').val("");
-					});
+                    google.maps.event.addListener(marker, "click", function () {
+                        switchIcon(marker);
+                        ajaxGetPoint(actionAjax, element.id);
+                        $('#input-search').val("");
+                    });
 
-					google.maps.event.addListener(marker, "clickable_changed", function () {
-						alert(marker.getTitle());
-					});
+                    google.maps.event.addListener(marker, "clickable_changed", function () {
+                        alert(marker.getTitle());
+                    });
 
-				});
-			}
+                });
+            }
 
 
         </script>
-		<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+        <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC46e-kbgkWJWSVadj7q-K8LwVbc2Hp8hc&callback=initMap"></script>
     </body>
 </html>

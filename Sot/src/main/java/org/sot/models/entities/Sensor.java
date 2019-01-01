@@ -1,69 +1,93 @@
-//package org.sot.models.entities;
-//
-//import java.io.Serializable;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//
-///**
-// *
-// * @author Jordan
-// */
-//@Entity(name = "sensors")
-//public class Sensor implements Serializable {
-//
-//    private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-//    private String brand;
-//    private String model;
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getBrand() {
-//        return brand;
-//    }
-//
-//    public void setBrand(String brand) {
-//        this.brand = brand;
-//    }
-//
-//    public String getModel() {
-//        return model;
-//    }
-//
-//    public void setModel(String model) {
-//        this.model = model;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof Sensor)) {
-//            return false;
-//        }
-//        Sensor other = (Sensor) object;
-//        return this.id.equals(other.id) && this.brand.equals(other.brand) && this.model.equals(other.model);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "org.securitysot.models.Entity.Sensor[ id=" + id + " ]";
-//    }
-//
-//}
+package org.sot.models.entities;
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.sot.enums.SensorType;
+
+/**
+ *
+ * @author Jordan
+ */
+@Entity
+@Table(name = "sensors")
+public class Sensor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(nullable = true)
+    private Brand brand;
+    
+    private String model;
+    private String code;
+    
+    @Column(columnDefinition = "DECIMAL default 0.00", precision = 10, scale = 2)
+    private Double price;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "tinyint")
+    private SensorType type;
+
+    public Sensor() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public SensorType getType() {
+        return type;
+    }
+
+    public void setType(SensorType type) {
+        this.type = type;
+    }
+
+}

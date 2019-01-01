@@ -1,5 +1,6 @@
 package org.sot.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,11 +22,20 @@ public class PhoneNumber {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Column(length = 14, unique = true, nullable = false)
     private String number;
 
     @ManyToOne
     @JoinColumn(name = "responsible_person_id", referencedColumnName = "id")
+    @JsonIgnore
     private ResponsiblePerson responsiblePerson;
 
     public PhoneNumber() {
