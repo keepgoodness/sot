@@ -22,38 +22,38 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		String uri = request.getRequestURI();
-		String extension = uri.substring((uri.lastIndexOf(".") + 1));
-		boolean isItLocalRes = Stream.of(new String[]{"png", "css", "js", "img", "jpg"}).anyMatch((String t) -> {
-			return t.equals(extension);
-		});
-		Principal userPrincipal = request.getUserPrincipal();
-		String user = (userPrincipal != null) ? userPrincipal.getName() : "not yet authenticated";
-		if (!isItLocalRes) {
-			log.info(
-					LocalDate.now() + " " + LocalTime.now()
-					+ "[request]"
-					//					+ "[ IP: " + getRemoteAddr(request) + "]"
-					+ "[ USER:" + user + "]"
-					+ "[" + request.getMethod() + "]"
-					+ " URL:" + request.getRequestURI() + getParameters(request));
-		}
+//		String uri = request.getRequestURI();
+//		String extension = uri.substring((uri.lastIndexOf(".") + 1));
+//		boolean isItLocalRes = Stream.of(new String[]{"png", "css", "js", "img", "jpg"}).anyMatch((String t) -> {
+//			return t.equals(extension);
+//		});
+//		Principal userPrincipal = request.getUserPrincipal();
+//		String user = (userPrincipal != null) ? userPrincipal.getName() : "not yet authenticated";
+//		if (!isItLocalRes) {
+//			log.info(
+//					LocalDate.now() + " " + LocalTime.now()
+//					+ "[request]"
+//					//					+ "[ IP: " + getRemoteAddr(request) + "]"
+//					+ "[ USER:" + user + "]"
+//					+ "[" + request.getMethod() + "]"
+//					+ " URL:" + request.getRequestURI() + getParameters(request));
+//		}
 		return true;
 	}
 
 	private String getParameters(HttpServletRequest request) {
 		StringBuffer posted = new StringBuffer();
 		Enumeration<String> e = request.getParameterNames();
-		if (e.hasMoreElements()) {
-			posted.append("?");
-		}
-		while (e.hasMoreElements()) {
-			if (posted.length() > 1) {
-				posted.append("&");
-			}
-			String curr = (String) e.nextElement();
-			posted.append(curr + "=" + request.getParameter(curr));
-		}
+//		if (e.hasMoreElements()) {
+//			posted.append("?");
+//		}
+//		while (e.hasMoreElements()) {
+//			if (posted.length() > 1) {
+//				posted.append("&");
+//			}
+//			String curr = (String) e.nextElement();
+//			posted.append(curr + "=" + request.getParameter(curr));
+//		}
 		return posted.toString();
 	}
 
