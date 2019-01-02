@@ -56,8 +56,7 @@ public class BrandServiceImpl implements BrandService {
 	public boolean delete(String idString) {
 		Long id = Long.parseLong(idString);
 		this.brandRepository.deleteById(id);
-		Optional<Brand> b = this.brandRepository.findById(id);
-		if (b.isPresent()) {
+		if (this.brandRepository.findById(id).isPresent()) {
 			return false;
 		}
 		return true;

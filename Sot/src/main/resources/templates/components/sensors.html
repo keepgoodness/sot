@@ -2,11 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head th:include="~{fragments/parts::head}"></head>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("li>div").click(function () {
-                deleteElement('/sensor-delete', this);
-            });
-        });
+		$(document).ready(function () {
+			$("li>div").click(function () {
+				deleteElement('/sensor-delete', this);
+			});
+
+			$("ul.list-group a.col-sm-9").on("click", function () {
+				let id = this.getAttribute("data");
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				$.ajax({
+					method: "GET",
+					url: '/sensor',
+					data: {id: id},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (data, textStatus, xhr) {
+						$("#sensorInfo").html(data);
+					},
+					error: function (jqXHR) {
+						alert(JSON.stringify(jqXHR));
+					}
+				});
+			})
+
+
+		});
     </script>
     <body>
         <div class="container">
@@ -20,8 +42,9 @@
                             <li th:each="s : ${sensors}"
                                 class="list-group-item d-flex justify-content-between align-items-center">
                                 <a th:text="${s.brand.name} +' | '+ ${s.model} + ' | ' + ${s.type.getValue()}"
-                                      class="col-sm-9"
-                                      th:href="@{#}"></a>
+								   class="col-sm-9"
+								   th:href="@{#}"
+								   th:data="${s.id}"></a>
                                 <a class="btn btn-sm" th:href="@{/sensor-update/} + ${s.id}">
                                     <img th:src="@{/images/edit_property_32px.png}">
                                 </a>
@@ -32,6 +55,7 @@
                         </ul>
                     </div>
                 </div>
+				<div id="sensorInfo" class="col-lg-4 form-group" ></div>
             </div>
         </div>
     </body>

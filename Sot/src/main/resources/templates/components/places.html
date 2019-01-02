@@ -3,43 +3,29 @@
     <head th:include="~{fragments/parts::head}"></head>
     <body>
         <script type="text/javascript">
-            $(document).ready(function () {
-                $("form").submit(function (e) {
-                    e.preventDefault();
-
-                });
-            }
-            );
-            function deletePlace(element) {
-                var id = element.getAttribute("data");
-                var token = $('input[name="_csrf"]').attr('value');
-                $.ajax({
-                    url: "/place-delete",
-                    type: "POST",
-                    data: {id: id, '_csrf': token}
-                }).done(function (res) {
-                    location.reload();
-                });
-            }
+			$(document).ready(function () {
+				$("li>div").on("click", function () {
+					deleteElement("/place-delete", this);
+				});
+			});
         </script>
         <div class="container">
             <div th:replace="~{fragments/parts::header}"></div>
             <div class="row">
                 <div class="col-lg-4">
                     <a class="btn btn-success btn-lg btn-block" th:href="@{/place-create}" role="button">Добави населено място</a>
-                    <form th:action="@{/place-delete}" th:method="post">
-                        <legend>Населени места</legend>
-                        <div style="height: 500px; overflow: auto;">
-                            <ul class="list-group">
-                                <li th:each="place : ${places}"
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span th:text="${place.name}"></span>
-                                    <button type="" class="btn-lg" style="color: red;" th:data="${place.id}" onclick="deletePlace(this);">&times;</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-
+					<legend>Населени места</legend>
+					<div style="height: 500px; overflow: auto;">
+						<ul class="list-group">
+							<li th:each="place : ${places}"
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span th:text="${place.name}"></span>
+								<div class="btn btn-sm" th:data="${place.id}">
+									<img th:src="@{/images/delete_28px.png}">
+								</div>
+							</li>
+						</ul>
+					</div>
                 </div>
             </div>
         </div>

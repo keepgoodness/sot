@@ -34,84 +34,94 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SensorController {
 
-    private final BrandRepository brandRepo;
-    private final Pointrepository pointRepo;
-    private final SensorService sensorService;
+	private final BrandRepository brandRepo;
+	private final Pointrepository pointRepo;
+	private final SensorService sensorService;
 
-    @Autowired
-    public SensorController(BrandRepository br, Pointrepository pr, SensorService sensorService) {
-        this.brandRepo = br;
-        this.pointRepo = pr;
-        this.sensorService = sensorService;
-    }
+	@Autowired
+	public SensorController(BrandRepository br, Pointrepository pr, SensorService sensorService) {
+		this.brandRepo = br;
+		this.pointRepo = pr;
+		this.sensorService = sensorService;
+	}
 
-    @ModelAttribute(name = "sensors")
-    private List<Sensor> sensors() {
-        List<Sensor> list = sensorService.getAllSensors();
-        list.sort(new Comparator<Sensor>() {
-            @Override
-            public int compare(Sensor o1, Sensor o2) {
-                return o1.getBrand().getName().compareTo(o2.getBrand().getName());
-            }
-        }
-        );
-        return list;
-    }
+	@ModelAttribute(name = "sensors")
+	private List<Sensor> sensors() {
+		List<Sensor> list = sensorService.getAllSensors();
+		list.sort(new Comparator<Sensor>() {
+			@Override
+			public int compare(Sensor o1, Sensor o2) {
+				return o1.getBrand().getName().compareTo(o2.getBrand().getName());
+			}
+		}
+		);
+		return list;
+	}
 
-    @ModelAttribute(name = "brands")
-    private List<Brand> brands() {
-        List<Brand> brands = brandRepo.findAll();
-        brands.forEach(b -> b.setName(b.getName().toUpperCase()));
-        brands.sort(new Comparator<Brand>() {
-            @Override
-            public int compare(Brand o1, Brand o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-        return brands;
-    }
+	@ModelAttribute(name = "brands")
+	private List<Brand> brands() {
+		List<Brand> brands = brandRepo.findAll();
+		brands.forEach(b -> b.setName(b.getName().toUpperCase()));
+		brands.sort(new Comparator<Brand>() {
+			@Override
+			public int compare(Brand o1, Brand o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return brands;
+	}
 
-    @GetMapping("/sensors")
-    public String allSensors(Model model) {
-        model.addAttribute("title", "Датчици");
-        return "components/sensors";
-    }
+	@GetMapping("/sensors")
+	public String allSensors(Model model) {
+		model.addAttribute("title", "Датчици");
+		return "components/sensors";
+	}
 
-    @GetMapping("/sensor-create")
-    public String sensorCreate(@ModelAttribute SensorCreateBindingModel sensorCreateBindingModel, Model model) {
-        model.addAttribute("title", "Добави датчик");
-        return "components/sensor-create";
-    }
+	@GetMapping("/sensor-create")
+	public String sensorCreate(@ModelAttribute SensorCreateBindingModel sensorCreateBindingModel, Model model) {
+		model.addAttribute("title", "Добави датчик");
+		return "components/sensor-create";
+	}
 
-    @PostMapping("/sensor-create")
-    public String sensorCreate(Model model, @Valid @ModelAttribute SensorCreateBindingModel sensorCreateBindingModel, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "components/sensor-create";
-        }
+	@PostMapping("/sensor-create")
+	public String sensorCreate(Model model, @Valid @ModelAttribute SensorCreateBindingModel sensorCreateBindingModel, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "components/sensor-create";
+		}
 
-        sensorService.create(sensorCreateBindingModel);
-        return "redirect:/sensors";
-    }
+		sensorService.create(sensorCreateBindingModel);
+		return "redirect:/sensors";
+	}
 
-    @GetMapping("/sensor-update/{id}")
-    public String updateSensor(@PathVariable("id") String id, Model model) {
-        SensorCreateBindingModel bindModel = sensorService.fillSensorBindModelById(id);
-        model.addAttribute("bindModel", bindModel);
-        return "components/sensor-update";
-    }
+	@GetMapping("/sensor-update/{id}")
+	public String updateSensor(@PathVariable("id") String id, Model model) {
+		SensorCreateBindingModel bindModel = sensorService.fillSensorBindModelById(id);
+		model.addAttribute("bindModel", bindModel);
+		return "components/sensor-update";
+	}
 
-    @PostMapping("/sensor-update")
-    public String sensorUpdate(Model model, @Valid @ModelAttribute SensorCreateBindingModel bindModel, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "components/sensor-update";
-        }
-        sensorService.create(bindModel);
-        return "redirect:/sensors";
-    }
+	@PostMapping("/sensor-update")
+	public String sensorUpdate(Model model, @Valid @ModelAttribute SensorCreateBindingModel bindModel, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "components/sensor-update";
+		}
+		sensorService.create(bindModel);
+		return "redirect:/sensors";
+	}
 
-    @PostMapping("/sensor-delete")
-    public ResponseEntity<Object> deleteSensor(@RequestParam("id") String id, Model model) {
-        this.sensorService.delete(Long.parseLong(id));
-        return new ResponseEntity(id, HttpStatus.OK);
-    }
+	@PostMapping("/sensor-delete")
+	public ResponseEntity deleteSensor(@RequestParam("id") String id, Model model) {
+		if (id.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		this.sensorService.delete(Long.parseLong(id));
+		return new ResponseEntity(HttpStatus.OK);
+	}
+
+	@GetMapping("/sensor")
+	public String showSensor(@RequestParam("id") String id, Model model) {
+		Sensor s = sensorService.getSensorById(id);
+		model.addAttribute("sensor", s);
+		return "/fragments/parts :: sensor";
+	}
 }

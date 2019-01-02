@@ -175,5 +175,23 @@
             </div>
         </div>
 
+		<div th:fragment="sensor">
+			<div class="card border-primary">
+				<legend class="card-header">Сензор</legend>
+				<div class="card-body">
+					<h6 class="card-title text-muted">Вид</h6>
+					<p th:text="${sensor.type.getValue()}" class="card-text"></p>
+					<h6 class="card-title text-muted">Вид</h6>
+					<p th:text="${sensor.brand.name}" class="card-text"></p>
+					<h6 class="card-title text-muted">Модел</h6>
+					<p th:text="${sensor.model}" class="card-text"></p>
+					<h6 class="card-title text-muted">Код</h6>
+					<p th:text="${sensor.code}" class="card-text"></p>
+					<h6 class="card-title text-muted">Цена</h6>
+					<p th:text="${sensor.price}" class="card-text"></p>
+				</div>
+			</div>
+		</div>
+
     </body>
 </html>

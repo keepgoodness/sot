@@ -4,6 +4,8 @@ import javax.validation.Valid;
 import org.sot.models.bindings.PlaceCreateBindingModel;
 import org.sot.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,9 +53,11 @@ public class PlaceController {
 	}
 
 	@PostMapping("/place-delete")
-	@ResponseBody
-	public String delete(@RequestParam("id") String id, Model model) {
+	public ResponseEntity deletePlace(@RequestParam("id") String id, Model model) {
+		if (id.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 		this.placeService.delete(Long.parseLong(id));
-		return "redirect:/places";
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }

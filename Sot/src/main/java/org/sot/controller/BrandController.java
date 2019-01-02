@@ -22,39 +22,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BrandController {
 
-    private final BrandService brandService;
+	private final BrandService brandService;
 
-    @Autowired
-    public BrandController(BrandService brandService) {
-        this.brandService = brandService;
-    }
+	@Autowired
+	public BrandController(BrandService brandService) {
+		this.brandService = brandService;
+	}
 
-    @GetMapping("/brands")
-    public String allBrands(Model model) {
-        model.addAttribute("title", "Всички марки");
-        model.addAttribute("brands", this.brandService.findAllBrands());
-        return "components/brands";
-    }
+	@GetMapping("/brands")
+	public String allBrands(Model model) {
+		model.addAttribute("title", "Всички марки");
+		model.addAttribute("brands", this.brandService.findAllBrands());
+		return "components/brands";
+	}
 
-    @GetMapping("/brand-create")
-    public String register(Model model, @ModelAttribute BrandBindingModel brandBindingModel) {
-        model.addAttribute("title", "Марка");
-        model.addAttribute("brands", this.brandService.findAllBrands());
-        return "components/brand-create";
-    }
+	@GetMapping("/brand-create")
+	public String register(Model model, @ModelAttribute BrandBindingModel brandBindingModel) {
+		model.addAttribute("title", "Марка");
+		model.addAttribute("brands", this.brandService.findAllBrands());
+		return "components/brand-create";
+	}
 
-    @PostMapping("/brand-create")
-    public String register(Model model, @Valid @ModelAttribute BrandBindingModel brandBindingModel, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return register(model, brandBindingModel);
-        }
-        this.brandService.register(brandBindingModel);
-        return "redirect:/brands";
-    }
+	@PostMapping("/brand-create")
+	public String register(Model model, @Valid @ModelAttribute BrandBindingModel brandBindingModel, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return register(model, brandBindingModel);
+		}
+		this.brandService.register(brandBindingModel);
+		return "redirect:/brands";
+	}
 
-    @PostMapping("/brand-delete")
-    public ResponseEntity<Object> delete(@RequestParam("id") String id) {
-        this.brandService.delete(id);
-        return new ResponseEntity(id, HttpStatus.OK);
-    }
+	@PostMapping("/brand-delete")
+	public ResponseEntity deleteBrand(@RequestParam("id") String id) {
+		if (id.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		this.brandService.delete(id);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	
 }
