@@ -1,11 +1,13 @@
 package org.sot.models.bindings;
 
 import javax.validation.constraints.Size;
+import javax.xml.ws.BindingType;
 
 /**
  *
  * @author Jordan
  */
+
 public class SensorCreateBindingModel {
 
     private String sensorId;

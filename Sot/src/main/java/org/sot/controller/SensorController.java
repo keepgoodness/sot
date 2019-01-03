@@ -3,13 +3,8 @@ package org.sot.controller;
 import java.util.Comparator;
 import java.util.List;
 import javax.validation.Valid;
-import org.hibernate.internal.util.compare.ComparableComparator;
-import org.sot.exceptions.ExistingIdentifierException;
-import org.sot.exceptions.ExistingPointException;
-import org.sot.models.bindings.PointAtrBindingModel;
 import org.sot.models.bindings.SensorCreateBindingModel;
 import org.sot.models.entities.Brand;
-import org.sot.models.entities.Point;
 import org.sot.models.entities.Sensor;
 import org.sot.repositories.BrandRepository;
 import org.sot.repositories.Pointrepository;
@@ -25,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -35,13 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SensorController {
 
 	private final BrandRepository brandRepo;
-	private final Pointrepository pointRepo;
 	private final SensorService sensorService;
 
 	@Autowired
-	public SensorController(BrandRepository br, Pointrepository pr, SensorService sensorService) {
+	public SensorController(BrandRepository br, SensorService sensorService) {
 		this.brandRepo = br;
-		this.pointRepo = pr;
 		this.sensorService = sensorService;
 	}
 
@@ -56,6 +48,13 @@ public class SensorController {
 		}
 		);
 		return list;
+	}
+	
+	@GetMapping("/sensor")
+	public String showSensor(@RequestParam("id") String id, Model model) {
+		Sensor s = sensorService.getSensorById(id);
+		model.addAttribute("sensor", s);
+		return "/fragments/parts :: sensor";
 	}
 
 	@ModelAttribute(name = "brands")
@@ -116,12 +115,5 @@ public class SensorController {
 		}
 		this.sensorService.delete(Long.parseLong(id));
 		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@GetMapping("/sensor")
-	public String showSensor(@RequestParam("id") String id, Model model) {
-		Sensor s = sensorService.getSensorById(id);
-		model.addAttribute("sensor", s);
-		return "/fragments/parts :: sensor";
 	}
 }

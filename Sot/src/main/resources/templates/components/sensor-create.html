@@ -15,7 +15,7 @@
         <div class="container">
             <div th:replace="~{fragments/parts::header}"></div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 card">
                     <form th:object="${sensorCreateBindingModel}" method="post" th:action="@{/sensor-create}">
                         <fieldset>
                             <div class="form-group">
