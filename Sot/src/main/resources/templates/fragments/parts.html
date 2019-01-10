@@ -15,7 +15,7 @@
             <link rel="stylesheet" media="all" th:href="@{/styles/bootstrap.css}">
             <link rel="stylesheet" media="all" th:href="@{/styles/main.css}">
 			<link rel="stylesheet" media="all" th:href="@{/styles/image-upload.css}">
-			
+
             <script type="text/javascript" th:src="@{/js/main.js}"></script>
             <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
             <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
@@ -185,7 +185,7 @@
 				<div class="card-body">
 					<h6 class="card-title text-muted">Вид</h6>
 					<p th:text="${sensor.type.getValue()}" class="card-text"></p>
-					<h6 class="card-title text-muted">Вид</h6>
+					<h6 class="card-title text-muted">Марка</h6>
 					<p th:text="${sensor.brand.name}" class="card-text"></p>
 					<h6 class="card-title text-muted">Модел</h6>
 					<p th:text="${sensor.model}" class="card-text"></p>
@@ -193,6 +193,22 @@
 					<p th:text="${sensor.code}" class="card-text"></p>
 					<h6 class="card-title text-muted">Цена</h6>
 					<p th:text="${sensor.price}" class="card-text"></p>
+				</div>
+			</div>
+		</div>
+
+		<div th:fragment="board">
+			<div class="card border-primary">
+				<legend class="card-header">Контролна платка</legend>
+				<div class="card-body">
+					<h6 class="card-title text-muted">Марка</h6>
+					<p th:text="${board.brand.name}" class="card-text"></p>
+					<h6 class="card-title text-muted">Модел</h6>
+					<p th:text="${board.model}" class="card-text"></p>
+					<h6 class="card-title text-muted">Код</h6>
+					<p th:text="${board.code}" class="card-text"></p>
+					<h6 class="card-title text-muted">Цена</h6>
+					<p th:text="${board.price}" class="card-text"></p>
 				</div>
 			</div>
 		</div>

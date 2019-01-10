@@ -55,9 +55,7 @@ function deleteElement(url, element) {
 		},
 		success: function (data, textStatus, xhr) {
 			$(element).parent().remove();
-		},
-//        error: function (jqXHR) {
-//            alert(JSON.stringify(jqXHR));
-//        }
+			$("#info").empty();
+		}
 	});
 }

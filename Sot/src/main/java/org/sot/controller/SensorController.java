@@ -45,8 +45,7 @@ public class SensorController {
 			public int compare(Sensor o1, Sensor o2) {
 				return o1.getBrand().getName().compareTo(o2.getBrand().getName());
 			}
-		}
-		);
+		});
 		return list;
 	}
 	
@@ -96,6 +95,7 @@ public class SensorController {
 	public String updateSensor(@PathVariable("id") String id, Model model) {
 		SensorCreateBindingModel bindModel = sensorService.fillSensorBindModelById(id);
 		model.addAttribute("bindModel", bindModel);
+		model.addAttribute("title", "Редактиране датчик");
 		return "components/sensor-update";
 	}
 

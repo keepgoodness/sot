@@ -27,7 +27,7 @@ public class ModelMapperConfig {
     public ModelMapper getModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         if (modelMapper.getTypeMap(PointAtrBindingModel.class, Point.class) == null) {
-          modelMapper.addMappings(this.yesOrNoCompany);
+//          modelMapper.addMappings(this.yesOrNoCompany);
         }
         return modelMapper;
     }
