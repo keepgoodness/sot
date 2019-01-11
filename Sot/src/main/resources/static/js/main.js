@@ -51,11 +51,19 @@ function deleteElement(url, element) {
 		url: url,
 		data: {id: id},
 		beforeSend: function (xhr) {
-			xhr.setRequestHeader(header, token);
+			if (typeof header !== 'undefined' || typeof token !== 'undefined'){
+				xhr.setRequestHeader(header, token);
+			}			
 		},
-		success: function (data, textStatus, xhr) {
-			$(element).parent().remove();
-			$("#info").empty();
+		statusCode: {
+			200: function () {
+				$("#info").empty();
+				$(element).parent().remove();
+			},
+			404: function () {
+//				$(element + "div:last-child").html("Този контролен модул не съществува!");
+				alert($(element).parent().parent().children().last().html("Този контролен модул не съществува!"));
+			}
 		}
 	});
 }

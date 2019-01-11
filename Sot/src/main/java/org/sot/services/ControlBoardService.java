@@ -2,12 +2,13 @@ package org.sot.services;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.sot.models.bindings.ControlBoardBindModel;
 import org.sot.models.entities.ControlBoard;
 import org.sot.repositories.ControlBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -51,8 +52,11 @@ public class ControlBoardService {
 		cbRepo.save(maped);
 	}
 
-	public boolean delete(Long id) {
-		this.cbRepo.deleteById(id);
-		return !this.cbRepo.findById(id).isPresent();
+	public ResponseEntity delete(Long id) {
+		if (cbRepo.existsById(id)) {
+			this.cbRepo.deleteById(id);
+			return new ResponseEntity(HttpStatus.OK);
+		}
+		return new ResponseEntity(HttpStatus.NOT_FOUND);
 	}
 }

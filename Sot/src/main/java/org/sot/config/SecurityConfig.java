@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().ignoringAntMatchers("/points/delete/**")
-			.and()
+		http.csrf().disable() //ignoringAntMatchers("/points/delete/**")
+//			.and()
 		.authorizeRequests()
 //				.antMatchers("/**").permitAll()
 				.anyRequest().authenticated()

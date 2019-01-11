@@ -3,7 +3,6 @@ package org.sot.controller;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.sot.models.bindings.ControlBoardBindModel;
 import org.sot.models.entities.Brand;
@@ -11,7 +10,9 @@ import org.sot.models.entities.ControlBoard;
 import org.sot.repositories.BrandRepository;
 import org.sot.services.ControlBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,12 +104,12 @@ public class ControlBoardController {
 		return "redirect:/control-boards";
 	}
 
-	@PostMapping("/control_board-delete")
+	@PostMapping(value = "/control_board-delete")
 	public ResponseEntity controlBoardDelete(@RequestParam("id") String id, Model model) {
 		if (id.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-		this.cbservice.delete(Long.parseLong(id));
-		return new ResponseEntity(HttpStatus.OK);
+		
+		return this.cbservice.delete(Long.parseLong(id));
 	}
 }
