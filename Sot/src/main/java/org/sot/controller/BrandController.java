@@ -52,13 +52,12 @@ public class BrandController {
 		return "redirect:/brands";
 	}
 
-	@PostMapping("/brand-delete")
+	@PostMapping(value = "/brand-delete", produces = "application/json; charset=UTF-8" )
 	public ResponseEntity deleteBrand(@RequestParam("id") String id) {
 		if (id.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		this.brandService.delete(id);
-		return new ResponseEntity(HttpStatus.OK);
+		return this.brandService.delete(id);
 	}
 	
 	

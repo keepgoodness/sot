@@ -1,7 +1,9 @@
 package org.sot.repositories;
 
+import java.util.List;
 import org.sot.models.entities.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Repository;
  * @author Jordan
  */
 @Repository
-public interface SensorRepository extends JpaRepository<Sensor, Long>{
-    
+public interface SensorRepository extends JpaRepository<Sensor, Long> {
+
+	@Query("select s from #{#entityName} s where s.brand.id = ?1")
+	public List<Sensor> findAllByBrandId(Long id);
 }

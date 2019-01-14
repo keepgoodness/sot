@@ -51,9 +51,9 @@ function deleteElement(url, element) {
 		url: url,
 		data: {id: id},
 		beforeSend: function (xhr) {
-			if (typeof header !== 'undefined' || typeof token !== 'undefined'){
+			if (typeof header !== 'undefined' || typeof token !== 'undefined') {
 				xhr.setRequestHeader(header, token);
-			}			
+			}
 		},
 		statusCode: {
 			200: function () {
@@ -63,6 +63,9 @@ function deleteElement(url, element) {
 			404: function () {
 //				$(element + "div:last-child").html("Този контролен модул не съществува!");
 				alert($(element).parent().parent().children().last().html("Този контролен модул не съществува!"));
+			},
+			409: function (obj) {
+				alert(obj.responseText);
 			}
 		}
 	});

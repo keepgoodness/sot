@@ -3,7 +3,7 @@
 	<head th:include="~{fragments/parts::head}"></head>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			$("li>div").click(function () {
+			$("li.list-group-item>div").click(function () {
 				deleteElement('/control_board-delete', this);
 			});
 
@@ -40,35 +40,19 @@
 						<legend>Налични контролни платки</legend>
 						<div style="height: 500px; overflow: auto;">
 							<ul class="list-group">
-								<li th:each="b : ${boards}">
-									<div class="form-group has-danger">
-										<div class="form-control is-invalid list-group-item d-flex justify-content-between align-items-center">
-											<a th:text="${b.brand.name} +' | '+ ${b.model} + ' | ' + ${b.code}"
-											   class="col-sm-9"
-											   th:href="@{#}"
-											   th:data="${b.id}"></a>
-											<a class="btn btn-sm" th:href="@{/control_board-update/} + ${b.id}">
-												<img th:src="@{/images/edit_property_32px.png}">
-											</a>
-											<div class="btn btn-sm" th:data="${b.id}">
-												<img th:src="@{/images/delete_28px.png}">
-											</div>
-										</div>
-										<div class="invalid-feedback">Success! You've done it.</div>
+								<li th:each="b : ${boards}"
+									class="list-group-item d-flex justify-content-between align-items-center">
+									<a th:text="${b.brand.name} +' | '+ ${b.model} + ' | ' + ${b.code}"
+									   class="col-sm-9"
+									   th:href="@{#}"
+									   th:data="${b.id}"></a>
+									<a class="btn btn-sm" th:href="@{/control_board-update/} + ${b.id}">
+										<img th:src="@{/images/edit_property_32px.png}">
+									</a>
+									<div class="btn btn-sm" th:data="${b.id}">
+										<img th:src="@{/images/delete_28px.png}">
 									</div>
 								</li>
-								<div class="form-group has-danger">
-									<div type="text" class="form-control is-invalid list-group-item d-flex justify-content-between align-items-center">
-										<a th:href="@{#}">sdfsdddddddddddddddf</a>
-										<a class="btn btn-sm">
-											<img th:src="@{/images/edit_property_32px.png}">
-										</a>
-										<div class="btn btn-sm">
-											<img th:src="@{/images/delete_28px.png}">
-										</div>
-									</div>
-									<div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
-								</div>
 							</ul>
 						</div>
 					</th:block>

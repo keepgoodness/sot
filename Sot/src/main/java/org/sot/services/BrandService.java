@@ -3,6 +3,7 @@ package org.sot.services;
 import java.util.List;
 import org.sot.models.bindings.BrandBindingModel;
 import org.sot.models.entities.Brand;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -14,6 +15,6 @@ public interface BrandService {
 
 	public List<Brand> findAllBrands();
 
-	public boolean delete(String id);
+	public ResponseEntity<String> delete(String idString);
 
 }

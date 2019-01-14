@@ -59,4 +59,9 @@ public class ControlBoardService {
 		}
 		return new ResponseEntity(HttpStatus.NOT_FOUND);
 	}
+
+	public List<ControlBoard> findAllByBrandId(String brandId) {
+		return cbRepo.findAllByBrandId(Long.parseLong(brandId));
+	}
+
 }

@@ -96,7 +96,7 @@ public class ControlBoardController {
 	}
 
 	@PostMapping("/control_board-update")
-	public String sensorUpdate(Model model, @Valid @ModelAttribute ControlBoardBindModel controlBoardBindModel, BindingResult bindingResult) {
+	public String controlBoardUpdate(Model model, @Valid @ModelAttribute ControlBoardBindModel controlBoardBindModel, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "components/control_board-update";
 		}

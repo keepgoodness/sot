@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.sot.models.bindings.SensorCreateBindingModel;
 import org.sot.models.entities.Sensor;
+import org.sot.repositories.ControlBoardRepository;
 import org.sot.repositories.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,14 @@ import org.springframework.stereotype.Service;
 public class SensorService {
 
 	private final SensorRepository sRepo;
+	private final ControlBoardRepository boardRepository;
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public SensorService(SensorRepository sRepo, ModelMapper modelMapper) {
+	public SensorService(SensorRepository sRepo, ModelMapper modelMapper, ControlBoardRepository boardRepository) {
 		this.sRepo = sRepo;
 		this.modelMapper = modelMapper;
+		this.boardRepository = boardRepository;
 	}
 
 	public List<Sensor> getAllSensors() {
@@ -50,4 +53,7 @@ public class SensorService {
 		return sRepo.getOne(Long.parseLong(id));
 	}
 
+	public List<Sensor> findAllByBrandId(String brandId) {
+		return sRepo.findAllByBrandId(Long.parseLong(brandId));
+	}
 }

@@ -92,7 +92,7 @@ public class SensorController {
 	}
 
 	@GetMapping("/sensor-update/{id}")
-	public String updateSensor(@PathVariable("id") String id, Model model) {
+	public String sensorUpdate(@PathVariable("id") String id, Model model) {
 		SensorCreateBindingModel bindModel = sensorService.fillSensorBindModelById(id);
 		model.addAttribute("bindModel", bindModel);
 		model.addAttribute("title", "Редактиране датчик");
@@ -109,7 +109,7 @@ public class SensorController {
 	}
 
 	@PostMapping("/sensor-delete")
-	public ResponseEntity deleteSensor(@RequestParam("id") String id, Model model) {
+	public ResponseEntity sensorDelete(@RequestParam("id") String id, Model model) {
 		if (id.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
