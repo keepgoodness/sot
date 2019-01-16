@@ -16,6 +16,7 @@ function ajaxGetPoint(url, paramId) {
             $("#updDellButt").css("display", "inline");
             $("#edit").attr("href", '/point-edit/' + paramId);
             $("#delete").find('input').attr("value", paramId);
+			$("#components_add").attr("href", '/components_add/' + paramId);
 
             $("#excPdfButt").css("display", "inline");
             $("#downlExcel").attr("href", '/point-excel/' + paramId);

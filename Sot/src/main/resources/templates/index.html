@@ -6,7 +6,6 @@
             /*<![CDATA[*/
             var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
             /*]]>*/
-
         </script>
         <div class="container">
             <!--*** Header ***-->
@@ -21,12 +20,15 @@
                     <a class="btn btn-success btn-lg btn-block" th:href="@{/points/create-new}" role="button">Създай нов обект</a>
                 </div>
                 <div id="updDellButt" class="col-lg-4" style="display: none;">
-                    <a id="edit" class="btn btn-outline-primary">
+                    <a id="edit" class="btn btn-outline-primary mr-sm-2">
                         <img th:src="@{/images/edit_20px.png}">
                     </a>
-                    <a id="delete" class="btn btn-outline-danger">
+                    <a id="delete" class="btn btn-outline-danger mr-sm-2">
                         <input type="hidden" value="">
                         <img th:src="@{/images/trash_20px.png}">
+                    </a>
+					<a id="components_add" class="btn btn-outline-primary mr-sm-2">
+                        <img th:src="@{/images/add_components_20px.png}">
                     </a>
                 </div>
                 <div class="col-lg-4 mb-3">

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head th:include="~{fragments/parts::head}"></head>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var point = /*[[${point}]]*/ "no point";
+		/*]]>*/
+		alert(JSON.stringify(point));
+    </script>
+	<body>
+		<div class="container">
+			<div th:replace="~{fragments/parts::header}"></div>
+			<div class="row mb-3">
+				<div class="col-lg-4 mb-3">
+
+                </div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,7 +1,9 @@
 package org.sot.models.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.sot.enums.SseStatus;
-import org.sot.enums.VatStatus;
 
 /**
  *
@@ -70,12 +71,16 @@ public class Point {
     private List<ResponsiblePerson> responsiblePersons = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            joinColumns = {
-                @JoinColumn(name = "point_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "sensor_id")})
+    @JoinTable(name = "points_sensors",
+            joinColumns = { @JoinColumn(name = "point_id") },
+            inverseJoinColumns = { @JoinColumn(name = "sensor_id", columnDefinition = "bigint default 0") })
     private List<Sensor> sensors = new ArrayList<>();
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "points_controlboards",
+			joinColumns = { @JoinColumn(name = "point_id") },
+			inverseJoinColumns = { @JoinColumn(name = "controlboard_id", columnDefinition = "bigint default 0") } )
+	private List<ControlBoard> controlBoards = new ArrayList<>();
 
     public Point() {
     }
@@ -168,12 +173,20 @@ public class Point {
         this.responsiblePersons = responsiblePersons;
     }
 
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
+	public List<Sensor> getSensors() {
+		return sensors;
+	}
 
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
+	public void setSensors(List<Sensor> sensors) {
+		this.sensors = sensors;
+	}
+
+	public List<ControlBoard> getControlBoards() {
+		return controlBoards;
+	}
+
+	public void setControlBoards(List<ControlBoard> controlBoards) {
+		this.controlBoards = controlBoards;
+	}
 
 }
