@@ -41,16 +41,14 @@ public class ComponentsController {
 	@GetMapping("/components_add/{id}")
 	public String componentsAdd(@PathVariable("id") String id, Model model) throws JsonProcessingException {
 
+		
+//		https://www.codejava.net/frameworks/hibernate/hibernate-many-to-many-association-with-extra-columns-in-join-table-example
 		Point point = pointrepository.findById(Long.parseLong(id)).get();
 		Sensor sensor = sensorRepository.findById(Long.parseLong("90")).get();
 		Sensor sensor2 = sensorRepository.findById(Long.parseLong("95")).get();
 		ControlBoard board = boardRepository.findById(Long.parseLong("92")).get();
-		
-		ObjectMapper objMapper = new ObjectMapper();
-		String json = objMapper.writeValueAsString(sensor.getPoints().get(0));
-		System.out.println(json);
-		
-		model.addAttribute("point", sensor.getPoints().get(0));
+
+
 
 		return "components/components-add";
 	}
