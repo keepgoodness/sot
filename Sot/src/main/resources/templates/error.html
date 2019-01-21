@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:include="~{fragments/parts::head}"></head>
+	<title>Грешка</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body><div class="container">
+		<div class="mb-3"></div>
+		<div class="jumbotron">
+			<div class="alert alert-dismissible alert-danger">
+				<strong th:text="${msg}" >Oh snap!</strong>
+			</div>
+			<!--<h1 class="display-3">Hello, world!</h1>-->
+			<hr class="my-4">
+			<h3>Опитайте отново</h3>
+			<p class="lead">
+				<a class="btn btn-primary btn-lg" th:href="@{/}" role="button">Начало</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
