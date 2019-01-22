@@ -85,8 +85,9 @@ public class ComponentsController {
         List<String> sensorsId = components.getSensorsId();
         List<String> controlBoardsId = components.getControlBoardsId();
         
-
-        sensorsId.forEach(el-> System.out.println(el));
+		System.out.println("pointId: " + pointId);
+        sensorsId.forEach(el-> System.out.println("sensorId: " + el));
+		controlBoardsId.forEach(el-> System.out.println("controlBoardId: " + el));
         return "";
     }
 

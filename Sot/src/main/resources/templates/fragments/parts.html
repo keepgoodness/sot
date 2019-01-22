@@ -213,5 +213,19 @@
 			</div>
 		</div>
 
+		<div th:fragment="sensor_li">
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Добави датчик
+				<span class="badge badge-pill">
+					<div class="btn btn-sm" data="">
+						<img th:src="@{/images/add_blue_32px.png}">
+					</div>
+					<div class="btn btn-sm" data="">
+						<img th:src="@{/images/delete_32px.png}">
+					</div>
+				</span>
+			</li>
+		</div>
+
     </body>
 </html>

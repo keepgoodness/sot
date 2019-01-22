@@ -2,86 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head th:include="~{fragments/parts::head}"></head>
     <script th:inline="javascript">
-        /*<![CDATA[*/
-        var pointId = JSON.parse(/*[[${point.id}]]*/ "no pints");
-        /*]]>*/
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        var jsonToSend = [];
-        $(document).ready(function () {
+		/*<![CDATA[*/
+		var pointId = JSON.parse(/*[[${point.id}]]*/ "no pints");
+		/*]]>*/
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var components = {"pointId": pointId, "sensors": [], "controlBoardsId": []};
 
-            $("#sensorTypes").change(function () {
-                $("#brands").val($("#brands option:first").val());
-                $("#sensorModels").empty();
-                $("#count").val($("#count option:first").val());
-            });
+		$(document).ready(function () {
 
-            $("#brands").change(function () {
-                var sensorType = $("#sensorTypes option:selected").val();
-                var brandId = $("#brands option:selected").val();
-                var dataTosend = {"sensorType": sensorType, "brandId": brandId};
-                $.ajax({
-                    method: "POST",
-                    url: "/api/components-add/",
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: JSON.stringify(dataTosend),
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success: function (data, textStatus, xhr) {
-                        $("#sensorModels").empty();
-                        $.each(data, function (i, item) {
-                            $("#sensorModels").append($('<option />').text(item.model).val(item.id));
-                        });
-                    }
-                });
-            });
+			$("#sensorTypes").change(function () {
+				$("#brands").val($("#brands option:first").val());
+				$("#sensorModels").empty();
+				$("#count").val($("#count option:first").val());
+			});
 
+			$("#brands").change(function () {
+				var sensorType = $("#sensorTypes option:selected").val();
+				var brandId = $("#brands option:selected").val();
+				var dataTosend = {"sensorType": sensorType, "brandId": brandId};
+				$.ajax({
+					method: "POST",
+					url: "/api/components-add/",
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(dataTosend),
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (data, textStatus, xhr) {
+						$("#sensorModels").empty();
+						$.each(data, function (i, item) {
+							$("#sensorModels").append($('<option />').text(item.model).val(item.id));
+						});
+					}
+				});
+			});
 
-            $("#addData").click(function () {
+			$("#addData").click(function () {
+				var brand = $("#brands option:selected").text();
+				var sensorModel = $("#sensorModels option:selected").text();
+				var sensorId = $("#sensorModels option:selected").val();
+				var count = $("#count option:selected").val();
 
-            });
+				if ($("#brands option:selected").val() === "")
+					return;
+				if ($("#sensorModels option").length == 0)
+					return;
+				var oldLength = components.sensors.length;
+				var newLength = addSensorToArrayIfNotPresent(sensorId, count);
 
-//            var components = {
-//                "sensors": [
-//                    {"id": 90, },
-//                    {"id": 95, "brand": {"id": 89, "name": "CROWN"}, "model": "dfe 35", "code": "1234", "price": 12.12, "type": "ACUSTIC"}
-//                ],
-//                "controlBoards": [
-//                    {"id": 92, "brand": {"id": 89, "name": "CROWN"}, "model": "ъртъртъ", "code": "345", "price": 12.25, "link": "http://asd.com", "fileUrl": null}
-//                ]
-//            };
-            $("#sendData").click(function () {
-                var components = {
-                    "pointId": pointId,
-                    "sensorsId": [90, 95],
-                    "controlBoardsId": [92]
-                };
-                alert(components.sensorsId);
-                components.sensorsId.push(84);
-                var index = components.sensorsId.indexOf(95);
-                components.sensorsId.splice(index,1);
-                alert(components.sensorsId);
+				if (oldLength < newLength) {
+					createLiInfo(brand, sensorModel, sensorId, count);
+				}
+			});
 
-                $.ajax({
-                    method: "POST",
-                    url: "/components-add/",
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: JSON.stringify(components),
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(header, token);
-                    },
-                    success: function (data, textStatus, xhr) {
-//                        alert(JSON.stringify(data));
-                    },
-                    error: function (jqXHR) {
-                        alert(JSON.stringify(jqXHR));
-                    }
-                });
-            });
-        });
+			$("#sendData").click(function () {
+				alert(JSON.stringify(components));
+				$.ajax({
+					method: "POST",
+					url: "/components-add/",
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify(components),
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (data, textStatus, xhr) {
+					},
+					error: function (jqXHR) {
+						alert(JSON.stringify(jqXHR));
+					}
+				});
+			});
+		});
     </script>
     <body>
         <div class="container">
@@ -96,89 +90,105 @@
                             <h6 class="card-subtitle text-muted" th:text="${point.identifier}"></h6>
                         </div>
                     </div>
+					<!--Start-->
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link show active" data-toggle="tab" href="#nav-sensor">Датчик</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link show" data-toggle="tab" href="#nav-controlboard">Контролна платка</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link show" data-toggle="tab" href="#nav-transmiter">Предавател</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade show active" id="nav-sensor">
+							<div class="card mb-3">
+								<div class="card-body">
+									<div class="form-group">
+										<label class="col-form-label" >Вид</label>
+										<select id="sensorTypes" class="custom-select">
+											<option th:each="type : ${T(org.sot.enums.SensorType).getSortedValues()}"
+													th:value="${type}"
+													th:text="${type.getValue()}">
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="col-form-label" >Марка</label>
+										<select id="brands" class="custom-select">
+											<option value="" selected disabled>Изберете марка...</option>
+											<option th:each="b : ${brands}" 
+													th:value="${b.id}"
+													th:text="${b.name}">
+											</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label  class="col-form-label" >Модел</label>
+										<select id="sensorModels" class="custom-select">
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="col-form-label" >Брой</label>
+										<select id="count" class="custom-select">
+											<option th:each="i : ${#numbers.sequence(1,20)}"
+													th:value="${i}"
+													th:text="${i}"
+													th:selected="${i==1}">
+											</option>
+										</select>
+									</div>
+									<div class="list-group align-items-center">
+										<div id="addData" class="btn btn-sm" data="">
+											<img src="/images/add_blue_48px.png">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="nav-controlboard">
+							<div class="card mb-3">
+								<div class="card-body">
+									<p>Добавяне на контролна платка</p>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="nav-transmiter">
+							<div class="card mb-3">
+								<div class="card-body">
+									<p>Добавяне на предаватели</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--End-->
                 </div>
                 <div class="col-lg-4 mb-3">
                     <div class="card mb-3">
-                        <h3 class="card-header">Добавяне на датчик</h3>
-                        <div class="card-body">
-                            <div class="list-group-item">
-                                <div class="form-group">
-                                    <label class="col-form-label" >Вид</label>
-                                    <select id="sensorTypes" class="custom-select">
-                                        <option th:each="type : ${T(org.sot.enums.SensorType).getSortedValues()}"
-                                                th:value="${type}"
-                                                th:text="${type.getValue()}">
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label" >Марка</label>
-                                    <select id="brands" class="custom-select">
-                                        <option value="" selected disabled>Изберете марка...</option>
-                                        <option th:each="b : ${brands}" 
-                                                th:value="${b.id}"
-                                                th:text="${b.name}">
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label  class="col-form-label" >Модел</label>
-                                    <select id="sensorModels" class="custom-select">
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label" >Брой</label>
-                                    <select id="count" class="custom-select">
-                                        <option th:each="i : ${#numbers.sequence(1,20)}"
-                                                th:value="${i}"
-                                                th:text="${i}"
-                                                th:selected="${i==1}">
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="list-group align-items-center">
-                                    <div id="addData" class="btn btn-sm" data="">
-                                        <img src="/images/add_blue_48px.png">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="height: 350px; overflow: auto;">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Маркаааа | Моделллл</span>
-                                            <span class="badge-primary badge-pill">14</span>
-                                            <div class="btn btn-sm" data="">
-                                                <img th:src="@{/images/delete_32px.png}">
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Маркаааа | Моделллл</span>
-                                            <span class="badge-primary badge-pill">10</span>
-                                            <div class="btn btn-sm" data="">
-                                                <img th:src="@{/images/delete_32px.png}">
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Маркаааа | Моделллл</span>
-                                            <span class="badge-primary badge-pill">5</span>
-                                            <div class="btn btn-sm" data="">
-                                                <img th:src="@{/images/delete_32px.png}">
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>Маркаааа | Моделллл</span>
-                                            <span class="badge-primary badge-pill">1</span>
-                                            <div class="btn btn-sm" data="">
-                                                <img th:src="@{/images/delete_32px.png}">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="card-header">Датчици</h3>
+						<div class="form-group" style="max-height: 350px; overflow: auto;">
+							<ul id="sensors" class="list-group">
+							</ul>
+						</div>
+                    </div>
+					<div class="card mb-3">
+                        <h3 class="card-header">Предаватели</h3>
+						<div class="form-group" style="max-height: 350px; overflow: auto;">
+							<ul id="transmiters" class="list-group">
+							</ul>
+						</div>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-3">
-
+					<div class="card mb-3">
+                        <h3 class="card-header">Контролни платки</h3>
+						<div class="form-group" style="max-height: 350px; overflow: auto;">
+							<ul id="controlBoards" class="list-group">
+							</ul>
+						</div>
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">

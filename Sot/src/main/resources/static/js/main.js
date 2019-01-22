@@ -70,3 +70,69 @@ function deleteElement(url, element) {
 		}
 	});
 }
+
+function createLiInfo(brand, sensorModel, sensorId, count) {
+	var li = $('<li />');
+	$(li).addClass('list-group-item d-flex justify-content-between align-items-center');
+
+	var label = $('<span />').text(brand + " | " + sensorModel);
+	$(li).append(label);
+
+	var countNum = $('<span />');
+	$(countNum).addClass('badge-primary badge-pill');
+	$(countNum).text(count);
+	
+	
+	var countLabel = $('<span />');
+	$(countLabel).text((count < 2) ? "Брой" : "Броя");
+	
+	$(li).append(countNum);
+	$(li).append(countLabel);
+
+	var div = $('<div />').addClass('btn btn-sm');
+	$(div).attr("data", sensorId);
+
+	var img = $('<img />').attr("src", "/images/delete_28px.png");
+	$(div).append(img);
+	$(div).click(function (element) {
+		deleteElementFromHTMLDom($(this));
+		deleteSensorFromArray($(this).attr("data"));
+	});
+
+	$(li).append(div);
+	$("#sensors").append(li);
+
+}
+
+function deleteSensorFromArray(sensorId) {
+	var array = components.sensors;
+	var indexOf;
+	array.forEach(function (item, index) {
+		if (item.id == sensorId) {
+			array.splice(index, 1);
+		}
+	})
+	var position = array.indexOf(indexOf);
+
+}
+function deleteElementFromHTMLDom(element) {
+	$(element).parent().remove();
+}
+
+function addSensorToArrayIfNotPresent(sensorId, count) {
+	var array = components.sensors
+	var newsensor = {"id": sensorId, "count": count};
+	var isPresent = false;
+
+	for (item of array) {
+		if (item.id === sensorId) {
+			isPresent = true;
+			break;
+		}
+	}
+	if (isPresent) {
+		return array.length;
+	} else {
+		return array.push(newsensor);
+	}
+}

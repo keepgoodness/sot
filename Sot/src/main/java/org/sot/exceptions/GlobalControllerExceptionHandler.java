@@ -32,8 +32,8 @@ public class GlobalControllerExceptionHandler {
 
 	private static Logger log = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
-	@ExceptionHandler(Exception.class)
-	public String getException(HttpServletRequest req, Model model, Exception ex) {
+//	@ExceptionHandler(Exception.class)
+//	public String getException(HttpServletRequest req, Model model, Exception ex) {
 //		String newLine = System.lineSeparator();
 //		String text = "Request: " + req.getRequestURI() + ", Raised: " + ex;
 //
@@ -48,9 +48,8 @@ public class GlobalControllerExceptionHandler {
 //
 //		emailService.sendEmailMessage(MAIL_TO_SEND, "Грешка", textToMail);
 //		log.info(text + newLine + "#START Mail sended text: " + newLine + textToMail + newLine + "#END Mail sended text");
-
-		model.addAttribute("msg", "Грешка!");
-		return "error";
-	}
+//		model.addAttribute("msg", "Грешка!");
+//		return "error";
+//	}
 
 }
