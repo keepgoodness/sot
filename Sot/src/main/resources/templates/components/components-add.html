@@ -8,9 +8,13 @@
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var components = {"pointId": pointId, "sensors": [], "controlBoardsId": []};
-
+		alert("window.location.href:" + window.location.href + ";/\n/"
+				+ "window.location.hostname:" + window.location.hostname + ";/\n/"
+				+ "window.location.pathname:" + window.location.pathname + ";/\n/"
+				+ "window.location.protocol:" + window.location.protocol + ";/\n/"
+				+ "window.location.assign:" + window.location.assign + ";");
+		
 		$(document).ready(function () {
-
 			$("#sensorTypes").change(function () {
 				$("#brands").val($("#brands option:first").val());
 				$("#sensorModels").empty();
@@ -21,9 +25,10 @@
 				var sensorType = $("#sensorTypes option:selected").val();
 				var brandId = $("#brands option:selected").val();
 				var dataTosend = {"sensorType": sensorType, "brandId": brandId};
+				alert($(location).attr("href"));
 				$.ajax({
 					method: "POST",
-					url: "/api/components-add/",
+					url: appName + "/api/components-add/",
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(dataTosend),
@@ -61,7 +66,7 @@
 				alert(JSON.stringify(components));
 				$.ajax({
 					method: "POST",
-					url: "/components-add/",
+					url: baseURI + "/components-add/",
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(components),

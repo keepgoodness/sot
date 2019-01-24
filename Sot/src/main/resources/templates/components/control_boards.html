@@ -13,7 +13,7 @@
 				var header = $("meta[name='_csrf_header']").attr("content");
 				$.ajax({
 					method: "GET",
-					url: '/board',
+					url: appName + '/board',
 					data: {id: id},
 					beforeSend: function (xhr) {
 						if (typeof header !== 'undefined' || typeof token !== 'undefined') {

@@ -1,3 +1,5 @@
+var appName = "/sot";
+
 function switchIcon(marker) {
 	markersOnMap.forEach(function (element) {
 		if (marker === element) {
@@ -33,6 +35,7 @@ function switchIcon(marker) {
 		}
 	});
 }
+
 function centeringMarker(id) {
 	var pos = markersOnMap.get(id).getPosition();
 	map.setZoom(16);
@@ -48,7 +51,7 @@ function deleteElement(url, element) {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	$.ajax({
 		method: "POST",
-		url: url,
+		url: appName + url,
 		data: {id: id},
 		beforeSend: function (xhr) {
 			if (typeof header !== 'undefined' || typeof token !== 'undefined') {
@@ -115,6 +118,7 @@ function deleteSensorFromArray(sensorId) {
 	var position = array.indexOf(indexOf);
 
 }
+
 function deleteElementFromHTMLDom(element) {
 	$(element).parent().remove();
 }

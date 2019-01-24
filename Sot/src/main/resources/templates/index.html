@@ -3,9 +3,9 @@
     <head th:include="~{fragments/parts::head}"></head>
     <body>
         <script th:inline="javascript">
-            /*<![CDATA[*/
-            var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
-            /*]]>*/
+			/*<![CDATA[*/
+			var allPointsString = JSON.parse(/*[[${allPoints}]]*/ "no pints");
+			/*]]>*/
         </script>
         <div class="container">
             <!--*** Header ***-->
@@ -27,7 +27,7 @@
                         <input type="hidden" value="">
                         <img th:src="@{/images/trash_20px.png}">
                     </a>
-					<a id="components_add" class="btn btn-outline-primary mr-sm-2">
+					<a id="components_add" class="btn btn-outline-success mr-sm-2">
                         <img th:src="@{/images/add_components_20px.png}">
                     </a>
                 </div>
@@ -135,74 +135,74 @@
             <div th:include="~{fragments/parts::companyFormInfo}"></div>
         </div>
         <script th:inline="javascript">
-            var map;
-            var markersOnMap = new Map();
-            var autocompletePointId;
-            var actionAjax = /*[[@{/point}]]*/ '/point';
-            var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
-            var iconBase = '/images/';
-            var icons = {
-                def: iconBase + "pinDefault.png",
-                cur: iconBase + "pinCurrent.png"
-            };
+			var map;
+			var markersOnMap = new Map();
+			var autocompletePointId;
+			var actionAjax = /*[[@{/point}]]*/ '/point';
+			var actionAutocomplete = /*[[@{/search-autocomplete}]]*/ '/search-autocomplete}]';
+			var iconBase = window.location.pathname + 'images/';
+			var icons = {
+				def: iconBase + "pinDefault.png",
+				cur: iconBase + "pinCurrent.png"
+			};
 
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 41.562945, lng: 23.2725755}, // sandanski
-                    zoom: 14,
-                    gestureHandling: 'greedy', //greedy; cooperative
-                    styles: [
-                        {"featureType": "all",
-                            "elementType": "labels",
-                            "stylers": [
-                                {"visibility": "off"}
-                            ]
-                        },
-                        {"featureType": "administrative",
-                            "elementType": "all",
-                            "stylers": [
-                                {"visibility": "simplified"},
-                                {"color": "#5b6571"},
-                                {"lightness": "35"}]
-                        },
-                        {"featureType": "road",
-                            "elementType": "labels",
-                            "stylers": [{"visibility": "on"}]},
-                    ]
-                });
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: 41.562945, lng: 23.2725755}, // sandanski
+					zoom: 14,
+					gestureHandling: 'greedy', //greedy; cooperative
+					styles: [
+						{"featureType": "all",
+							"elementType": "labels",
+							"stylers": [
+								{"visibility": "off"}
+							]
+						},
+						{"featureType": "administrative",
+							"elementType": "all",
+							"stylers": [
+								{"visibility": "simplified"},
+								{"color": "#5b6571"},
+								{"lightness": "35"}]
+						},
+						{"featureType": "road",
+							"elementType": "labels",
+							"stylers": [{"visibility": "on"}]},
+					]
+				});
 
-                allPointsString.point.forEach(function (element) {
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        title: element.name,
-                        position: new google.maps.LatLng(element.lat, element.lng),
-                        label: {
-                            text: element.name.substr(0, 1),
-                            color: 'white',
-                            fontFamily: 'Verdana',
-                            fontWeight: 'bold'},
-                        icon: {
-                            url: icons.def,
-                            labelOrigin: new google.maps.Point(30, 14)
-                        },
+				allPointsString.point.forEach(function (element) {
+					var marker = new google.maps.Marker({
+						map: map,
+						title: element.name,
+						position: new google.maps.LatLng(element.lat, element.lng),
+						label: {
+							text: element.name.substr(0, 1),
+							color: 'white',
+							fontFamily: 'Verdana',
+							fontWeight: 'bold'},
+						icon: {
+							url: icons.def,
+							labelOrigin: new google.maps.Point(30, 14)
+						},
 
-                        animation: google.maps.Animation.DROP,
-                        id: element.id
-                    });
-                    markersOnMap.set(element.id, marker);
+						animation: google.maps.Animation.DROP,
+						id: element.id
+					});
+					markersOnMap.set(element.id, marker);
 
-                    google.maps.event.addListener(marker, "click", function () {
-                        switchIcon(marker);
-                        ajaxGetPoint(actionAjax, element.id);
-                        $('#input-search').val("");
-                    });
+					google.maps.event.addListener(marker, "click", function () {
+						switchIcon(marker);
+						ajaxGetPoint(actionAjax, element.id);
+						$('#input-search').val("");
+					});
 
-                    google.maps.event.addListener(marker, "clickable_changed", function () {
-                        alert(marker.getTitle());
-                    });
+					google.maps.event.addListener(marker, "clickable_changed", function () {
+						alert(marker.getTitle());
+					});
 
-                });
-            }
+				});
+			}
 
 
         </script>

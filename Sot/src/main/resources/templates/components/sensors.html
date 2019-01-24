@@ -3,7 +3,7 @@
     <head th:include="~{fragments/parts::head}"></head>
     <script type="text/javascript">
 		$(document).ready(function () {
-			$("li>div").click(function () {
+			$("li>div.btn.btn-sm.delete").click(function () {
 				deleteElement('/sensor-delete', this);
 			});
 
@@ -13,7 +13,7 @@
 				var header = $("meta[name='_csrf_header']").attr("content");
 				$.ajax({
 					method: "GET",
-					url: '/sensor',
+					url: appName + '/sensor',
 					data: {id: id},
 					beforeSend: function (xhr) {
 						xhr.setRequestHeader(header, token);
@@ -49,7 +49,7 @@
 									<a class="btn btn-sm" th:href="@{/sensor-update/} + ${s.id}">
 										<img th:src="@{/images/edit_property_32px.png}">
 									</a>
-									<div class="btn btn-sm" th:data="${s.id}">
+									<div class="btn btn-sm delete" th:data="${s.id}">
 										<img th:src="@{/images/delete_28px.png}">
 									</div>
 								</li>

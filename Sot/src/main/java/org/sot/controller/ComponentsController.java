@@ -14,6 +14,7 @@ import org.sot.models.entities.Brand;
 import org.sot.models.entities.Point;
 import org.sot.models.entities.Sensor;
 import org.sot.models.wrappers.PointComponentsRequest;
+import org.sot.models.wrappers.SensorRequest;
 import org.sot.repositories.BrandRepository;
 import org.sot.repositories.ControlBoardRepository;
 import org.sot.repositories.Pointrepository;
@@ -38,68 +39,66 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ComponentsController {
 
-    private final Pointrepository pointrepository;
-    private final SensorRepository sensorRepository;
-    private final ControlBoardRepository boardRepository;
-    private final BrandRepository brandRepository;
+	private final Pointrepository pointrepository;
+	private final SensorRepository sensorRepository;
+	private final ControlBoardRepository boardRepository;
+	private final BrandRepository brandRepository;
 
-    private final SensorService sensorService;
-    private final ModelMapper mapper;
+	private final SensorService sensorService;
+	private final ModelMapper mapper;
 
-    @Autowired
-    public ComponentsController(Pointrepository pointrepository, SensorRepository sensorRepository, ControlBoardRepository boardRepository, BrandRepository brandRepository, SensorService sensorService, ModelMapper mapper) {
-        this.pointrepository = pointrepository;
-        this.sensorRepository = sensorRepository;
-        this.boardRepository = boardRepository;
-        this.brandRepository = brandRepository;
-        this.sensorService = sensorService;
-        this.mapper = mapper;
-    }
+	@Autowired
+	public ComponentsController(Pointrepository pointrepository, SensorRepository sensorRepository, ControlBoardRepository boardRepository, BrandRepository brandRepository, SensorService sensorService, ModelMapper mapper) {
+		this.pointrepository = pointrepository;
+		this.sensorRepository = sensorRepository;
+		this.boardRepository = boardRepository;
+		this.brandRepository = brandRepository;
+		this.sensorService = sensorService;
+		this.mapper = mapper;
+	}
 
-    @ModelAttribute(name = "brands")
-    private List<Brand> brands() {
-        List<Brand> brands = brandRepository.findAll();
-        brands.forEach(b -> b.setName(b.getName().toUpperCase()));
-        brands.sort(new Comparator<Brand>() {
-            @Override
-            public int compare(Brand o1, Brand o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-        return brands;
-    }
+	@ModelAttribute(name = "brands")
+	private List<Brand> brands() {
+		List<Brand> brands = brandRepository.findAll();
+		brands.forEach(b -> b.setName(b.getName().toUpperCase()));
+		brands.sort(new Comparator<Brand>() {
+			@Override
+			public int compare(Brand o1, Brand o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return brands;
+	}
 
-    @GetMapping("/components_add/{id}")
-    public String componentsAdd(@PathVariable("id") String id, Model model) throws JsonProcessingException {
-        Point point = pointrepository.findById(Long.parseLong(id)).get();
+	@GetMapping("/components_add/{id}")
+	public String componentsAdd(@PathVariable("id") String id, Model model) throws JsonProcessingException {
+		Point point = pointrepository.findById(Long.parseLong(id)).get();
 
-        model.addAttribute("point", point);
-        return "components/components-add";
-    }
+		model.addAttribute("point", point);
+		return "components/components-add";
+	}
 
-    @PostMapping("/components-add")
-    public @ResponseBody
-    String insertComponents(@RequestBody PointComponentsRequest components) {
-        //		https://www.codejava.net/frameworks/hibernate/hibernate-many-to-many-association-with-extra-columns-in-join-table-example
-        String pointId = components.getPointId();
-        List<String> sensorsId = components.getSensorsId();
-        List<String> controlBoardsId = components.getControlBoardsId();
-        
-		System.out.println("pointId: " + pointId);
-        sensorsId.forEach(el-> System.out.println("sensorId: " + el));
-		controlBoardsId.forEach(el-> System.out.println("controlBoardId: " + el));
-        return "";
-    }
+	@PostMapping("/components-add")
+	public @ResponseBody
+	String insertComponents(@RequestBody PointComponentsRequest components) {
+		//		https://www.codejava.net/frameworks/hibernate/hibernate-many-to-many-association-with-extra-columns-in-join-table-example
+		Point p = pointrepository.getOne(Long.parseLong(components.getPointId()));
+		List<SensorRequest> requests = components.getSensors();
+		List<Sensor> pSensors = p.getSensors();
+		requests.forEach(e -> pSensors.add(sensorService.getSensorById(e.getId())));
+		pointrepository.save(p);
+		return "";
+	}
 
-    @PostMapping(value = "/api/components-add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<Sensor> getModels(HttpEntity<String> httpEntity) throws IOException {
-        String json = httpEntity.getBody();
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode obj = mapper.readTree(json);
+	@PostMapping(value = "/api/components-add", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<Sensor> getModels(HttpEntity<String> httpEntity) throws IOException {
+		String json = httpEntity.getBody();
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode obj = mapper.readTree(json);
 
-        return sensorService.getSensorsByTypeAndBrand(
-                SensorType.valueOf(obj.get("sensorType").textValue()),
-                obj.get("brandId").textValue());
-    }
+		return sensorService.getSensorsByTypeAndBrand(
+				SensorType.valueOf(obj.get("sensorType").textValue()),
+				obj.get("brandId").textValue());
+	}
 }
