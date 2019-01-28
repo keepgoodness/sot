@@ -3,7 +3,7 @@
     <head th:include="~{fragments/parts::head}"></head>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("li>div").click(function () {
+            $("li>div.btn.btn-sm.delete").click(function () {
                 deleteElement('/brand-delete', this);
             });
         });
@@ -20,7 +20,7 @@
                             <li th:each="brand : ${brands}"
                                 class="list-group-item d-flex justify-content-between align-items-center">
                                 <span th:text="${brand.name}"></span>
-                                <div class="btn btn-sm" th:data="${brand.id}">
+                                <div class="btn btn-sm delete" th:data="${brand.id}">
                                     <img th:src="@{/images/delete_28px.png}">
                                 </div>
                             </li>

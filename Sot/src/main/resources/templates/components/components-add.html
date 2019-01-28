@@ -5,14 +5,10 @@
 		/*<![CDATA[*/
 		var pointId = JSON.parse(/*[[${point.id}]]*/ "no pints");
 		/*]]>*/
+                
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var components = {"pointId": pointId, "sensors": [], "controlBoardsId": []};
-		alert("window.location.href:" + window.location.href + ";/\n/"
-				+ "window.location.hostname:" + window.location.hostname + ";/\n/"
-				+ "window.location.pathname:" + window.location.pathname + ";/\n/"
-				+ "window.location.protocol:" + window.location.protocol + ";/\n/"
-				+ "window.location.assign:" + window.location.assign + ";");
 		
 		$(document).ready(function () {
 			$("#sensorTypes").change(function () {
@@ -25,10 +21,9 @@
 				var sensorType = $("#sensorTypes option:selected").val();
 				var brandId = $("#brands option:selected").val();
 				var dataTosend = {"sensorType": sensorType, "brandId": brandId};
-				alert($(location).attr("href"));
 				$.ajax({
 					method: "POST",
-					url: appName + "/api/components-add/",
+					url: context + "/api/components-add/",
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					data: JSON.stringify(dataTosend),
@@ -147,7 +142,7 @@
 									</div>
 									<div class="list-group align-items-center">
 										<div id="addData" class="btn btn-sm" data="">
-											<img src="/images/add_blue_48px.png">
+											<img th:src="@{/images/add_blue_48px.png}">
 										</div>
 									</div>
 								</div>

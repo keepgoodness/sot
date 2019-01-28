@@ -2,33 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head th:include="~{fragments/parts::head}"></head>
     <script type="text/javascript">
-		$(document).ready(function () {
-			$("li>div.btn.btn-sm.delete").click(function () {
-				deleteElement('/sensor-delete', this);
-			});
+        $(document).ready(function () {
+            $("li>div.btn.btn-sm.delete").click(function () {
+                deleteElement('/sensor-delete', this);
+            });
 
-			$("ul.list-group a.col-sm-9").on("click", function () {
-				let id = this.getAttribute("data");
-				var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");
-				$.ajax({
-					method: "GET",
-					url: appName + '/sensor',
-					data: {id: id},
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader(header, token);
-					},
-					success: function (data, textStatus, xhr) {
-						$("#info").html(data);
-					},
-					error: function (jqXHR) {
-						alert(JSON.stringify(jqXHR));
-					}
-				});
-			})
+            $("ul.list-group a.col-sm-9").on("click", function () {
+                let id = this.getAttribute("data");
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                $.ajax({
+                    method: "GET",
+                    url: context + '/sensor',
+                    data: {id: id},
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success: function (data, textStatus, xhr) {
+                        $("#info").html(data);
+                    },
+                    error: function (jqXHR) {
+                        alert(JSON.stringify(jqXHR));
+                    }
+                });
+            })
 
 
-		});
+        });
     </script>
     <body>
         <div class="container">
@@ -37,27 +37,27 @@
                 <div class="col-lg-4">
                     <a class="btn btn-success btn-lg btn-block" th:href="@{/sensor-create}" role="button">Добави датчик</a>
                     <th:block th:if="${not #lists.isEmpty(sensors)}">
-						<legend>Налични датчици</legend>
-						<div style="height: 500px; overflow: auto;">
-							<ul class="list-group">
-								<li th:each="s : ${sensors}"
-									class="list-group-item d-flex justify-content-between align-items-center">
-									<a th:text="${s.brand.name} +' | '+ ${s.model} + ' | ' + ${s.type.getValue()}"
-									   class="col-sm-9"
-									   th:href="@{#}"
-									   th:data="${s.id}"></a>
-									<a class="btn btn-sm" th:href="@{/sensor-update/} + ${s.id}">
-										<img th:src="@{/images/edit_property_32px.png}">
-									</a>
-									<div class="btn btn-sm delete" th:data="${s.id}">
-										<img th:src="@{/images/delete_28px.png}">
-									</div>
-								</li>
-							</ul>
-						</div>
-					</th:block>
+                        <legend>Налични датчици</legend>
+                        <div style="height: 500px; overflow: auto;">
+                            <ul class="list-group">
+                                <li th:each="s : ${sensors}"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a th:text="${s.brand.name} +' | '+ ${s.model} + ' | ' + ${s.type.getValue()}"
+                                       class="col-sm-9"
+                                       th:href="@{#}"
+                                       th:data="${s.id}"></a>
+                                    <a class="btn btn-sm" th:href="@{/sensor-update/} + ${s.id}">
+                                        <img th:src="@{/images/edit_property_32px.png}">
+                                    </a>
+                                    <div class="btn btn-sm delete" th:data="${s.id}">
+                                        <img th:src="@{/images/delete_28px.png}">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
                 </div>
-				<div id="info" class="col-lg-4 form-group" ></div>
+                <div id="info" class="col-lg-4 form-group" ></div>
             </div>
         </div>
     </body>
