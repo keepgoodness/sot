@@ -6,10 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.modelmapper.ModelMapper;
 import org.sot.enums.SensorType;
+import org.sot.models.PointSensor;
 import org.sot.models.entities.Brand;
 import org.sot.models.entities.Point;
 import org.sot.models.entities.Sensor;
@@ -17,6 +21,7 @@ import org.sot.models.wrappers.PointComponentsRequest;
 import org.sot.models.wrappers.SensorRequest;
 import org.sot.repositories.BrandRepository;
 import org.sot.repositories.ControlBoardRepository;
+import org.sot.repositories.PointSensorRepository;
 import org.sot.repositories.Pointrepository;
 import org.sot.repositories.SensorRepository;
 import org.sot.services.SensorService;
@@ -43,18 +48,20 @@ public class ComponentsController {
 	private final SensorRepository sensorRepository;
 	private final ControlBoardRepository boardRepository;
 	private final BrandRepository brandRepository;
+	private final PointSensorRepository psRepo;
 
 	private final SensorService sensorService;
 	private final ModelMapper mapper;
 
 	@Autowired
-	public ComponentsController(Pointrepository pointrepository, SensorRepository sensorRepository, ControlBoardRepository boardRepository, BrandRepository brandRepository, SensorService sensorService, ModelMapper mapper) {
+	public ComponentsController(Pointrepository pointrepository, SensorRepository sensorRepository, ControlBoardRepository boardRepository, BrandRepository brandRepository, SensorService sensorService, ModelMapper mapper, PointSensorRepository pointSensorRepository) {
 		this.pointrepository = pointrepository;
 		this.sensorRepository = sensorRepository;
 		this.boardRepository = boardRepository;
 		this.brandRepository = brandRepository;
 		this.sensorService = sensorService;
 		this.mapper = mapper;
+		this.psRepo = pointSensorRepository;
 	}
 
 	@ModelAttribute(name = "brands")
@@ -72,8 +79,10 @@ public class ComponentsController {
 
 	@GetMapping("/components_add/{id}")
 	public String componentsAdd(@PathVariable("id") String id, Model model) throws JsonProcessingException {
-		Point point = pointrepository.findById(Long.parseLong(id)).get();
-
+		Point point = pointrepository.getOne(Long.parseLong(id));
+//		psRepo.save(new PointSensor(point, sensorRepository.getOne(Long.parseLong("5")), 12));
+		System.out.println(new ObjectMapper().writeValueAsString(point.getPointSensors()));
+		model.addAttribute("sensors", point.getPointSensors());
 		model.addAttribute("point", point);
 		return "components/components-add";
 	}
@@ -82,11 +91,12 @@ public class ComponentsController {
 	public @ResponseBody
 	String insertComponents(@RequestBody PointComponentsRequest components) {
 		//		https://www.codejava.net/frameworks/hibernate/hibernate-many-to-many-association-with-extra-columns-in-join-table-example
-		Point p = pointrepository.getOne(Long.parseLong(components.getPointId()));
-		List<SensorRequest> requests = components.getSensors();
-		List<Sensor> pSensors = p.getSensors();
-		requests.forEach(e -> pSensors.add(sensorService.getSensorById(e.getId())));
-		pointrepository.save(p);
+//		Point p = pointrepository.getOne(Long.parseLong(components.getPointId()));
+//		List<SensorRequest> requests = components.getSensors();
+//		List<Sensor> pSensors = p.getSensors();
+//		requests.forEach(e -> pSensors.add(sensorService.getSensorById(e.getId())));
+//		pointrepository.save(p);
+
 		return "";
 	}
 

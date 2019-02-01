@@ -4,6 +4,7 @@
     <script th:inline="javascript">
 		/*<![CDATA[*/
 		var pointId = JSON.parse(/*[[${point.id}]]*/ "no pints");
+		var sensors = JSON.parse(/*[[${sensors}]]*/ "no sensors");
 		/*]]>*/
                 
 		var token = $("meta[name='_csrf']").attr("content");

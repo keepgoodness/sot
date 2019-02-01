@@ -1,6 +1,7 @@
 package org.sot.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -15,8 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.sot.enums.SensorType;
+import org.sot.models.PointSensor;
 
 /**
  *
@@ -44,33 +47,19 @@ public class Sensor {
 	@Column(columnDefinition = "tinyint")
 	private SensorType type;
 
-	@ManyToMany(fetch = FetchType.LAZY,
-			cascade = {
-				CascadeType.PERSIST,
-				CascadeType.MERGE
-			},
-			mappedBy = "sensors")
+	@OneToMany(mappedBy = "sensor")
 	@JsonIgnore
-	private List<Point> points;
-
-	public List<Point> getPoints() {
-		return points;
-	}
-
-	public void setPoints(List<Point> points) {
-		this.points = points;
-	}
+	private Set<PointSensor> pointSensors = new HashSet<>();
 
 	public Sensor() {
 	}
 
-	public Sensor(Brand brand, String model, String code, Double price, SensorType type, List<Point> points) {
+	public Sensor(Brand brand, String model, String code, Double price, SensorType type) {
 		this.brand = brand;
 		this.model = model;
 		this.code = code;
 		this.price = price;
 		this.type = type;
-		this.points = points;
 	}
 
 	public Long getId() {
@@ -119,6 +108,18 @@ public class Sensor {
 
 	public void setType(SensorType type) {
 		this.type = type;
+	}
+
+	public Set<PointSensor> getPointSensors() {
+		return pointSensors;
+	}
+
+	public void setPointSensors(Set<PointSensor> pointSensors) {
+		this.pointSensors = pointSensors;
+	}
+
+	public boolean addPointSensor(PointSensor pointsensor) {
+		return pointSensors.add(pointsensor);
 	}
 
 }
