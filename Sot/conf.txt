@@ -1,3 +1,2 @@
-username: yordan / ivan
-password: $2a$10$MZBGST4oAm4IA3rh/4E/ceeoD0GyuX.4Z0g6Lpx/IaYf/WUllnvNi
+
 
